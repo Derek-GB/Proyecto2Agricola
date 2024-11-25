@@ -11,11 +11,11 @@ import java.sql.Date;
  * @author Tony
  */
 public class ProduccionDTO {
-     private int id;
-    private Date fecha;
-    private double cantidadRecolectada;                   
-    private String calidad;
-    private String destino;
+     private final int id;
+    private final Date fecha;
+    private final double cantidadRecolectada;                   
+    private final String calidad;
+    private final String destino;
 
     public int getId() {
         return id;
