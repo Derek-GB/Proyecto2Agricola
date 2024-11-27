@@ -4,8 +4,10 @@
  */
 package Modelo.Cultivo;
 
+import Enums.EstadoCrecimiento;
+import Enums.TipoCultivo;
 import Modelo.Mapper.Mapper;
-
+import Utils.UtilDate;
 /**
  *
  * @author DYLAN
@@ -14,27 +16,31 @@ public class CultivoMapper implements Mapper<Cultivo, CultivoDTO> {
 
     @Override
     public CultivoDTO toDTO(Cultivo ent) {
+        String tipo = ent.getTipo().name();
+        String estado = ent.getEstado().name();
         return new CultivoDTO(
                 ent.getId(),
                 ent.getNombre(),
-                ent.getTipo(),
+                tipo,
                 ent.getAreasembrada(),
-                ent.getEstado(),
-                ent.getFechaSiembra(),
-                ent.getFechaCosecha()
+                estado,
+                UtilDate.toSqlDate(ent.getFechaSiembra()),
+                UtilDate.toSqlDate(ent.getFechaCosecha())
         );
     }
 
     @Override
     public Cultivo toEnt(CultivoDTO dto) {
+        TipoCultivo tipo = tipo.valueOf(dto.getTipo());
+        EstadoCrecimiento estado = estado.valueOf(dto.getEstado());
         return new Cultivo(
                 dto.getId(),
                 dto.getNombre(),
-                dto.getTipo(),
+                tipo,
                 dto.getAreasembrada(),
-                dto.getEstado(),
-                dto.getFechaSiembra(),
-                dto.getFechaCosecha()
+                estado,
+                UtilDate.toLocalDate(dto.getFechaSiembra()),
+                UtilDate.toLocalDate(dto.getFechaCosecha())
         );
     }
 
