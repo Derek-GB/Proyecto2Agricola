@@ -88,6 +88,16 @@ public class Trabajador {
         this.salario = salario;
     }
 
+    public Trabajador(String cedula, String nombre, String telefono, String correo, String puesto, String horario, double salario) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.puesto = puesto;
+        this.horario = horario;
+        this.salario = salario;
+    }
+
     private static boolean invalidarCadena(String cadena) {
         return cadena == null || cadena.isEmpty();
     }
