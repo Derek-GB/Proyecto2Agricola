@@ -123,7 +123,9 @@ public class ProduccionControlador implements Controlador< Integer ,Produccion>{
             return dao.validatePK(id);
         } catch (SQLException ex) {
             return false;
-        }    }
+        }    
+    
+    }
     
      
      
