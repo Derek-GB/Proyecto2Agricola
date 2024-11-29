@@ -6,7 +6,10 @@ package Modelo.Almacenamiento;
 
 import Modelo.Database.Database;
 import Modelo.Mapper.Mapper;
+import Modelo.Produccion.Produccion;
+import Modelo.Produccion.ProduccionDAO;
 import Utils.UtilDate;
+import java.sql.SQLException;
 
 /**
  *
@@ -27,14 +30,17 @@ public class AlmacenamientoMapper implements Mapper<Almacenamiento, Almacenamien
 
     @Override
     public Almacenamiento toEnt(AlmacenamientoDTO dto) {
+        try{
         return new Almacenamiento(
                 dto.getId(),
-                dto.getProduccion(),
-                new AlmacenamientoMapper().toEnt (new AlmacenamientoDAO(Database.Database.getConnection()).read(dto.getProduccion())),
+                new ProduccionMapper().toEnt(new ProduccionDAO(Database.getConnection()).read(dto.getProduccion())),
                 dto.getCantidad(),
                 UtilDate.toLocalDate(dto.getFechaIngreso()),
                 UtilDate.toLocalDate(dto.getFechaEgreso())
         );
+        } catch (SQLException e){
+         return null;   
+        }
     }
 
 }
