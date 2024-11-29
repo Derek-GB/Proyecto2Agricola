@@ -6,7 +6,7 @@ package Modelo.Cultivo;
 
 import Enums.EstadoCrecimiento;
 import Enums.TipoCultivo;
-import java.util.Date;
+import java.sql.Date;
 
 
 /**
@@ -14,15 +14,15 @@ import java.util.Date;
  * @author DYLAN
  */
 public class CultivoDTO {
-    private String id;
-    private String nombre;
-    private String tipo;
-    private String areasembrada;
-    private String estado;
-    private Date fechaSiembra;
-    private Date fechaCosecha;
+    private final int id;
+    private final String nombre;
+    private final String tipo;
+    private final String areasembrada;
+    private final String estado;
+    private final Date fechaSiembra;
+    private final Date fechaCosecha;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -50,7 +50,7 @@ public class CultivoDTO {
         return fechaCosecha;
     }
 
-    public CultivoDTO(String id, String nombre, String tipo, String areasembrada, String estado, Date fechaSiembra, Date fechaCosecha) {
+    public CultivoDTO(int id, String nombre, String tipo, String areasembrada, String estado, Date fechaSiembra, Date fechaCosecha) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;

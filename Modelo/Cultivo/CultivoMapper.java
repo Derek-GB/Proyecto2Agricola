@@ -8,6 +8,7 @@ import Enums.EstadoCrecimiento;
 import Enums.TipoCultivo;
 import Modelo.Mapper.Mapper;
 import Utils.UtilDate;
+
 /**
  *
  * @author DYLAN
@@ -31,8 +32,8 @@ public class CultivoMapper implements Mapper<Cultivo, CultivoDTO> {
 
     @Override
     public Cultivo toEnt(CultivoDTO dto) {
-        TipoCultivo tipo = tipo.valueOf(dto.getTipo());
-        EstadoCrecimiento estado = estado.valueOf(dto.getEstado());
+        TipoCultivo tipo = TipoCultivo.valueOf(dto.getTipo());
+        EstadoCrecimiento estado = EstadoCrecimiento.valueOf(dto.getEstado());
         return new Cultivo(
                 dto.getId(),
                 dto.getNombre(),

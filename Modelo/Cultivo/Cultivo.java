@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class Cultivo {
 
-    private String id;
+    private int id;
     private String nombre;
     private TipoCultivo tipo;
     private String areasembrada;
@@ -22,7 +22,7 @@ public class Cultivo {
     private LocalDate fechaSiembra;
     private LocalDate fechaCosecha;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -101,7 +101,7 @@ public class Cultivo {
         return fecha.isBefore(fechaActual);
     }
 
-    public Cultivo(String id, String nombre, TipoCultivo tipo, String areasembrada, EstadoCrecimiento estado, LocalDate fechaSiembra, LocalDate fechaCosecha) {
+    public Cultivo(int id, String nombre, TipoCultivo tipo, String areasembrada, EstadoCrecimiento estado, LocalDate fechaSiembra, LocalDate fechaCosecha) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -112,13 +112,14 @@ public class Cultivo {
     }
 
     public Cultivo() {
-        this.id = "";
-        this.nombre = "";
-        this.tipo = tipo.FRUTALES;
-        this.areasembrada = "";
-        this.estado = estado.GERMINANDO;
-        this.fechaSiembra = LocalDate.now();
-        this.fechaCosecha = LocalDate.now();
+        this(0,"",TipoCultivo.RAICES,"",EstadoCrecimiento.LISTO_PARA_COSECHA,LocalDate.now(),LocalDate.now());
     }
+
+    @Override
+    public String toString() {
+        return "Cultivo{" + "id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", areasembrada=" + areasembrada + ", estado=" + estado + ", fechaSiembra=" + fechaSiembra + ", fechaCosecha=" + fechaCosecha + '}';
+    }
+    
+    
 
 }
