@@ -4,10 +4,17 @@
  */
 package Vista;
 
+import java.util.List;
+
 /**
  *
  * @author d2tod
+ * @param <Ent>
  */
-public interface Vista {
-    
+public interface Vista<Ent> {
+    public void show(Ent ent);
+    public void showAll(List<Ent> ents);
+    public void showMessage(String msg);
+    public void showError(String err);
+    public boolean validateRequired();
 }
