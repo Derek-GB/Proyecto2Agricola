@@ -27,13 +27,14 @@ public class ProduccionDAO  extends Dao<ProduccionDTO> {
             return false;
         }
 
-        String query = "Call ProduccionCreate(?,?,?,?,?)";
+        String query = "Call ProduccionCreate(?,?,?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, dto.getId());
-            stmt.setDate(2, dto.getFecha());
-            stmt.setDouble(3, dto.getCantidadRecolectada());
-            stmt.setString(4, dto.getCalidad());
-            stmt.setString(5, dto.getDestino());
+            stmt.setInt(2, dto.getCultivoPK());
+            stmt.setDate(3, dto.getFecha());
+            stmt.setDouble(4, dto.getCantidadRecolectada());
+            stmt.setString(5, dto.getCalidad());
+            stmt.setString(6, dto.getDestino());
             
             return stmt.executeUpdate() > 0;
         }
@@ -49,11 +50,12 @@ public class ProduccionDAO  extends Dao<ProduccionDTO> {
             stmt.setString(1, String.valueOf(id));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new ProduccionDTO(rs.getInt(0)
-                            ,rs.getDate(0)
-                            , rs.getDouble(0)
-                            , rs.getString(0)
-                            , rs.getString(0));
+                    return new ProduccionDTO(rs.getInt(1)
+                            ,rs.getInt(2)
+                            ,rs.getDate(3)
+                            , rs.getDouble(4)
+                            , rs.getString(5)
+                            , rs.getString(6));
                 }
             }
         }
@@ -69,10 +71,11 @@ public class ProduccionDAO  extends Dao<ProduccionDTO> {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                    list.add(new ProduccionDTO(rs.getInt(1)
-                            ,rs.getDate(2)
-                            , rs.getDouble(3)
-                            , rs.getString(4)
-                            , rs.getString(5)));
+                           ,rs.getInt(2)
+                            ,rs.getDate(3)
+                            , rs.getDouble(4)
+                            , rs.getString(5)
+                            , rs.getString(6)));
                 }
             }
         }

@@ -4,6 +4,7 @@
  */
 package Modelo.Produccion;
 
+import Modelo.Cultivo.Cultivo;
 import java.time.LocalDate;
 
 /**
@@ -12,6 +13,7 @@ import java.time.LocalDate;
  */
 public class Produccion {
     private int id;
+    private Cultivo cultivo;
     private LocalDate fecha;
     private double cantidadRecolectada;                   
     private String calidad;
@@ -42,6 +44,10 @@ public class Produccion {
         return destino;
     }
 
+    public Cultivo getCultivo() {
+        return cultivo;
+    }
+
     public void setCantidadRecolectada(double cantidadRecolectada) {
         this.cantidadRecolectada = cantidadRecolectada;
     }
@@ -58,8 +64,9 @@ public class Produccion {
         this.destino = destino;
     }
 
-    public Produccion(int id, LocalDate fecha, double cantidadRecolectada, String calidad, double procentajeProductividad, String destino) {
+    public Produccion(int id,Cultivo cultivo ,LocalDate fecha, double cantidadRecolectada, String calidad, double procentajeProductividad, String destino) {
         this.id = id;
+        this.cultivo = cultivo;
         this.fecha = fecha;
         this.cantidadRecolectada = cantidadRecolectada;
         this.calidad = calidad;
@@ -67,8 +74,9 @@ public class Produccion {
         this.destino = destino;
     }
 
-    public Produccion(double cantidadRecolectada, String calidad, double procentajeProductividad, String destino) {
+    public Produccion(Cultivo cultivo,double cantidadRecolectada, String calidad, double procentajeProductividad, String destino) {
         this.fecha = LocalDate.now();
+        this.cultivo = cultivo;
         this.cantidadRecolectada = cantidadRecolectada;
         this.calidad = calidad;
         this.procentajeProductividad = procentajeProductividad;
