@@ -24,7 +24,7 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
 
     @Override
     public boolean create(UsuarioDTO dto) throws SQLException {
-        if (dto == null || !validateFKContract(dto.getId())) {
+        if (dto == null) {
             return false;
         }
         String query = "Call UsuarioCreate(?,?,?)";
@@ -37,16 +37,20 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
     }
 
     @Override
-    public UsuarioDTO read(Object id) throws SQLException {
-        if (id == null || String.valueOf(id).trim().isEmpty()) {
+    public UsuarioDTO read(Object nombre) throws SQLException {
+        if (nombre == null || String.valueOf(nombre).trim().isEmpty()) {
             return null;
         }
         String query = "Call UsuarioRead(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, String.valueOf(id));
+            stmt.setString(1, String.valueOf(nombre));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    UsuarioDTO dto = new UsuarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4));
+                    UsuarioDTO dto = new UsuarioDTO(
+                            rs.getString("nombre"), 
+                            rs.getString("contraseña"),
+                            rs.getString("rol")
+                    );
                     return dto;
                 }
             }
@@ -57,16 +61,15 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
     @Override
     public List<UsuarioDTO> readAll() throws SQLException {
         String query = "Call UsuarioReadAll()";
-        List<UsuarioDTO> list = new ArrayList();
+        List<UsuarioDTO> list = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     list.add(new UsuarioDTO(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4)));
-
+                            rs.getString("nombre"),
+                            rs.getString("contraseña"),
+                            rs.getString("rol")
+                    ));
                 }
             }
         }
@@ -75,34 +78,32 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
 
     @Override
     public boolean update(UsuarioDTO dto) throws SQLException {
-        if (dto == null || !validateFKContract(dto.getId())) {
+        if (dto == null || dto.getNombre() == null || dto.getNombre().trim().isEmpty()) {
             return false;
         }
         String query = "Call UsuarioUpdate(?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, dto.getId());
-            stmt.setString(2, dto.getNombre());
-            stmt.setString(3, dto.getContraseña());
-            stmt.setString(4, dto.getRol());
+            stmt.setString(1, dto.getNombre()); 
+            stmt.setString(2, dto.getContraseña());
+            stmt.setString(3, dto.getRol());
             return stmt.executeUpdate() > 0;
         }
     }
 
     @Override
-    public boolean delete(Object id) throws SQLException {
-        if (id == null) {
+    public boolean delete(Object nombre) throws SQLException {
+        if (nombre == null || String.valueOf(nombre).trim().isEmpty()) {
             return false;
         }
         String query = "Call UsuarioDelete(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, String.valueOf(id));
+            stmt.setString(1, String.valueOf(nombre));
             return stmt.executeUpdate() > 0;
         }
     }
 
-    public boolean validateFKContract(Object id) throws SQLException {
-//        return new UsuarioDAO(DataBase.getConnection()).read(id) != null;
-        return true;
+    public boolean validateFKContract(Object nombre) throws SQLException {
+        return this.read(nombre) != null;
     }
 
 }

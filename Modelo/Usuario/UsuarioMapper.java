@@ -16,13 +16,13 @@ public class UsuarioMapper implements Mapper<Usuario, UsuarioDTO> {
     @Override
     public UsuarioDTO toDTO(Usuario ent) {
         String rol = ent.getRol().name();
-        return new UsuarioDTO(ent.getId(), ent.getNombre(), ent.getContraseña(), rol);
+        return new UsuarioDTO( ent.getNombre(), ent.getContraseña(), rol);
     }
 
     @Override
     public Usuario toEnt(UsuarioDTO dto) {
         Rol rol = Rol.valueOf(dto.getRol());
-        return new Usuario(dto.getId(), dto.getNombre(), dto.getContraseña(), rol);
+        return new Usuario(dto.getNombre(), dto.getContraseña(), rol);
     }
 
 }

@@ -12,14 +12,10 @@ import Enums.Rol;
  */
 public class UsuarioDTO {
 
-    private final Integer id;
     private final String nombre;
     private final String contraseña;
     private final String rol;
 
-    public Integer getId() {
-        return id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -34,17 +30,10 @@ public class UsuarioDTO {
     }
 
     public UsuarioDTO(String nombre, String contraseña, String rol) {
-        this.id = null;
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.rol = rol;
     }
 
-    public UsuarioDTO(int id, String nombre, String contraseña, String rol) {
-        this.id = id;
-        this.nombre = nombre;
-        this.contraseña = contraseña;
-        this.rol = rol;
-    }
 
 }
