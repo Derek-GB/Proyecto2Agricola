@@ -8,6 +8,7 @@ import Modelo.Database.Database;
 import Modelo.Mapper.Mapper;
 import Modelo.Produccion.Produccion;
 import Modelo.Produccion.ProduccionDAO;
+import Modelo.Produccion.ProduccionMapper;
 import Utils.UtilDate;
 import java.sql.SQLException;
 
