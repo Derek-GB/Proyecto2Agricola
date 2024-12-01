@@ -90,6 +90,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtPresentacion.setText("FEBOLIVARBR");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         cultivotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cultivo.png"))); // NOI18N
         cultivotxt.setText("jLabel3");
@@ -432,6 +437,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
             popupMenu.show(Infotxt, evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_InfotxtMouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+       FrmCultivo frmCultivo = new FrmCultivo();
+    if (!frmCultivo.isVisible()) {
+        DeskPrincipal.add(frmCultivo);
+        frmCultivo.setVisible(true);
+        frmCultivo.setLocation((DeskPrincipal.getWidth() - frmCultivo.getWidth()) / 2,
+                (DeskPrincipal.getHeight() - frmCultivo.getHeight()) / 2);
+    } else {
+        try {
+            frmCultivo.setSelected(true);
+        } catch (java.beans.PropertyVetoException ex) {
+            ex.printStackTrace();
+        }}
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
      * @param args the command line arguments

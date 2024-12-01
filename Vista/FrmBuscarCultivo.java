@@ -29,10 +29,6 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
     private Vista observer;
     TableRowSorter<TableModel> sorter;
 
-    public FrmBuscarCultivo() {
-        initComponents();
-    }
-    
     public void setEnts(List<Cultivo> ents) {
         this.ents = ents;
         if (ents == null || tableModel == null) {
@@ -44,17 +40,20 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
                 new Object[]{
                     cultivo.getId(),
                     cultivo.getNombre(),
+                    cultivo.getTipo(),
+                    cultivo.getAreasembrada(),
                     cultivo.getEstado(),
                     cultivo.getFechaSiembra(),
                     cultivo.getFechaCosecha()
                 }
         ));
     }
+
     public void setObserver(Vista observer) {
         this.observer = observer;
     }
-
-    public FrmBuscarCultivo(java.awt.Frame parent, boolean modal) {
+    
+     public FrmBuscarCultivo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         ajustarTodo();
@@ -63,7 +62,7 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
     }
-    
+
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
@@ -76,7 +75,7 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
             });
         }
     }
-    
+
     public void ajustarTodo() {
         ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
         ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
@@ -129,20 +128,20 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Id del cultivo", "Nombre", "Tipo de cultivo", "Area Sembrada", "Fecha de siembra", "Fecha de cosecha"
+                "Id del cultivo", "Nombre", "Tipo de cultivo", "Area Sembrada", "Estado", "Fecha de siembra", "Fecha de cosecha"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -162,14 +161,16 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
                 .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(117, 117, 117))
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
-                    .addComponent(txtfiltro))
+                .addComponent(txtfiltro)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -194,8 +195,8 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
         if (selectedRow == -1) {
             return;
         }
-        String id = tabla.getValueAt(selectedRow, 0).toString();
-        observer.show(ents.stream().filter(cultivo -> cultivo.getNombre().equals(id)).findFirst().orElse(null));
+        int id = Integer.parseInt(tabla.getValueAt(selectedRow, 0).toString());
+        observer.show(ents.stream().filter(cultivo -> cultivo.getId() == id).findFirst().orElse(null));
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
@@ -219,44 +220,6 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmBuscarCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmBuscarCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmBuscarCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmBuscarCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FrmBuscarCultivo dialog = new FrmBuscarCultivo(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar1;

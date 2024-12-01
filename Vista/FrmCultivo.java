@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
  *
  * @author DYLAN
  */
-public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
+public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cultivo> {
 
     /**
      * Creates new form FrmCultivo
@@ -34,6 +34,9 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
 
     public FrmCultivo() {
         initComponents();
+        btnDes.setVisible(false);
+        ajustarTodo();
+        controller = new CultivoControlador(this);
     }
 
     /**
@@ -135,6 +138,7 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             }
         });
 
+        txtFechaCosecha.setEditable(false);
         txtFechaCosecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaCosechaActionPerformed(evt);
@@ -153,7 +157,6 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
         jLabel9.setForeground(new java.awt.Color(0, 0, 51));
         jLabel9.setText("Area sembrada:");
 
-        cbxNombre.setEditable(true);
         cbxNombre.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         cbxNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +164,7 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             }
         });
 
+        txtArea.setEditable(false);
         txtArea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAreaActionPerformed(evt);
@@ -171,6 +175,7 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
         jLabel5.setForeground(new java.awt.Color(0, 0, 51));
         jLabel5.setText("Codigo:");
 
+        txtId.setEditable(false);
         txtId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdActionPerformed(evt);
@@ -188,13 +193,14 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
         jLabel6.setForeground(new java.awt.Color(0, 0, 51));
         jLabel6.setText("Estado de crecimiento:");
 
-        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERMINANDO", " EN DESARROLLO", " EN FLORACION", " MADURANDO", " LISTO PARA COSECHA", " COSECHADO" }));
+        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERMINANDO", " EN_DESARROLLO", " EN_FLORACION", " MADURANDO", " LISTO_PARA_COSECHA", " COSECHADO" }));
         cbxEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxEstadoActionPerformed(evt);
             }
         });
 
+        txtFechaSiembra.setEditable(false);
         txtFechaSiembra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaSiembraActionPerformed(evt);
@@ -245,10 +251,14 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 6, Short.MAX_VALUE)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -268,27 +278,25 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(cbxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -335,28 +343,50 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             showError("Faltan datos requeridos");
             return;
         }
-        int id = Integer.parseInt(txtId.getText());
-        String nombre = (String) cbxNombre.getSelectedItem();
-        TipoCultivo tipoCultivo = (TipoCultivo) cbxTipo.getSelectedItem();
-        int area = Integer.parseInt(txtArea.getText());
-        EstadoCrecimiento estado = (EstadoCrecimiento) cbxEstado.getSelectedItem();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fechaSiembra = LocalDate.parse(txtFechaSiembra.getText(), formatter);
-        LocalDate fechaCosecha = LocalDate.parse(txtFechaCosecha.getText(), formatter);
-        cultivo = new Cultivo(
-                id,
-                nombre,
-                tipoCultivo,
-                area,
-                estado,
-                fechaSiembra,
-                fechaCosecha
-        );
 
-        controller.create(cultivo);
+        try {
+            int id = Integer.parseInt(txtId.getText().trim());
+            String nombre = cbxNombre.getSelectedItem() != null ? cbxNombre.getSelectedItem().toString().trim() : "";
 
-              this.Editar(false);
-        estadosBotones();
+            String tipoSeleccionadoString = (String) cbxTipo.getSelectedItem();
+            TipoCultivo tipoCultivo = convertirTipoCultivo(tipoSeleccionadoString);
+            if (tipoCultivo == null) {
+                return;
+            }
+
+            String estadoSeleccionadoString = (String) cbxEstado.getSelectedItem();
+            EstadoCrecimiento estado = convertirEstadoCrecimiento(estadoSeleccionadoString);
+            if (estado == null) {
+                return;
+            }
+
+            int area = Integer.parseInt(txtArea.getText().trim());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate fechaSiembra = LocalDate.parse(txtFechaSiembra.getText().trim(), formatter);
+            LocalDate fechaCosecha = LocalDate.parse(txtFechaCosecha.getText().trim(), formatter);
+
+            cultivo = new Cultivo(
+                    id,
+                    nombre,
+                    tipoCultivo,
+                    area,
+                    estado,
+                    fechaSiembra,
+                    fechaCosecha
+            );
+
+            controller.create(cultivo);
+            this.Editar(false);
+            estadosBotones();
+
+        } catch (NumberFormatException e) {
+            showError("Los campos ID y Área deben contener valores numéricos válidos.");
+        } catch (DateTimeParseException e) {
+            showError("Las fechas deben estar en el formato 'yyyy-MM-dd'.");
+        } catch (Exception e) {
+            showError("Ocurrió un error al guardar los datos: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -378,7 +408,6 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
         if (cultivo == null) {
             showError("No hay ningún cultivo cargado actualmente");
             return;
@@ -387,9 +416,13 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             showError("Faltan datos requeridos");
             return;
         }
-        try {
 
-            EstadoCrecimiento newEstado = (EstadoCrecimiento) cbxEstado.getSelectedItem();
+        try {
+            String estadoSeleccionadoString = (String) cbxEstado.getSelectedItem();
+            EstadoCrecimiento newEstado = convertirEstadoCrecimiento(estadoSeleccionadoString);
+            if (newEstado == null) {
+                return;
+            }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate newFechaCosecha = LocalDate.parse(txtFechaCosecha.getText().trim(), formatter);
@@ -398,7 +431,6 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
             boolean fechaCosechaCambiada = !newFechaCosecha.equals(cultivo.getFechaCosecha());
 
             if (estadoCambiado || fechaCosechaCambiada) {
-
                 if (estadoCambiado) {
                     cultivo.setEstado(newEstado);
                 }
@@ -464,37 +496,6 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCultivo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmCultivo().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -523,29 +524,28 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
 
     @Override
     public void show(Cultivo ent) {
-        Cultivo cultivo = ent; // Asigna el cultivo recibido a la variable global
+        cultivo = ent;
         if (ent == null) {
-            limpiar(); // Si el cultivo es nulo, limpia todos los campos
+            limpiar();
             return;
         }
 
-        // Muestra los valores del cultivo en los componentes
-        txtId.setText(String.valueOf(ent.getId())); // Convierte el ID (int) a String para mostrarlo
-        cbxNombre.setSelectedItem(ent.getNombre()); // Selecciona el nombre en el JComboBox
-        cbxTipo.setSelectedItem(ent.getTipo()); // Selecciona el tipo de cultivo en el JComboBox
-        txtArea.setText(String.valueOf(ent.getAreasembrada())); // Convierte el área sembrada a String
-        cbxEstado.setSelectedItem(ent.getEstado()); // Selecciona el estado de crecimiento en el JComboBox
+        txtId.setText(String.valueOf(ent.getId()));
+        cbxNombre.setSelectedItem(ent.getNombre());
+        cbxTipo.setSelectedItem(ent.getTipo());
+        txtArea.setText(String.valueOf(ent.getAreasembrada()));
+        cbxEstado.setSelectedItem(ent.getEstado());
 
         if (ent.getFechaSiembra() != null) {
-            txtFechaSiembra.setText(ent.getFechaSiembra().toString()); // Muestra la fecha de siembra
+            txtFechaSiembra.setText(ent.getFechaSiembra().toString());
         } else {
-            txtFechaSiembra.setText(""); // Limpia el campo si la fecha es nula
+            txtFechaSiembra.setText("");
         }
 
         if (ent.getFechaCosecha() != null) {
-            txtFechaCosecha.setText(ent.getFechaCosecha().toString()); // Muestra la fecha de cosecha
+            txtFechaCosecha.setText(ent.getFechaCosecha().toString());
         } else {
-            txtFechaCosecha.setText(""); // Limpia el campo si la fecha es nula
+            txtFechaCosecha.setText("");
         }
     }
 
@@ -571,7 +571,7 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
 
     @Override
     public boolean validateRequired() {
-        return UtilGui.validateFields(txtId, cbxNombre, cbxTipo,txtArea,cbxEstado,txtFechaSiembra,txtFechaCosecha);
+        return UtilGui.validateFields(txtId, cbxNombre, cbxTipo, txtArea, cbxEstado, txtFechaSiembra, txtFechaCosecha);
     }
 
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
@@ -602,13 +602,69 @@ public class FrmCultivo extends javax.swing.JFrame implements Vista<Cultivo> {
     }
 
     private void Editar(boolean valor) {
-//        txtId.setEditable(valor);
-        cbxNombre.setEnabled(valor);
-        cbxTipo.setEnabled(valor);
+        txtId.setEditable(valor);
+        cbxNombre.setEditable(valor);
+        cbxTipo.setEditable(valor);
         txtArea.setEditable(valor);
         txtArea.setEditable(valor);
-        cbxEstado.setEnabled(valor);
+        cbxEstado.setEditable(valor);
         txtFechaSiembra.setEditable(valor);
         txtFechaCosecha.setEditable(valor);
+    }
+
+    public TipoCultivo convertirTipoCultivo(String tipoSeleccionadoString) {
+        switch (tipoSeleccionadoString) {
+            case "CEREALES":
+                return TipoCultivo.CEREALES;
+            case "LEGUMINOSAS":
+                return TipoCultivo.LEGUMINOSAS;
+            case "OLEAGINOSAS":
+                return TipoCultivo.OLEAGINOSAS;
+            case "HORTALIZAS":
+                return TipoCultivo.HORTALIZAS;
+            case "FRUTALES":
+                return TipoCultivo.FRUTALES;
+            case "ORNAMENTALES":
+                return TipoCultivo.ORNAMENTALES;
+            case "RAICES":
+                return TipoCultivo.RAICES;
+            case "TUBERCULOS":
+                return TipoCultivo.TUBERCULOS;
+            case "PASTOS":
+                return TipoCultivo.PASTOS;
+            default:
+                showError("Tipo de cultivo inválido");
+                return null;
+        }
+    }
+
+    public EstadoCrecimiento convertirEstadoCrecimiento(String estadoSeleccionadoString) {
+        switch (estadoSeleccionadoString) {
+            case "GERMINANDO":
+                return EstadoCrecimiento.GERMINANDO;
+            case "EN_DESARROLLO":
+                return EstadoCrecimiento.EN_DESARROLLO;
+            case "EN_FLORACION":
+                return EstadoCrecimiento.EN_FLORACION;
+            case "MADURANDO":
+                return EstadoCrecimiento.MADURANDO;
+            case "LISTO_PARA COSECHA":
+                return EstadoCrecimiento.LISTO_PARA_COSECHA;
+            case "COSECHADO":
+                return EstadoCrecimiento.COSECHADO;
+            default:
+                showError("Estado de crecimiento inválido");
+                return null;
+        }
+    }
+
+    public void ajustarTodo() {
+        ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
+        ajustarImagenes("/Imagenes/guardar.png", btnGuardar);
+        ajustarImagenes("/Imagenes/actualizar.png", btnActualizar);
+        ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
+        ajustarImagenes("/Imagenes/buscar.png", btnBuscar);
+        ajustarImagenes("/Imagenes/cancelar.png", btnCancelar);
+
     }
 }

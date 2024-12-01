@@ -139,9 +139,9 @@ public class CultivoControlador implements Controlador< Integer, Cultivo> {
 
     @Override
     public boolean validarPk(Integer id) {
-        if (!cache.contains(id)) {
-            return true;
-        }
+//        if (!cache.contains(id)) {
+//            return true;
+//        }
         try {
             return dao.validatePK(id);
         } catch (SQLException ex) {

@@ -48,7 +48,7 @@ public class CultivoDAO extends Dao<CultivoDTO> {
         }
         String query = "Call CultivoRead(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, String.valueOf(id));
+            stmt.setInt(1,(Integer)id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new CultivoDTO(

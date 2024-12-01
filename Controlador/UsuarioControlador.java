@@ -145,9 +145,9 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
 
     @Override
     public boolean validarPk(String id) {
-        if (!cache.contains(id)) {
-            return true;
-        }
+//        if (!cache.contains(id)) {
+//            return true;
+//        }
         try {
             return dao.validatePK(id);
         } catch (SQLException ex) {
