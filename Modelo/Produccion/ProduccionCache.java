@@ -13,7 +13,7 @@ import Modelo.Cache.Cache;
 public class ProduccionCache extends Cache<Integer,ProduccionDTO> {
     private static ProduccionCache instance;
 
-    public static synchronized Cache getInstance() {
+    public static synchronized ProduccionCache getInstance() {
         if (instance == null) {
             instance = new ProduccionCache();
         }

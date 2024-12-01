@@ -11,6 +11,7 @@ import Vista.Vista;
 import java.sql.SQLException;
 import Modelo.Produccion.ProduccionDTO;
 import Modelo.Produccion.Produccion;
+import Modelo.Produccion.ProduccionCache;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,16 +20,19 @@ import java.util.stream.Collectors;
  *
  * @author Tony
  */
-public class ProduccionControlador implements Controlador< Integer ,Produccion>{
+public class ProduccionControlador implements Controlador< Integer, Produccion> {
+
     private ProduccionDAO dao;
     private final Vista view;
-     private final ProduccionMapper mapper;
+    private final ProduccionMapper mapper;
+    private ProduccionCache cache;
 
     public ProduccionControlador(Vista view) {
         this.view = view;
+        this.cache = ProduccionCache.getInstance();
         mapper = new ProduccionMapper();
-         try {
-            dao=new ProduccionDAO(Database.getConnection());
+        try {
+            dao = new ProduccionDAO(Database.getConnection());
         } catch (SQLException ex) {
             view.showError("Error al conectar con la Base de Datos");
         }
@@ -36,7 +40,7 @@ public class ProduccionControlador implements Controlador< Integer ,Produccion>{
 
     @Override
     public void create(Produccion entidad) {
-      if (entidad == null || !validarAtributos(entidad)) {
+        if (entidad == null || !validarAtributos(entidad)) {
             view.showError("Faltan datos requeridos");
             return;
         }
@@ -45,29 +49,36 @@ public class ProduccionControlador implements Controlador< Integer ,Produccion>{
                 view.showError("El ID de producción ya está registrado");
                 return;
             }
-            dao.create(mapper.toDTO(entidad));
+            ProduccionDTO dto = mapper.toDTO(entidad);
+            dao.create(dto);
+            cache.add(dto.getId(), dto);
             view.showMessage("Producción registrada correctamente");
         } catch (SQLException ex) {
             view.showError("Error al guardar los datos: " + ex.getMessage());
-        }  }
+        }
+    }
 
     @Override
     public void read(Integer id) {
-           try {
-            ProduccionDTO dto = dao.read(id);
-            Produccion produccion = mapper.toEnt(dto);
-            if (produccion != null) {
+        try {
+            ProduccionDTO dto = cache.get(id);
+            if (dto == null) {
+                dto = dao.read(id);
+            }
+            if (dto != null) {
+                Produccion produccion = mapper.toEnt(dto);
                 view.show(produccion);
             } else {
                 view.showError("Producción no encontrada");
             }
         } catch (SQLException ex) {
             view.showError("Error al cargar los datos: " + ex.getMessage());
-        }    }
+        }
+    }
 
     @Override
     public void readAll() {
-     try {
+        try {
             List<ProduccionDTO> dtoList = dao.readAll();
             List<Produccion> produccionList = dtoList.stream()
                     .map(mapper::toEnt)
@@ -76,11 +87,12 @@ public class ProduccionControlador implements Controlador< Integer ,Produccion>{
             view.showAll(produccionList);
         } catch (SQLException ex) {
             view.showError("Error al cargar los datos: " + ex.getMessage());
-        }    }
+        }
+    }
 
     @Override
     public void update(Produccion entidad) {
-         if (entidad == null || !validarAtributos(entidad)) {
+        if (entidad == null || !validarAtributos(entidad)) {
             view.showError("Faltan datos requeridos");
             return;
         }
@@ -89,47 +101,51 @@ public class ProduccionControlador implements Controlador< Integer ,Produccion>{
                 view.showError("El ID de producción no está registrado");
                 return;
             }
-            dao.update(mapper.toDTO(entidad));
+            ProduccionDTO dto = mapper.toDTO(entidad);
+            dao.update(dto);
+            cache.change(dto.getId(),dto);
             view.showMessage("Producción actualizada correctamente");
         } catch (SQLException ex) {
             view.showError("Error al actualizar los datos: " + ex.getMessage());
-        }    }
+        }
+    }
 
     @Override
     public void delete(Produccion entidad) {
-         try {
+        try {
             if (validarPk(entidad.getId())) {
                 view.showError("El ID de producción no está registrado");
                 return;
             }
             dao.delete(entidad.getId());
+            cache.remove(entidad.getId());
             view.showMessage("Producción eliminada correctamente");
         } catch (SQLException ex) {
             view.showError("Error al eliminar los datos: " + ex.getMessage());
-        }    }
+        }
+    }
 
     @Override
     public boolean validarAtributos(Produccion entidad) {
-      return entidad.getCultivo() != null &&
-               entidad.getCantidadRecolectada() > 0 &&
-               entidad.getCalidad() != null &&
-               !entidad.getCalidad().trim().isEmpty() &&
-               entidad.getDestino() != null &&
-               !entidad.getDestino().trim().isEmpty();   }
+        return entidad.getCultivo() != null
+                && entidad.getCantidadRecolectada() > 0
+                && entidad.getCalidad() != null
+                && !entidad.getCalidad().trim().isEmpty()
+                && entidad.getDestino() != null
+                && !entidad.getDestino().trim().isEmpty();
+    }
 
     @Override
     public boolean validarPk(Integer id) {
-              try {
+        if (!cache.contains(id)) {
+            return true;
+        }
+        try {
             return dao.validatePK(id);
         } catch (SQLException ex) {
             return false;
-        }    
-    
-    }
-    
-     
-     
-     
+        }
 
-    
+    }
+
 }

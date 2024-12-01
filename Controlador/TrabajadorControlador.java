@@ -62,11 +62,11 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
     public void read(String id) {
         try {
             TrabajadorDTO dto = cache.get(id);
-            if (dto == null){
+            if (dto == null) {
                 dto = dao.read(id);
             }
-            Trabajador trabajador = mapper.toEnt(dto);
-            if (trabajador != null) {
+            if (dto != null) {
+                Trabajador trabajador = mapper.toEnt(dto);
                 vista.show(trabajador);
             } else {
                 vista.showError("Trabajador no encontrado");
@@ -144,7 +144,7 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
 
     @Override
     public synchronized boolean validarPk(String id) {
-        if (!cache.contains(id)){
+        if (!cache.contains(id)) {
             return true;
         }
         try {
