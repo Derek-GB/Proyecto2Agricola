@@ -4,6 +4,10 @@
  */
 package Controlador;
 
+import Modelo.Cultivo.Cultivo;
+import Modelo.Cultivo.CultivoDAO;
+import Modelo.Cultivo.CultivoDTO;
+import Modelo.Cultivo.CultivoMapper;
 import Modelo.Database.Database;
 import Modelo.Produccion.ProduccionDAO;
 import Modelo.Produccion.ProduccionMapper;
@@ -147,5 +151,23 @@ public class ProduccionControlador implements Controlador< Integer, Produccion> 
         }
 
     }
-
+    
+public Cultivo obtenerCultivoPorId(Integer id) {
+    try {
+        CultivoDAO cultivoDAO = new CultivoDAO(Database.getConnection()); 
+        CultivoDTO cultivoDTO = cultivoDAO.read(id); 
+        
+        if (cultivoDTO != null) {
+           
+            CultivoMapper cultivoMapper = new CultivoMapper();
+            Cultivo cultivo = cultivoMapper.toEnt(cultivoDTO);
+            return cultivo;
+        } else {
+            view.showError("Cultivo no encontrado"); 
+        }
+    } catch (SQLException ex) {
+        view.showError("Error al buscar el cultivo: " + ex.getMessage()); 
+    }
+    return null; 
+}
 }

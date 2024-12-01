@@ -45,4 +45,28 @@ public class CultivoMapper implements Mapper<Cultivo, CultivoDTO> {
         );
     }
 
+    private TipoCultivo convertirTipoCultivo(String tipo) {
+        if (tipo == null || tipo.trim().isEmpty()) {
+            return TipoCultivo.CEREALES;
+        }
+        try {
+            return TipoCultivo.valueOf(tipo.toUpperCase()); 
+        } catch (IllegalArgumentException ex) {
+            return TipoCultivo.CEREALES;
+        }
+    }
+
+   
+    private EstadoCrecimiento convertirEstadoCrecimiento(String estado) {
+        if (estado == null || estado.trim().isEmpty()) {
+            return EstadoCrecimiento.EN_DESARROLLO;
+        }
+        try {
+            return EstadoCrecimiento.valueOf(estado.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return EstadoCrecimiento.EN_DESARROLLO;
+        }
+    }
+    
+    
 }
