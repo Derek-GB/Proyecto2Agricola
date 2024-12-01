@@ -17,7 +17,7 @@ public class CultivoDTO {
     private final int id;
     private final String nombre;
     private final String tipo;
-    private final String areasembrada;
+    private final int areasembrada;
     private final String estado;
     private final Date fechaSiembra;
     private final Date fechaCosecha;
@@ -34,7 +34,7 @@ public class CultivoDTO {
         return tipo;
     }
 
-    public String getAreasembrada() {
+    public int getAreasembrada() {
         return areasembrada;
     }
 
@@ -50,7 +50,7 @@ public class CultivoDTO {
         return fechaCosecha;
     }
 
-    public CultivoDTO(int id, String nombre, String tipo, String areasembrada, String estado, Date fechaSiembra, Date fechaCosecha) {
+    public CultivoDTO(int id, String nombre, String tipo, int areasembrada, String estado, Date fechaSiembra, Date fechaCosecha) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;

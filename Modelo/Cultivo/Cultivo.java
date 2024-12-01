@@ -17,7 +17,7 @@ public class Cultivo {
     private int id;
     private String nombre;
     private TipoCultivo tipo;
-    private String areasembrada;
+    private int areasembrada;
     private EstadoCrecimiento estado;
     private LocalDate fechaSiembra;
     private LocalDate fechaCosecha;
@@ -34,7 +34,7 @@ public class Cultivo {
         return tipo;
     }
 
-    public String getAreasembrada() {
+    public int getAreasembrada() {
         return areasembrada;
     }
 
@@ -58,10 +58,7 @@ public class Cultivo {
     }
 
     public void setAreasembrada(double areasembrada) {
-        if (this.areasembrada == null || this.areasembrada.isEmpty()) {
-            throw new IllegalArgumentException("El area no puede ser nulo o vacío");
-        }
-        this.areasembrada = this.areasembrada;
+       
     }
 
     public void setFechaSiembra(LocalDate fechaSiembra) {
@@ -101,7 +98,7 @@ public class Cultivo {
         return fecha.isBefore(fechaActual);
     }
 
-    public Cultivo(int id, String nombre, TipoCultivo tipo, String areasembrada, EstadoCrecimiento estado, LocalDate fechaSiembra, LocalDate fechaCosecha) {
+    public Cultivo(int id, String nombre, TipoCultivo tipo, int areasembrada, EstadoCrecimiento estado, LocalDate fechaSiembra, LocalDate fechaCosecha) {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -112,7 +109,7 @@ public class Cultivo {
     }
 
     public Cultivo() {
-        this(0,"",TipoCultivo.RAICES,"",EstadoCrecimiento.LISTO_PARA_COSECHA,LocalDate.now(),LocalDate.now());
+        this(0,"",TipoCultivo.RAICES,0,EstadoCrecimiento.LISTO_PARA_COSECHA,LocalDate.now(),LocalDate.now());
     }
 
     @Override

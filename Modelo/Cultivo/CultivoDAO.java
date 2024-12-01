@@ -33,7 +33,7 @@ public class CultivoDAO extends Dao<CultivoDTO> {
             stmt.setInt(1, dto.getId());
             stmt.setString(2, dto.getNombre());
             stmt.setString(3, dto.getTipo());
-            stmt.setString(4, dto.getAreasembrada());
+            stmt.setInt(4, dto.getAreasembrada());
             stmt.setString(5, dto.getEstado());
             stmt.setDate(6, (Date) dto.getFechaSiembra());
             stmt.setDate(7, (Date) dto.getFechaCosecha());
@@ -55,7 +55,7 @@ public class CultivoDAO extends Dao<CultivoDTO> {
                             rs.getInt(1),
                             rs.getString(2),
                             rs.getString(3),
-                            rs.getString(4),
+                            rs.getInt(4),
                             rs.getString(5),
                             rs.getDate(6),
                             rs.getDate(7));
@@ -77,7 +77,7 @@ public class CultivoDAO extends Dao<CultivoDTO> {
                             rs.getInt(1),
                             rs.getString(2),
                             rs.getString(3),
-                            rs.getString(4),
+                            rs.getInt(4),
                             rs.getString(5),
                             rs.getDate(6),
                             rs.getDate(7)));
