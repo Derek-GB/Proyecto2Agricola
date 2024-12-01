@@ -4,10 +4,12 @@
  */
 package Vista;
 
+import Enums.Rol;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,13 +20,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FrmPrincipal
      */
-    public FrmPrincipal() {
+    private String nombreUsuario;
+    private String contrasenaUsuario;
+    private Rol rolUsuario;
+
+    public FrmPrincipal(String nombre, String contrasena, Rol rol) {
+        this.nombreUsuario = nombre;
+        this.contrasenaUsuario = contrasena;
+        this.rolUsuario = rol;
         initComponents();
         setExtendedState(FrmPrincipal.MAXIMIZED_BOTH);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panelLateral, BorderLayout.WEST);
         getContentPane().add(panelCentro, BorderLayout.CENTER);
         ajustarTodo();
+        ajustarRol();
+        
 
     }
 
@@ -39,7 +50,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         panelLateral = new javax.swing.JPanel();
         Usertxt = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        txtPresentacion = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         cultivotxt = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -60,6 +71,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         DeskPrincipal = new javax.swing.JDesktopPane();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        txtRol = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,9 +79,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         Usertxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Usuario.png"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("FEBOLIVARBR");
+        txtPresentacion.setFont(new java.awt.Font("sansserif", 1, 24)); // NOI18N
+        txtPresentacion.setForeground(new java.awt.Color(255, 255, 255));
+        txtPresentacion.setText("FEBOLIVARBR");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 51));
 
@@ -229,25 +241,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         panelLateral.setLayout(panelLateralLayout);
         panelLateralLayout.setHorizontalGroup(
             panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLateralLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(txtPresentacion, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(81, 81, 81))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(65, 65, 65))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(panelLateralLayout.createSequentialGroup()
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(48, 48, 48)))
-                    .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(48, 48, 48))
+                        .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
+                        .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69))))
         );
         panelLateralLayout.setVerticalGroup(
             panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,7 +267,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(txtPresentacion)
                 .addGap(42, 42, 42)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -266,7 +278,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         panelCentro.setBackground(new java.awt.Color(204, 204, 204));
@@ -308,6 +320,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        txtRol.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        txtRol.setForeground(new java.awt.Color(0, 0, 51));
+        txtRol.setText("jLabel2");
+
         javax.swing.GroupLayout panelCentroLayout = new javax.swing.GroupLayout(panelCentro);
         panelCentro.setLayout(panelCentroLayout);
         panelCentroLayout.setHorizontalGroup(
@@ -318,6 +334,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
                     .addComponent(DeskPrincipal)
                     .addGroup(panelCentroLayout.createSequentialGroup()
                         .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -325,7 +343,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
             panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCentroLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addGroup(panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtRol))
                 .addGap(18, 18, 18)
                 .addComponent(DeskPrincipal)
                 .addContainerGap())
@@ -368,37 +388,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmPrincipal().setVisible(true);
-            }
-        });
-    }
+   
 
     public void ajustarImagenes(String ubicacion, javax.swing.JLabel cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
@@ -415,6 +405,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarImagenes("/Imagenes/adUsuario.png", usertxt);
 
     }
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public String getContrasenaUsuario() {
+        return contrasenaUsuario;
+    }
+
+    public Rol getRolUsuario() {
+        return rolUsuario;
+    }
+    
+    public void ajustarRol(){
+        txtPresentacion.setText(nombreUsuario);
+        txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
+        txtRol.setText("( "+rolUsuario+" )");
+         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
+    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DeskPrincipal;
@@ -422,7 +431,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel almacentxt;
     private javax.swing.JLabel cultivotxt;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -439,6 +447,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel panelLateral;
     private javax.swing.JLabel protxt1;
     private javax.swing.JLabel tratxt;
+    private javax.swing.JLabel txtPresentacion;
+    private javax.swing.JLabel txtRol;
     private javax.swing.JLabel usertxt;
     // End of variables declaration//GEN-END:variables
 }

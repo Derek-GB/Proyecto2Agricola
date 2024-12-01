@@ -5,8 +5,6 @@
 package Controlador;
 
 import Modelo.Database.Database;
-import Modelo.Produccion.Produccion;
-import Modelo.Produccion.ProduccionDTO;
 import Modelo.Usuario.Usuario;
 import Modelo.Usuario.UsuarioDAO;
 import Modelo.Usuario.UsuarioDTO;
@@ -75,7 +73,7 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
         try {
             boolean actualizado = dao.update(mapper.toDTO(entidad));
             if (actualizado) {
-                
+
             } else {
                 view.showError("El nombre de usuario no está registrado");
             }
@@ -114,7 +112,6 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
         return entidad.getRol() != null;
     }
 
-
     @Override
     public void read(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
@@ -137,6 +134,19 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
     @Override
     public boolean validarPk(String id) {
         return false;
+    }
+
+    public Usuario buscarUsuarioPorNombre(String nombre) throws SQLException {
+        UsuarioDTO dto = dao.read(nombre);
+        return dto != null ? mapper.toEnt(dto) : null;
+    }
+
+    public void mostrarError(String mensaje) {
+        view.showError(mensaje);
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        view.showMessage(mensaje);
     }
 
 }
