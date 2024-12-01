@@ -319,12 +319,12 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (usuario == null) {
-            showError("No hay ningun cliente cargado actualmente");
+            showError("No hay ningun usuario cargado actualmente");
             return;
         }
         int option = JOptionPane.showConfirmDialog(
                 this,
-                "¿Está seguro que desea eliminar el cliente actual?",
+                "¿Está seguro que desea eliminar el usuario actual?",
                 "Confirmar Eliminación",
                 JOptionPane.YES_NO_OPTION
         );
@@ -336,7 +336,6 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
         if (usuario == null) {
             showError("No hay ningún usuario cargado actualmente");
             return;
@@ -345,6 +344,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
             showError("Faltan datos requeridos");
             return;
         }
+
         String newNombre = txtUsuario.getText().trim();
         String newContraseña = txtContraseña.getText().trim();
         Rol newRol = ConversionRol();
@@ -364,17 +364,22 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
             if (rolCambiado) {
                 usuario.setRol(newRol);
             }
-            controller.update(usuario);
 
-            if (contraseñaCambiada && rolCambiado) {
-                showMessage("Contraseña y rol actualizados correctamente.");
-            } else if (contraseñaCambiada) {
-                showMessage("Contraseña actualizada correctamente.");
-            } else if (rolCambiado) {
-                showMessage("Rol actualizado correctamente.");
+            try {
+                controller.update(usuario);
+
+                if (contraseñaCambiada && rolCambiado) {
+                    showMessage("Contraseña y rol actualizados correctamente.");
+                } else if (contraseñaCambiada) {
+                    showMessage("Contraseña actualizada correctamente.");
+                } else if (rolCambiado) {
+                    showMessage("Rol actualizado correctamente.");
+                }
+            } catch (Exception e) {
+                showError("Error al actualizar el usuario: " + e.getMessage());
             }
         } else {
-            showMessage("No se realizaron cambios.");
+            showMessage("No se realizaron cambios en la contraseña ni en el rol.");
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 

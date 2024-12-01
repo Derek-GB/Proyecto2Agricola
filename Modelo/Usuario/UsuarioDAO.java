@@ -38,20 +38,19 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
 
     @Override
     public UsuarioDTO read(Object id) throws SQLException {
-        if ((int) id < 0) {
+        if (id == null || String.valueOf(id).trim().isEmpty()) {
             return null;
         }
         String query = "Call UsuarioRead(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, String.valueOf(id));
+            stmt.setString(1, String.valueOf(id).trim());
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    UsuarioDTO dto = new UsuarioDTO(
-                            rs.getString("nombre"), 
+                    return new UsuarioDTO(
+                            rs.getString("nombre"),
                             rs.getString("contraseña"),
                             rs.getString("rol")
                     );
-                    return dto;
                 }
             }
         }
@@ -83,7 +82,7 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
         }
         String query = "Call UsuarioUpdate(?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, dto.getNombre()); 
+            stmt.setString(1, dto.getNombre());
             stmt.setString(2, dto.getContraseña());
             stmt.setString(3, dto.getRol());
             return stmt.executeUpdate() > 0;
@@ -109,5 +108,5 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
     public boolean validatePK(Object id) throws SQLException {
         return read(id) == null;
     }
-    
+
 }

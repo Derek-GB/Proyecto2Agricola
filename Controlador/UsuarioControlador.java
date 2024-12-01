@@ -80,10 +80,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
             return;
         }
         try {
-            if (validarPk(entidad.getNombre())) {
-                view.showError("El ID de Trabajador no está registrado");
-                return;
-            }
+            String nombre = entidad.getNombre().trim(); 
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
             cache.change(dto.getNombre(), dto);
