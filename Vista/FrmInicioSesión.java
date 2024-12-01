@@ -61,6 +61,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
         Infotxt = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
+        btnA1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,26 +106,39 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
             }
         });
 
+        btnA1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
+        btnA1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnA1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout txtDatosLayout = new javax.swing.GroupLayout(txtDatos);
         txtDatos.setLayout(txtDatosLayout);
         txtDatosLayout.setHorizontalGroup(
             txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(txtDatosLayout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(txtDatosLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtDatosLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
+                        .addGap(170, 170, 170)
                         .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Infotxt))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtDatosLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, txtDatosLayout.createSequentialGroup()
+                        .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, txtDatosLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, txtDatosLayout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnA1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 13, Short.MAX_VALUE)))
                 .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtDatosLayout.createSequentialGroup()
                 .addGap(105, 105, 105)
@@ -148,9 +162,11 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
                     .addComponent(jLabel1)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnA1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(txtDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
@@ -213,7 +229,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String nombre = txtNombre.getText();
         String contrasena = new String(txtContraseña.getPassword());
-        
+
         if (nombre == null || nombre.trim().isEmpty() || contrasena == null || contrasena.trim().isEmpty()) {
             controlador.mostrarError("Por favor, ingrese el nombre de usuario y la contraseña.");
             return;
@@ -230,9 +246,9 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
                 return;
             }
             controlador.mostrarMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
-           
-            FrmPrincipal frmPrincipal = new FrmPrincipal(usuario.getNombre(), usuario.getContraseña(), usuario.getRol()); 
-            frmPrincipal.setVisible(true);  
+
+            FrmPrincipal frmPrincipal = new FrmPrincipal(usuario.getNombre(), usuario.getContraseña(), usuario.getRol());
+            frmPrincipal.setVisible(true);
 
             this.dispose();
 
@@ -240,6 +256,18 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
             controlador.mostrarError("Error al intentar iniciar sesión: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnA1ActionPerformed
+
+        if (btnA1.isSelected()) {
+            txtContraseña.setEchoChar((char) 0);
+            btnA1.setIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo.png")));
+
+        } else {
+            txtContraseña.setEchoChar('*');
+            btnA1.setSelectedIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo2.png")));
+    }//GEN-LAST:event_btnA1ActionPerformed
+    }
 
     /**
      * @param args the command line arguments
@@ -279,6 +307,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Infotxt;
     private javax.swing.JLabel Usertxt;
+    private javax.swing.JToggleButton btnA1;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;

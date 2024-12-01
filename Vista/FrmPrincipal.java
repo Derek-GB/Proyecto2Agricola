@@ -9,7 +9,11 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -23,6 +27,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private String nombreUsuario;
     private String contrasenaUsuario;
     private Rol rolUsuario;
+    FrmInicioSesión frm;
 
     public FrmPrincipal(String nombre, String contrasena, Rol rol) {
         this.nombreUsuario = nombre;
@@ -35,7 +40,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().add(panelCentro, BorderLayout.CENTER);
         ajustarTodo();
         ajustarRol();
-        
+        administarPermisos();
 
     }
 
@@ -63,7 +68,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         tratxt = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
+        txtUsuarios = new javax.swing.JPanel();
         usertxt = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         panelCentro = new javax.swing.JPanel();
@@ -72,6 +77,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtRol = new javax.swing.JLabel();
+        Infotxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,10 +209,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBackground(new java.awt.Color(0, 0, 51));
-        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtUsuarios.setBackground(new java.awt.Color(0, 0, 51));
+        txtUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel5MouseClicked(evt);
+                txtUsuariosMouseClicked(evt);
             }
         });
 
@@ -217,22 +223,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Usuarios");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout txtUsuariosLayout = new javax.swing.GroupLayout(txtUsuarios);
+        txtUsuarios.setLayout(txtUsuariosLayout);
+        txtUsuariosLayout.setHorizontalGroup(
+            txtUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtUsuariosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        txtUsuariosLayout.setVerticalGroup(
+            txtUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtUsuariosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(txtUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)))
         );
@@ -248,15 +254,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(panelLateralLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
+                        .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(48, 48, 48))
-                        .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
                         .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69))))
@@ -277,7 +283,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(246, Short.MAX_VALUE))
         );
 
@@ -324,6 +330,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtRol.setForeground(new java.awt.Color(0, 0, 51));
         txtRol.setText("jLabel2");
 
+        Infotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ajustes.png"))); // NOI18N
+        Infotxt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                InfotxtMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelCentroLayout = new javax.swing.GroupLayout(panelCentro);
         panelCentro.setLayout(panelCentroLayout);
         panelCentroLayout.setHorizontalGroup(
@@ -331,21 +344,29 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(panelCentroLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DeskPrincipal)
+                    .addGroup(panelCentroLayout.createSequentialGroup()
+                        .addComponent(DeskPrincipal)
+                        .addContainerGap())
                     .addGroup(panelCentroLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Infotxt)
+                        .addGap(28, 28, 28))))
         );
         panelCentroLayout.setVerticalGroup(
             panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCentroLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtRol))
+                .addGroup(panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCentroLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(panelCentroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtRol)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCentroLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Infotxt)))
                 .addGap(18, 18, 18)
                 .addComponent(DeskPrincipal)
                 .addContainerGap())
@@ -369,7 +390,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+    private void txtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseClicked
         FrmUsuario frmUsuario = new FrmUsuario();
         if (!frmUsuario.isVisible()) {
             DeskPrincipal.add(frmUsuario);
@@ -383,13 +404,38 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-    }//GEN-LAST:event_jPanel5MouseClicked
+    }//GEN-LAST:event_txtUsuariosMouseClicked
+
+    private void InfotxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InfotxtMouseClicked
+
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            JPopupMenu popupMenu = new JPopupMenu();
+
+            JMenuItem opcion1 = new JMenuItem("Cerrar sesión");
+
+            JMenuItem opcion2 = new JMenuItem("Cambiar Contraseña");
+
+            popupMenu.add(opcion1);
+            popupMenu.add(opcion2);
+
+            opcion1.addActionListener(e -> {
+                this.dispose();
+                frm = new FrmInicioSesión();
+                frm.setVisible(true);
+            });
+            opcion2.addActionListener(e -> {
+                FrmCambiarContraseña frmCambiarContraseña = new FrmCambiarContraseña(this, true, nombreUsuario);
+                frmCambiarContraseña.setLocationRelativeTo(DeskPrincipal);
+                frmCambiarContraseña.setVisible(true); 
+                
+            });
+            popupMenu.show(Infotxt, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_InfotxtMouseClicked
 
     /**
      * @param args the command line arguments
      */
-   
-
     public void ajustarImagenes(String ubicacion, javax.swing.JLabel cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_DEFAULT));
@@ -405,6 +451,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarImagenes("/Imagenes/adUsuario.png", usertxt);
 
     }
+
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -416,17 +463,24 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public Rol getRolUsuario() {
         return rolUsuario;
     }
-    
-    public void ajustarRol(){
+
+    public void ajustarRol() {
         txtPresentacion.setText(nombreUsuario);
         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
-        txtRol.setText("( "+rolUsuario+" )");
-         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
+        txtRol.setText("( " + rolUsuario + " )");
+        txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
     }
- 
+
+    public void administarPermisos() {
+        if (rolUsuario == Rol.TRABAJADOR) {
+            txtUsuarios.setVisible(false);
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane DeskPrincipal;
+    private javax.swing.JLabel Infotxt;
     private javax.swing.JLabel Usertxt;
     private javax.swing.JLabel almacentxt;
     private javax.swing.JLabel cultivotxt;
@@ -441,7 +495,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel panelCentro;
     private javax.swing.JPanel panelLateral;
@@ -449,6 +502,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel tratxt;
     private javax.swing.JLabel txtPresentacion;
     private javax.swing.JLabel txtRol;
+    private javax.swing.JPanel txtUsuarios;
     private javax.swing.JLabel usertxt;
     // End of variables declaration//GEN-END:variables
 }
