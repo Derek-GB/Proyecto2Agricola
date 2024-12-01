@@ -14,7 +14,7 @@ public class TrabajadorCache extends Cache<String, TrabajadorDTO> {
 
     private static TrabajadorCache instance;
 
-    public static synchronized Cache getInstance() {
+    public static synchronized TrabajadorCache getInstance() {
         if (instance == null) {
             instance = new TrabajadorCache();
         }
