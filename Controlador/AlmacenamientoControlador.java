@@ -11,6 +11,10 @@ import Modelo.Almacenamiento.AlmacenamientoDTO;
 import Modelo.Almacenamiento.AlmacenamientoMapper;
 import java.sql.SQLException;
 import Modelo.Database.Database;
+import Modelo.Produccion.Produccion;
+import Modelo.Produccion.ProduccionDAO;
+import Modelo.Produccion.ProduccionDTO;
+import Modelo.Produccion.ProduccionMapper;
 import Vista.Vista;
 import java.util.List;
 import java.util.Objects;
@@ -146,5 +150,24 @@ public class AlmacenamientoControlador implements Controlador< Integer, Almacena
             return false;
         }
     }
+    
+    public Produccion obtenerProduccionPorId(Integer id) {
+    try {
+        ProduccionDAO produccionDAO = new ProduccionDAO(Database.getConnection()); 
+        ProduccionDTO produccionDTO = produccionDAO.read(id); 
+        
+        if (produccionDTO != null) {
+           
+            ProduccionMapper produccionMapper = new ProduccionMapper();
+            Produccion produccion = produccionMapper.toEnt(produccionDTO);
+            return produccion;
+        } else {
+            vista.showError("Produccion no encontrado"); 
+        }
+    } catch (SQLException ex) {
+        vista.showError("Error al buscar la produccion: " + ex.getMessage()); 
+    }
+    return null; 
+}
 
 }

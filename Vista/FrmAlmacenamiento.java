@@ -4,17 +4,38 @@
  */
 package Vista;
 
+import Controlador.AlmacenamientoControlador;
+import Modelo.Almacenamiento.Almacenamiento;
+import Modelo.Produccion.Produccion;
+import Utils.UtilGui;
+import java.awt.Image;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author DYLAN
  */
-public class FrmAlmacenamiento extends javax.swing.JFrame {
+public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vista<Almacenamiento> {
 
     /**
      * Creates new form FrmAlmacenamiento
      */
+    AlmacenamientoControlador controller;
+    Almacenamiento almacenamiento;
+    FrmBuscarAlmacenamiento frm;
+
     public FrmAlmacenamiento() {
         initComponents();
+        btnDes.setVisible(false);
+        controller = new AlmacenamientoControlador(this);
+        ajustarTodo();
     }
 
     /**
@@ -26,58 +47,36 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel9 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cbxNombre = new javax.swing.JComboBox<>();
         btnNuevo = new javax.swing.JButton();
-        txtArea = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
-        txtId = new javax.swing.JTextField();
+        txtIdAlmacenamiento = new javax.swing.JTextField();
         btnActualizar = new javax.swing.JButton();
-        cbxTipo = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        cbxEstado = new javax.swing.JComboBox<>();
         btnCancelar = new javax.swing.JButton();
-        txtFechaSiembra = new javax.swing.JTextField();
-        txtFechaCosecha = new javax.swing.JTextField();
+        txtFechaIngreso = new javax.swing.JTextField();
+        txtFechaEgreso = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnDes = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        txtIdProduccion = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel9.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel9.setText("Area sembrada:");
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 51));
         jLabel4.setText("Almacenamiento");
-
-        cbxNombre.setEditable(true);
-        cbxNombre.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        cbxNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxNombreActionPerformed(evt);
-            }
-        });
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
         btnNuevo.setBorder(null);
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
-            }
-        });
-
-        txtArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAreaActionPerformed(evt);
             }
         });
 
@@ -92,7 +91,7 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel5.setText("Codigo:");
+        jLabel5.setText("Codigo de almacenamiento:");
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
         btnEliminar.setBorder(null);
@@ -102,9 +101,9 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
             }
         });
 
-        txtId.addActionListener(new java.awt.event.ActionListener() {
+        txtIdAlmacenamiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
+                txtIdAlmacenamientoActionPerformed(evt);
             }
         });
 
@@ -116,13 +115,6 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
             }
         });
 
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CEREALES", "LEGUMINOSAS", "OLEAGINOSAS", "HORTALIZAS", "FRUTALES", "ORNAMENTALES", "RAICES", "TUBERCULOS", " PASTOS" }));
-        cbxTipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxTipoActionPerformed(evt);
-            }
-        });
-
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar.png"))); // NOI18N
         btnBuscar.setBorder(null);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -131,20 +123,9 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel6.setText("Estado de crecimiento:");
-
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel8.setText("Fecha de cosecha:");
-
-        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERMINANDO", " EN DESARROLLO", " EN FLORACION", " MADURANDO", " LISTO PARA COSECHA", " COSECHADO" }));
-        cbxEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxEstadoActionPerformed(evt);
-            }
-        });
+        jLabel8.setText("Fecha de Egreso:");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
         btnCancelar.setBorder(null);
@@ -154,25 +135,25 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
             }
         });
 
-        txtFechaSiembra.addActionListener(new java.awt.event.ActionListener() {
+        txtFechaIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaSiembraActionPerformed(evt);
+                txtFechaIngresoActionPerformed(evt);
             }
         });
 
-        txtFechaCosecha.addActionListener(new java.awt.event.ActionListener() {
+        txtFechaEgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaCosechaActionPerformed(evt);
+                txtFechaEgresoActionPerformed(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel7.setText("Fecha de Siembra:");
+        jLabel7.setText("Fecha de Ingreso:");
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel1.setText("Nombre del Cultivo:");
+        jLabel1.setText("Codigo de produccion:");
 
         btnDes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/deshacer.png"))); // NOI18N
         btnDes.setBorder(null);
@@ -184,79 +165,80 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel3.setText("Tipo de cultivo:");
+        jLabel3.setText("Cantidad:");
+
+        txtIdProduccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdProduccionActionPerformed(evt);
+            }
+        });
+
+        txtCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantidadActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtFechaIngreso)
+                        .addGap(81, 81, 81)
+                        .addComponent(txtFechaEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cbxEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFechaSiembra))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFechaCosecha)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtId)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbxTipo, 0, 1, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel3)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtIdAlmacenamiento))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(71, 71, 71)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                            .addComponent(txtIdProduccion))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(144, 144, 144)
+                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(186, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(60, 60, 60)
@@ -265,28 +247,22 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtId, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbxNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtIdAlmacenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtFechaSiembra)
-                                .addGap(4, 4, 4))))
+                        .addComponent(txtFechaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaCosecha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(txtFechaEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,10 +277,6 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbxNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxNombreActionPerformed
-
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         btnDes.setVisible(true);
         ajustarImagenes("/Imagenes/deshacer.png", btnDes);
@@ -313,10 +285,6 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
         estadosBotones();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void txtAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAreaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAreaActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         btnDes.setVisible(false);
 
@@ -324,56 +292,54 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
             showError("Faltan datos requeridos");
             return;
         }
-        int id = Integer.parseInt(txtId.getText());
-        String nombre = (String) cbxNombre.getSelectedItem();
-        TipoCultivo tipoCultivo = (TipoCultivo) cbxTipo.getSelectedItem();
-        int area = Integer.parseInt(txtArea.getText());
-        EstadoCrecimiento estado = (EstadoCrecimiento) cbxEstado.getSelectedItem();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fechaSiembra = LocalDate.parse(txtFechaSiembra.getText(), formatter);
-        LocalDate fechaCosecha = LocalDate.parse(txtFechaCosecha.getText(), formatter);
-        cultivo = new Cultivo(
-            id,
-            nombre,
-            tipoCultivo,
-            area,
-            estado,
-            fechaSiembra,
-            fechaCosecha
-        );
 
-        controller.create(cultivo);
+        int idAlmacenamiento = Integer.parseInt(txtIdAlmacenamiento.getText());
+        Integer produccionId = Integer.parseInt(txtIdProduccion.getText());
+        Produccion produccion = controller.obtenerProduccionPorId(produccionId);
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaIngreso = LocalDate.parse(txtFechaIngreso.getText(), formatter);
+        LocalDate fechaEgreso = LocalDate.parse(txtFechaEgreso.getText(), formatter);
+
+        almacenamiento = new Almacenamiento(
+                idAlmacenamiento,
+                produccion,
+                cantidad,
+                fechaIngreso,
+                fechaEgreso
+        );
+        controller.create(almacenamiento);
 
         this.Editar(false);
         estadosBotones();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if (cultivo == null) {
-            showError("No hay ningun cultivo cargado actualmente");
+        if (almacenamiento == null) {
+            showError("No hay ningun almacenamiento cargado actualmente");
             return;
         }
         int option = JOptionPane.showConfirmDialog(
-            this,
-            "¿Está seguro que desea eliminar el cultivo actual?",
-            "Confirmar Eliminación",
-            JOptionPane.YES_NO_OPTION
+                this,
+                "¿Está seguro que desea eliminar el almacenamiento actual?",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION
         );
         if (option == JOptionPane.NO_OPTION) {
             return;
         }
-        controller.delete(cultivo);
+        controller.delete(almacenamiento);
         limpiar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+    private void txtIdAlmacenamientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdAlmacenamientoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
+    }//GEN-LAST:event_txtIdAlmacenamientoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
 
-        if (cultivo == null) {
-            showError("No hay ningún cultivo cargado actualmente");
+        if (almacenamiento == null) {
+            showError("No hay ningún almacenamiento cargado actualmente");
             return;
         }
         if (!validateRequired()) {
@@ -382,100 +348,66 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
         }
         try {
 
-            EstadoCrecimiento newEstado = (EstadoCrecimiento) cbxEstado.getSelectedItem();
+            int newCantidad = Integer.parseInt(txtCantidad.getText().trim());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate newFechaCosecha = LocalDate.parse(txtFechaCosecha.getText().trim(), formatter);
+            LocalDate newFechaEgreso = LocalDate.parse(txtFechaEgreso.getText().trim(), formatter);
 
-            boolean estadoCambiado = !newEstado.equals(cultivo.getEstado());
-            boolean fechaCosechaCambiada = !newFechaCosecha.equals(cultivo.getFechaCosecha());
+            boolean cantidadCambiado = newCantidad != almacenamiento.getCantidad();
+            boolean fechaEgresoCambiada = !newFechaEgreso.equals(almacenamiento.getFechaEgreso());
 
-            if (estadoCambiado || fechaCosechaCambiada) {
+            if (cantidadCambiado || fechaEgresoCambiada) {
 
-                if (estadoCambiado) {
-                    cultivo.setEstado(newEstado);
+                if (cantidadCambiado) {
+                    almacenamiento.setCantidad(newCantidad);
                 }
-                if (fechaCosechaCambiada) {
-                    cultivo.setFechaCosecha(newFechaCosecha);
+                if (fechaEgresoCambiada) {
+                    almacenamiento.setFechaEgreso(newFechaEgreso);
                 }
 
-                controller.update(cultivo);
+                controller.update(almacenamiento);
 
-                showMessage("Datos del cultivo actualizados correctamente.");
+                showMessage("Datos del almacenamiento actualizados correctamente.");
             } else {
                 showMessage("No se realizaron cambios.");
             }
         } catch (DateTimeParseException e) {
-            showError("La fecha de cosecha debe estar en el formato 'yyyy-MM-dd'.");
+            showError("La fecha de egreso debe estar en el formato 'yyyy-MM-dd'.");
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void cbxTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTipoActionPerformed
-
-    }//GEN-LAST:event_cbxTipoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         Editar(true);
         controller.readAll();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void cbxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxEstadoActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtFechaSiembraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaSiembraActionPerformed
+    private void txtFechaIngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaIngresoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaSiembraActionPerformed
+    }//GEN-LAST:event_txtFechaIngresoActionPerformed
 
-    private void txtFechaCosechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaCosechaActionPerformed
+    private void txtFechaEgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaEgresoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaCosechaActionPerformed
+    }//GEN-LAST:event_txtFechaEgresoActionPerformed
 
     private void btnDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesActionPerformed
-        show(cultivo);
+        show(almacenamiento);
         this.Editar(false);
         estadosBotones();
         btnDes.setVisible(false);
     }//GEN-LAST:event_btnDesActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAlmacenamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAlmacenamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAlmacenamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAlmacenamiento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void txtIdProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProduccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdProduccionActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmAlmacenamiento().setVisible(true);
-            }
-        });
-    }
+    private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -485,20 +417,108 @@ public class FrmAlmacenamiento extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JComboBox<String> cbxEstado;
-    private javax.swing.JComboBox<String> cbxNombre;
-    private javax.swing.JComboBox<String> cbxTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField txtArea;
-    private javax.swing.JTextField txtFechaCosecha;
-    private javax.swing.JTextField txtFechaSiembra;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtFechaEgreso;
+    private javax.swing.JTextField txtFechaIngreso;
+    private javax.swing.JTextField txtIdAlmacenamiento;
+    private javax.swing.JTextField txtIdProduccion;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void show(Almacenamiento ent) {
+        almacenamiento = ent;
+        if (ent == null) {
+            limpiar();
+            return;
+        }
+
+        txtIdAlmacenamiento.setText(String.valueOf(ent.getId()));
+        txtIdProduccion.setText(String.valueOf(ent.getId()));
+        txtCantidad.setText(String.valueOf(ent.getCantidad()));
+
+        if (ent.getFechaIngreso() != null) {
+            txtFechaIngreso.setText(ent.getFechaIngreso().toString());
+        } else {
+            txtFechaIngreso.setText("");
+        }
+
+        if (ent.getFechaEgreso() != null) {
+            txtFechaEgreso.setText(ent.getFechaEgreso().toString());
+        } else {
+            txtFechaEgreso.setText("");
+        }
+    }
+
+    @Override
+    public void showAll(List<Almacenamiento> ents) {
+        if (frm == null) {
+            frm = new FrmBuscarAlmacenamiento(null, true);
+            frm.setObserver(this);
+        }
+        frm.setEnts(ents);
+        frm.setVisible(true);
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Informacion", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void showError(String err) {
+        JOptionPane.showMessageDialog(this, err, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    @Override
+    public boolean validateRequired() {
+        return UtilGui.validateFields(txtIdAlmacenamiento ,txtIdProduccion, txtCantidad, txtFechaIngreso, txtFechaEgreso);
+    }
+
+    public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
+        ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
+        if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
+            Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+            cosa.setIcon(icon);
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+                cosa.setIcon(icon);
+            });
+        }
+    }
+
+    public void ajustarTodo() {
+        ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
+        ajustarImagenes("/Imagenes/guardar.png", btnGuardar);
+        ajustarImagenes("/Imagenes/actualizar.png", btnActualizar);
+        ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
+        ajustarImagenes("/Imagenes/buscar.png", btnBuscar);
+        ajustarImagenes("/Imagenes/cancelar.png", btnCancelar);
+
+    }
+
+    private void limpiar() {
+        txtIdAlmacenamiento.setText("");
+        txtIdProduccion.setText("");
+        txtCantidad.setText("");
+        txtFechaIngreso.setText("");
+        txtFechaIngreso.setText("");
+    }
+
+    private void Editar(boolean valor) {
+        txtCantidad.setEditable(valor);
+        txtFechaIngreso.setEditable(valor);
+        txtFechaEgreso.setEditable(valor);
+    }
+
+    public void estadosBotones() {
+        UtilGui.changeStateButtons(btnGuardar, btnActualizar, btnBuscar, btnCancelar, btnNuevo, btnEliminar);
+    }
+
 }
