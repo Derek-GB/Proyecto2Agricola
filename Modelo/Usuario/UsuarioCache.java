@@ -13,7 +13,7 @@ import Modelo.Cache.Cache;
 public class UsuarioCache extends Cache<Integer,UsuarioDTO> {
     private static UsuarioCache instance;
 
-    public static synchronized Cache getInstance() {
+    public static synchronized UsuarioCache getInstance() {
         if (instance == null) {
             instance = new UsuarioCache();
         }

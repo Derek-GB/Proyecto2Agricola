@@ -6,6 +6,7 @@ package Controlador;
 
 import Modelo.Database.Database;
 import Modelo.Usuario.Usuario;
+import Modelo.Usuario.UsuarioCache;
 import Modelo.Usuario.UsuarioDAO;
 import Modelo.Usuario.UsuarioDTO;
 import Modelo.Usuario.UsuarioMapper;
@@ -19,14 +20,16 @@ import java.util.stream.Collectors;
  *
  * @author Fernando
  */
-public class UsuarioControlador implements Controlador< String, Usuario> {
+public class UsuarioControlador implements Controlador< Integer, Usuario> {
 
     private final UsuarioMapper mapper;
     private UsuarioDAO dao;
     private final Vista view;
+    private UsuarioCache cache;
 
     public UsuarioControlador(Vista view) {
         this.view = view;
+        this.cache = UsuarioCache.getInstance();
         mapper = new UsuarioMapper();
         try {
             dao = new UsuarioDAO(Database.getConnection());
@@ -42,7 +45,13 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
             return;
         }
         try {
-            dao.create(mapper.toDTO(entidad));
+            if (!validarPk(entidad.getId())) {
+                view.showError("El id ingresado ya se encuentra registrada");
+                return;
+            }
+            UsuarioDTO dto = mapper.toDTO(entidad);
+            dao.create(dto);
+            cache.add(dto.getId, dto);
             view.showMessage("Usuario registrado correctamente");
         } catch (SQLException ex) {
             view.showError("Error al guardar los datos: " + ex.getMessage());
@@ -71,12 +80,14 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
             return;
         }
         try {
-            boolean actualizado = dao.update(mapper.toDTO(entidad));
-            if (actualizado) {
-
-            } else {
-                view.showError("El nombre de usuario no está registrado");
+            if (validarPk(entidad.getId())) {
+                view.showError("El ID de Trabajador no está registrado");
+                return;
             }
+            UsuarioDTO dto = mapper.toDTO(entidad);
+            dao.update(dto);
+            cache.change(dto.getId(), dto);
+            view.showMessage("Trabajador actualizado correctamente");
         } catch (SQLException ex) {
             view.showError("Error al actualizar los datos: " + ex.getMessage());
         }
@@ -84,13 +95,14 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
 
     @Override
     public void delete(Usuario entidad) {
-        if (entidad == null || entidad.getNombre() == null || entidad.getNombre().trim().isEmpty()) {
-            view.showError("El nombre de usuario no es válido");
+        if (entidad == null || !validarPk(entidad.getId)) {
+            view.showError("El id de usuario no es válido");
             return;
         }
         try {
             boolean eliminado = dao.delete(entidad.getNombre());
             if (eliminado) {
+                cache.remove(entidad.getId());
                 view.showMessage("Usuario eliminado correctamente");
             } else {
                 view.showError("El usuario no está registrado");
@@ -113,27 +125,37 @@ public class UsuarioControlador implements Controlador< String, Usuario> {
     }
 
     @Override
-    public void read(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
+    public void read(Integer id) {
+        if (validarPk(id)) {
             view.showError("El nombre proporcionado no es válido");
             return;
         }
         try {
-            UsuarioDTO dto = dao.read(nombre);
+            UsuarioDTO dto = cache.get(id);
             if (dto == null) {
-                view.showError("Usuario no encontrado");
-                return;
+                dto = dao.read(id);
             }
-            Usuario usuario = mapper.toEnt(dto);
-            view.show(usuario);
+            if (dto != null) {
+                Usuario trabajador = mapper.toEnt(dto);
+                view.show(trabajador);
+            } else {
+                view.showError("Usuario no encontrado");
+            }
         } catch (SQLException ex) {
             view.showError("Error al cargar los datos: " + ex.getMessage());
         }
     }
 
     @Override
-    public boolean validarPk(String id) {
-        return false;
+    public boolean validarPk(Integer id) {
+        if (!cache.contains(id)) {
+            return true;
+        }
+        try {
+            return dao.validatePK(id);
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public Usuario buscarUsuarioPorNombre(String nombre) throws SQLException {

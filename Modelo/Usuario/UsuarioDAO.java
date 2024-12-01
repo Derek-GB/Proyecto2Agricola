@@ -37,13 +37,13 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
     }
 
     @Override
-    public UsuarioDTO read(Object nombre) throws SQLException {
-        if (nombre == null || String.valueOf(nombre).trim().isEmpty()) {
+    public UsuarioDTO read(Object id) throws SQLException {
+        if ((int) id < 0) {
             return null;
         }
         String query = "Call UsuarioRead(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, String.valueOf(nombre));
+            stmt.setString(1, String.valueOf(id));
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     UsuarioDTO dto = new UsuarioDTO(
@@ -106,4 +106,8 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
         return this.read(nombre) != null;
     }
 
+    public boolean validatePK(Object id) throws SQLException {
+        return read(id) == null;
+    }
+    
 }

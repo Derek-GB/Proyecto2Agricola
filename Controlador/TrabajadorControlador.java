@@ -114,7 +114,7 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
     public void delete(Trabajador entidad) {
         try {
             if (validarPk(entidad.getCedula())) {
-                vista.showError("El ID de producción no está registrado");
+                vista.showError("La cedula de trabajador " + entidad.getCedula() + " no está registrada");
                 return;
             }
             dao.delete(entidad.getCedula());
