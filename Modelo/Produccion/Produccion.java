@@ -82,7 +82,7 @@ public class Produccion {
         this.procentajeProductividad = procentajeProductividad;
         this.destino = destino;
     }
-    
+
     
    public double calcularProductividad(double cantidadEsperada) {
     if (cantidadEsperada <= 0) {
