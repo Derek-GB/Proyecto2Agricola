@@ -4,11 +4,14 @@
  */
 package Vista;
 
+import Controlador.CultivoControlador;
 import Controlador.ProduccionControlador;
 import Modelo.Cultivo.Cultivo;
 import Modelo.Produccion.Produccion;
 import Utils.UtilGui;
 import java.awt.Image;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,7 +23,7 @@ import javax.swing.SwingUtilities;
  * @author Tony
  */
 public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<Produccion> {
-
+    CultivoControlador controllerCultivo;
     ProduccionControlador controller;
     Produccion produccion;
     FrmProduccionn frm;
@@ -63,13 +66,12 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         btnBuscar4 = new javax.swing.JButton();
         btnEliminar4 = new javax.swing.JButton();
         btnCancelar4 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnLlamarFrmBuscarCultivo = new javax.swing.JButton();
         txtDestino = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         txtProductividad.setEditable(false);
-        txtProductividad.setBackground(new java.awt.Color(30, 30, 30));
         txtProductividad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtProductividadActionPerformed(evt);
@@ -102,6 +104,11 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         jLabel18.setText("Fecha");
 
         txtCultivo.setEditable(false);
+        txtCultivo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCultivoFocusLost(evt);
+            }
+        });
 
         txtFecha.setEditable(false);
         txtFecha.addActionListener(new java.awt.event.ActionListener() {
@@ -190,10 +197,15 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(30, 30, 30));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("+");
-        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnLlamarFrmBuscarCultivo.setBackground(new java.awt.Color(30, 30, 30));
+        btnLlamarFrmBuscarCultivo.setForeground(new java.awt.Color(255, 255, 255));
+        btnLlamarFrmBuscarCultivo.setText("+");
+        btnLlamarFrmBuscarCultivo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnLlamarFrmBuscarCultivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLlamarFrmBuscarCultivoActionPerformed(evt);
+            }
+        });
 
         txtDestino.setBackground(new java.awt.Color(30, 30, 30));
         txtDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venta", "Almacenamiento" }));
@@ -212,7 +224,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnLlamarFrmBuscarCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel17))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -282,7 +294,8 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)))
+                            .addComponent(btnLlamarFrmBuscarCultivo)
+                            .addComponent(txtCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -293,7 +306,6 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -504,6 +516,17 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
         this.dispose();
     }//GEN-LAST:event_btnCancelar4ActionPerformed
 
+    private void txtCultivoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCultivoFocusLost
+    String  fecha = txtFecha.getText();
+        validarFechaProduccion(fecha);
+    }//GEN-LAST:event_txtCultivoFocusLost
+
+    private void btnLlamarFrmBuscarCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarFrmBuscarCultivoActionPerformed
+ Editar(true);
+        controllerCultivo.readAll();        
+             
+    }//GEN-LAST:event_btnLlamarFrmBuscarCultivoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar4;
@@ -512,8 +535,8 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
     private javax.swing.JButton btnDes4;
     private javax.swing.JButton btnEliminar4;
     private javax.swing.JButton btnGuardar4;
+    private javax.swing.JButton btnLlamarFrmBuscarCultivo;
     private javax.swing.JButton btnNuevo4;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -602,5 +625,18 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
         txtFecha.setEditable(valor);
     }
     
+    private void validarFechaProduccion(String fecha) {
+    try {
+       
+        if (!Utils.UtilDate.validate(fecha)) {
+            showError("La fecha ingresada no es válida. Use el formato 'dd/MM/yyyy'.");
+            return;
+        }
+        LocalDate fechaProduccion = Utils.UtilDate.toLocalDate(fecha);
+        System.out.println("Fecha válida: " + fechaProduccion);
+    } catch (IllegalArgumentException e) { 
+        showError(e.getMessage());
     }
+    }
+}
 

@@ -52,7 +52,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="txtFecha" min="-2" pref="142" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="btnLlamarFrmBuscarCultivo" min="-2" pref="26" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -144,7 +144,8 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtFecha" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnLlamarFrmBuscarCultivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCultivo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -158,7 +159,6 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txtCalidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtCultivo" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtDestino" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -200,9 +200,6 @@
         <Component class="javax.swing.JPasswordField" name="txtProductividad">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="1e" green="1e" red="1e" type="rgb"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtProductividadActionPerformed"/>
@@ -269,6 +266,9 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCultivoFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtFecha">
           <Properties>
@@ -422,7 +422,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelar4ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnLlamarFrmBuscarCultivo">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1e" green="1e" red="1e" type="rgb"/>
@@ -437,6 +437,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLlamarFrmBuscarCultivoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="txtDestino">
           <Properties>
