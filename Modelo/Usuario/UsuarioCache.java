@@ -10,7 +10,7 @@ import Modelo.Cache.Cache;
  *
  * @author d2tod
  */
-public class UsuarioCache extends Cache<Integer,UsuarioDTO> {
+public class UsuarioCache extends Cache<String,UsuarioDTO> {
     private static UsuarioCache instance;
 
     public static synchronized UsuarioCache getInstance() {

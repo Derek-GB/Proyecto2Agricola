@@ -11,7 +11,7 @@ import Enums.Rol;
  * @author Fernando
  */
 public class Usuario {
-    (falta el id)
+    
     private String nombre;
     private String contraseña;
     private Rol rol;

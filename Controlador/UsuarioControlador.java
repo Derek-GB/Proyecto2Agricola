@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Fernando
  */
-public class UsuarioControlador implements Controlador< Integer, Usuario> {
+public class UsuarioControlador implements Controlador<String, Usuario> {
 
     private final UsuarioMapper mapper;
     private UsuarioDAO dao;
@@ -45,13 +45,13 @@ public class UsuarioControlador implements Controlador< Integer, Usuario> {
             return;
         }
         try {
-            if (!validarPk(entidad.getId())) {
+            if (!validarPk(entidad.getNombre())) {
                 view.showError("El id ingresado ya se encuentra registrada");
                 return;
             }
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.create(dto);
-            cache.add(dto.getId, dto);
+            cache.add(dto.getNombre(), dto);
             view.showMessage("Usuario registrado correctamente");
         } catch (SQLException ex) {
             view.showError("Error al guardar los datos: " + ex.getMessage());
@@ -80,13 +80,13 @@ public class UsuarioControlador implements Controlador< Integer, Usuario> {
             return;
         }
         try {
-            if (validarPk(entidad.getId())) {
+            if (validarPk(entidad.getNombre())) {
                 view.showError("El ID de Trabajador no está registrado");
                 return;
             }
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
-            cache.change(dto.getId(), dto);
+            cache.change(dto.getNombre(), dto);
             view.showMessage("Trabajador actualizado correctamente");
         } catch (SQLException ex) {
             view.showError("Error al actualizar los datos: " + ex.getMessage());
@@ -95,14 +95,14 @@ public class UsuarioControlador implements Controlador< Integer, Usuario> {
 
     @Override
     public void delete(Usuario entidad) {
-        if (entidad == null || !validarPk(entidad.getId)) {
+        if (entidad == null || !validarPk(entidad.getNombre())) {
             view.showError("El id de usuario no es válido");
             return;
         }
         try {
             boolean eliminado = dao.delete(entidad.getNombre());
             if (eliminado) {
-                cache.remove(entidad.getId());
+                cache.remove(entidad.getNombre());
                 view.showMessage("Usuario eliminado correctamente");
             } else {
                 view.showError("El usuario no está registrado");
@@ -125,7 +125,7 @@ public class UsuarioControlador implements Controlador< Integer, Usuario> {
     }
 
     @Override
-    public void read(Integer id) {
+    public void read(String id) {
         if (validarPk(id)) {
             view.showError("El nombre proporcionado no es válido");
             return;
@@ -147,7 +147,7 @@ public class UsuarioControlador implements Controlador< Integer, Usuario> {
     }
 
     @Override
-    public boolean validarPk(Integer id) {
+    public boolean validarPk(String id) {
         if (!cache.contains(id)) {
             return true;
         }
