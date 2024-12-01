@@ -69,6 +69,10 @@ public class Cultivo {
         }
     }
 
+    public void setEstado(EstadoCrecimiento estado) {
+        this.estado = estado;
+    }
+
     public void setFechaCosecha(LocalDate fechaCosecha) {
         if (validarFechaCosecha(this.fechaSiembra, fechaCosecha)) {
             this.fechaCosecha = fechaCosecha;
