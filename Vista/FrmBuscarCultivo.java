@@ -28,6 +28,7 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     private Vista observer;
     TableRowSorter<TableModel> sorter;
+    FrmCultivo frm;
 
     public void setEnts(List<Cultivo> ents) {
         this.ents = ents;
@@ -53,9 +54,10 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
         this.observer = observer;
     }
     
-     public FrmBuscarCultivo(java.awt.Frame parent, boolean modal) {
+     public FrmBuscarCultivo(java.awt.Frame parent, boolean modal, FrmCultivo frm) {
         super(parent, modal);
         initComponents();
+        this.frm=frm;
         ajustarTodo();
         this.setLocationRelativeTo(parent);
         tableModel = (DefaultTableModel) tabla.getModel();
@@ -202,6 +204,7 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
         this.dispose();
+        frm.Editar(false);
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 
     private void txtfiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfiltroActionPerformed

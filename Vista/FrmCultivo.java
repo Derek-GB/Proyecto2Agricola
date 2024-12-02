@@ -10,6 +10,7 @@ import Enums.TipoCultivo;
 import Modelo.Cultivo.Cultivo;
 import Utils.UtilGui;
 import java.awt.Image;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -197,6 +198,11 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         jLabel6.setText("Estado de crecimiento:");
 
         cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GERMINANDO", "EN_DESARROLLO", "EN_FLORACION", "MADURANDO", "LISTO_PARA_COSECHA", "COSECHADO" }));
+        cbxEstado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cbxEstadoFocusLost(evt);
+            }
+        });
         cbxEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxEstadoActionPerformed(evt);
@@ -387,6 +393,11 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
             LocalDate fechaSiembra = LocalDate.parse(txtFechaSiembra.getText().trim(), formatter);
             LocalDate fechaCosecha = LocalDate.parse(txtFechaCosecha.getText().trim(), formatter);
 
+            if (fechaCosecha.isBefore(fechaSiembra)) {
+                showError("La fecha de cosecha no puede ser anterior a la fecha de siembra.");
+                return;
+            }
+
             cultivo = new Cultivo(
                     id,
                     nombre,
@@ -433,6 +444,7 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
             showError("No hay ningún cultivo cargado actualmente.");
             return;
         }
+
         if (!validateRequired()) {
             showError("Faltan datos requeridos.");
             return;
@@ -440,17 +452,17 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
 
         String newFechaCosechaText = txtFechaCosecha.getText().trim();
         LocalDate newFechaCosecha;
-        try {
-            newFechaCosecha = LocalDate.parse(newFechaCosechaText);
-        } catch (DateTimeParseException e) {
-            showError("La fecha de cosecha no tiene un formato válido. Use el formato AAAA-MM-DD.");
-            return;
-        }
 
         String estadoSeleccionadoString = (String) cbxEstado.getSelectedItem();
-        if (estadoSeleccionadoString == null || estadoSeleccionadoString.isEmpty()) {
-            showError("Debe seleccionar un estado de crecimiento.");
-            return;
+        if (estadoSeleccionadoString != null && estadoSeleccionadoString.equals("COSECHADO")) {
+            newFechaCosecha = LocalDate.now();
+        } else {
+            try {
+                newFechaCosecha = LocalDate.parse(newFechaCosechaText);
+            } catch (DateTimeParseException e) {
+                showError("La fecha de cosecha no tiene un formato válido. Use el formato AAAA-MM-DD.");
+                return;
+            }
         }
 
         EstadoCrecimiento newEstadoCrecimiento;
@@ -477,6 +489,7 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
                 showError("El estado de crecimiento seleccionado no es válido.");
                 return;
         }
+
         if (!validarTransicionEstado(cultivo.getEstado(), newEstadoCrecimiento)) {
             showError("La transición de estado no es válida.");
             return;
@@ -554,6 +567,12 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     private void txtFechaSiembraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaSiembraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaSiembraActionPerformed
+
+    private void cbxEstadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbxEstadoFocusLost
+        if ("COSECHADO".equals(cbxEstado.getSelectedItem())) {
+            txtFechaCosecha.setText(LocalDate.now().toString());
+        }
+    }//GEN-LAST:event_cbxEstadoFocusLost
     private boolean validarTransicionEstado(EstadoCrecimiento estadoActual, EstadoCrecimiento nuevoEstado) {
         switch (estadoActual) {
             case GERMINANDO:
@@ -633,7 +652,7 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     @Override
     public void showAll(List<Cultivo> ents) {
         if (frm == null) {
-            frm = new FrmBuscarCultivo(null, true);
+            frm = new FrmBuscarCultivo(null, true, this);
             frm.setObserver(this);
         }
         frm.setEnts(ents);
@@ -682,7 +701,7 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         txtFechaCosecha.setText("");
     }
 
-    private void Editar(boolean valor) {
+    public void Editar(boolean valor) {
         txtId.setEditable(valor);
         cbxNombre.setEditable(valor);
         cbxTipo.setEditable(valor);
