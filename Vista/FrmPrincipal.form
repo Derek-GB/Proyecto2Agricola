@@ -62,7 +62,7 @@
                               <Component id="jPanel1" min="-2" pref="201" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="txtUsuarios" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtTrabajadores" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jPanel2" alignment="0" min="-2" pref="201" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -90,7 +90,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtTrabajadores" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="txtUsuarios" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="246" max="32767" attributes="0"/>
@@ -285,12 +285,15 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel4">
+        <Container class="javax.swing.JPanel" name="txtTrabajadores">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="0" red="0" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtTrabajadoresMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">

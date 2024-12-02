@@ -409,6 +409,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         ajustarImagenes("/Imagenes/deshacer.png", btnDes);
         limpiar();
         setCamposEditables(true);
+        activarCampos(true);
         setBotonesEnabled();
 
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -428,11 +429,12 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 txtCorreo.getText(),
                 txtPuesto.getSelectedItem().toString(),
                 txtHorario.getSelectedItem().toString(),
-                Double.parseDouble(txtNombre.getText())
+                Double.parseDouble(txtSalario.getText())
         );
         controlador.create(trabajador);
 
         setCamposEditables(false);
+        activarCampos(false);
         setBotonesEnabled();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -518,6 +520,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         setCamposEditables(true);
+        activarCampos(true);
         controlador.readAll();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -527,7 +530,8 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
     private void btnDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesActionPerformed
         show(trabajador);
-        this.setCamposEditables(false);
+        setCamposEditables(false);
+        activarCampos(false);
         setBotonesEnabled();
         btnDes.setVisible(false);
     }//GEN-LAST:event_btnDesActionPerformed

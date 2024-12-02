@@ -65,7 +65,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         protxt1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        txtTrabajadores = new javax.swing.JPanel();
         tratxt = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtUsuarios = new javax.swing.JPanel();
@@ -189,7 +189,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(0, 0, 51));
+        txtTrabajadores.setBackground(new java.awt.Color(0, 0, 51));
+        txtTrabajadores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtTrabajadoresMouseClicked(evt);
+            }
+        });
 
         tratxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trabajador.png"))); // NOI18N
         tratxt.setText("jLabel3");
@@ -198,22 +203,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Trabajadores");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout txtTrabajadoresLayout = new javax.swing.GroupLayout(txtTrabajadores);
+        txtTrabajadores.setLayout(txtTrabajadoresLayout);
+        txtTrabajadoresLayout.setHorizontalGroup(
+            txtTrabajadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtTrabajadoresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(tratxt, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(32, 32, 32))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        txtTrabajadoresLayout.setVerticalGroup(
+            txtTrabajadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtTrabajadoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(txtTrabajadoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tratxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -270,7 +275,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTrabajadores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
@@ -291,7 +296,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTrabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(246, Short.MAX_VALUE))
@@ -474,6 +479,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_jLabel5MouseClicked
 
+    private void txtTrabajadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseClicked
+        FrmTrabajador frm = new FrmTrabajador();
+        DeskPrincipal.add(frm);
+        frm.setVisible(true);
+        frm.setLocation((DeskPrincipal.getWidth() - frm.getWidth()) / 2, (DeskPrincipal.getHeight() - frm.getHeight()) / 2);
+        
+    }//GEN-LAST:event_txtTrabajadoresMouseClicked
+                    
+
     /**
      * @param args the command line arguments
      */
@@ -535,7 +549,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel panelCentro;
     private javax.swing.JPanel panelLateral;
@@ -543,6 +556,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel tratxt;
     private javax.swing.JLabel txtPresentacion;
     private javax.swing.JLabel txtRol;
+    private javax.swing.JPanel txtTrabajadores;
     private javax.swing.JPanel txtUsuarios;
     private javax.swing.JLabel usertxt;
     // End of variables declaration//GEN-END:variables
