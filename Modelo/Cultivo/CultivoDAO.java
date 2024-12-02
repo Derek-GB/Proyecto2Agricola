@@ -48,7 +48,7 @@ public class CultivoDAO extends Dao<CultivoDTO> {
         }
         String query = "Call CultivoRead(?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1,(Integer)id);
+            stmt.setInt(1, (Integer) id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new CultivoDTO(
@@ -114,9 +114,22 @@ public class CultivoDAO extends Dao<CultivoDTO> {
 
         }
     }
-    
+
     public boolean validatePK(Object id) throws SQLException {
         return read(id) == null;
     }
-    
+
+    public List<String> getNombresUnicos() throws SQLException {
+        List<String> nombresCultivos = new ArrayList<>();
+        String query = "SELECT DISTINCT nombre FROM tbcultivo"; 
+
+        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                nombresCultivos.add(rs.getString("nombre"));
+            }
+        }
+        return nombresCultivos;
+    }
+
 }

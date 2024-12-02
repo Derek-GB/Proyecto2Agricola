@@ -59,7 +59,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         cultivotxt = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        txtAlmacenamiento = new javax.swing.JPanel();
         almacentxt = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -124,7 +124,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 51));
+        txtAlmacenamiento.setBackground(new java.awt.Color(0, 0, 51));
+        txtAlmacenamiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAlmacenamientoMouseClicked(evt);
+            }
+        });
 
         almacentxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/almacen.png"))); // NOI18N
         almacentxt.setText("jLabel3");
@@ -133,22 +138,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Almacenamiento");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout txtAlmacenamientoLayout = new javax.swing.GroupLayout(txtAlmacenamiento);
+        txtAlmacenamiento.setLayout(txtAlmacenamientoLayout);
+        txtAlmacenamientoLayout.setHorizontalGroup(
+            txtAlmacenamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtAlmacenamientoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(almacentxt, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addGap(32, 32, 32))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        txtAlmacenamientoLayout.setVerticalGroup(
+            txtAlmacenamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtAlmacenamientoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(txtAlmacenamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(almacentxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -276,7 +281,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                             .addGroup(panelLateralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtUsuarios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtTrabajadores, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtAlmacenamiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(48, 48, 48))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLateralLayout.createSequentialGroup()
                         .addComponent(Usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,7 +299,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtAlmacenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtTrabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -441,30 +446,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
             opcion2.addActionListener(e -> {
                 FrmCambiarContraseña frmCambiarContraseña = new FrmCambiarContraseña(this, true, nombreUsuario);
                 frmCambiarContraseña.setLocationRelativeTo(DeskPrincipal);
-                frmCambiarContraseña.setVisible(true); 
-                
+                frmCambiarContraseña.setVisible(true);
+
             });
             popupMenu.show(Infotxt, evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_InfotxtMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-       FrmCultivo frmCultivo = new FrmCultivo();
-    if (!frmCultivo.isVisible()) {
-        DeskPrincipal.add(frmCultivo);
-        frmCultivo.setVisible(true);
-        frmCultivo.setLocation((DeskPrincipal.getWidth() - frmCultivo.getWidth()) / 2,
-                (DeskPrincipal.getHeight() - frmCultivo.getHeight()) / 2);
-    } else {
-        try {
-            frmCultivo.setSelected(true);
-        } catch (java.beans.PropertyVetoException ex) {
-            ex.printStackTrace();
-        }}
+        FrmCultivo frmCultivo = new FrmCultivo();
+        if (!frmCultivo.isVisible()) {
+            DeskPrincipal.add(frmCultivo);
+            frmCultivo.setVisible(true);
+            frmCultivo.setLocation((DeskPrincipal.getWidth() - frmCultivo.getWidth()) / 2,
+                    (DeskPrincipal.getHeight() - frmCultivo.getHeight()) / 2);
+        } else {
+            try {
+                frmCultivo.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-       FrmProduccionn  frmProduccionn = new  FrmProduccionn();
+        FrmProduccionn frmProduccionn = new FrmProduccionn();
         if (!frmProduccionn.isVisible()) {
             DeskPrincipal.add(frmProduccionn);
             frmProduccionn.setVisible(true);
@@ -476,7 +482,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException ex) {
                 ex.printStackTrace();
             }
-        }  
+        }
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void txtTrabajadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseClicked
@@ -484,9 +490,23 @@ public class FrmPrincipal extends javax.swing.JFrame {
         DeskPrincipal.add(frm);
         frm.setVisible(true);
         frm.setLocation((DeskPrincipal.getWidth() - frm.getWidth()) / 2, (DeskPrincipal.getHeight() - frm.getHeight()) / 2);
-        
+
     }//GEN-LAST:event_txtTrabajadoresMouseClicked
-                    
+
+    private void txtAlmacenamientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseClicked
+        FrmAlmacenamiento frmAlmacenamiento = new FrmAlmacenamiento();
+        if (!frmAlmacenamiento.isVisible()) {
+            DeskPrincipal.add(frmAlmacenamiento);
+            frmAlmacenamiento.setVisible(true);
+            frmAlmacenamiento.setLocation((DeskPrincipal.getWidth() - frmAlmacenamiento.getWidth()) / 2,
+                    (DeskPrincipal.getHeight() - frmAlmacenamiento.getHeight()) / 2);
+        } else {
+            try {
+                frmAlmacenamiento.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }    }//GEN-LAST:event_txtAlmacenamientoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -547,13 +567,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel panelCentro;
     private javax.swing.JPanel panelLateral;
     private javax.swing.JLabel protxt1;
     private javax.swing.JLabel tratxt;
+    private javax.swing.JPanel txtAlmacenamiento;
     private javax.swing.JLabel txtPresentacion;
     private javax.swing.JLabel txtRol;
     private javax.swing.JPanel txtTrabajadores;

@@ -12,6 +12,7 @@ import Modelo.Cultivo.CultivoDTO;
 import Modelo.Cultivo.CultivoMapper;
 import Modelo.Database.Database;
 import Vista.Vista;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -146,6 +147,15 @@ public class CultivoControlador implements Controlador< Integer, Cultivo> {
             return dao.validatePK(id);
         } catch (SQLException ex) {
             return false;
+        }
+    }
+
+    public List<String> obtenerNombresCultivosUnicos() {
+        try {
+            return dao.getNombresUnicos(); 
+        } catch (SQLException e) {
+            vista.showError("Error al cargar los nombres de los cultivos: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 
