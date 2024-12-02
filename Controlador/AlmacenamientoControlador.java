@@ -150,24 +150,28 @@ public class AlmacenamientoControlador implements Controlador< Integer, Almacena
             return false;
         }
     }
-    
+
     public Produccion obtenerProduccionPorId(Integer id) {
-    try {
-        ProduccionDAO produccionDAO = new ProduccionDAO(Database.getConnection()); 
-        ProduccionDTO produccionDTO = produccionDAO.read(id); 
-        
-        if (produccionDTO != null) {
-           
-            ProduccionMapper produccionMapper = new ProduccionMapper();
-            Produccion produccion = produccionMapper.toEnt(produccionDTO);
-            return produccion;
-        } else {
-            vista.showError("Produccion no encontrado"); 
+        try {
+            ProduccionDAO produccionDAO = new ProduccionDAO(Database.getConnection());
+            ProduccionDTO produccionDTO = produccionDAO.read(id);
+
+            if (produccionDTO != null) {
+
+                ProduccionMapper produccionMapper = new ProduccionMapper();
+                Produccion produccion = produccionMapper.toEnt(produccionDTO);
+                return produccion;
+            } else {
+                vista.showError("Produccion no encontrado");
+            }
+        } catch (SQLException ex) {
+            vista.showError("Error al buscar la produccion: " + ex.getMessage());
         }
-    } catch (SQLException ex) {
-        vista.showError("Error al buscar la produccion: " + ex.getMessage()); 
+        return null;
     }
-    return null; 
-}
+
+    public List<ProduccionDTO> readProducciones() throws SQLException {
+        return new ProduccionDAO(Database.getConnection()).readAll();
+    }
 
 }

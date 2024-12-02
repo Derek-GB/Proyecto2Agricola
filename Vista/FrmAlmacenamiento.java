@@ -7,12 +7,16 @@ package Vista;
 import Controlador.AlmacenamientoControlador;
 import Modelo.Almacenamiento.Almacenamiento;
 import Modelo.Produccion.Produccion;
+import Modelo.Produccion.ProduccionDTO;
 import Utils.UtilGui;
 import java.awt.Image;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -65,6 +69,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         jLabel3 = new javax.swing.JLabel();
         txtIdProduccion = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -179,6 +184,13 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,9 +241,14 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +265,8 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdAlmacenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtFechaEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -404,6 +422,22 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+            List<ProduccionDTO> listPro;
+            listPro = controller.readProducciones();
+            FrmMiniProduccion frm = new FrmMiniProduccion(null, false);
+            frm.setObserver(this);
+            frm.setDtos(listPro);
+            frm.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmAlmacenamiento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -413,6 +447,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -473,7 +508,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     @Override
     public boolean validateRequired() {
-        return UtilGui.validateFields(txtIdAlmacenamiento ,txtIdProduccion, txtCantidad, txtFechaIngreso, txtFechaEgreso);
+        return UtilGui.validateFields(txtIdAlmacenamiento, txtIdProduccion, txtCantidad, txtFechaIngreso, txtFechaEgreso);
     }
 
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
@@ -515,6 +550,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     public void estadosBotones() {
         UtilGui.changeStateButtons(btnGuardar, btnActualizar, btnBuscar, btnCancelar, btnNuevo, btnEliminar);
+    }
+
+    public void updateIdProduccion(int id) {
+        txtIdProduccion.setText(String.valueOf(id));
     }
 
 }

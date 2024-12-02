@@ -5,6 +5,9 @@
 package Modelo.Almacenamiento;
 
 import Modelo.DAO.Dao;
+import Modelo.Database.Database;
+import Modelo.Produccion.ProduccionDAO;
+import Modelo.Produccion.ProduccionDTO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,7 +21,7 @@ import java.util.List;
  * @author DYLAN
  */
 public class AlmacenamientoDAO extends Dao<AlmacenamientoDTO> {
-
+    
     public AlmacenamientoDAO(Connection connection) {
         super(connection);
     }
@@ -113,5 +116,7 @@ public class AlmacenamientoDAO extends Dao<AlmacenamientoDTO> {
     public boolean validatePK(Object id) throws SQLException {
         return read(id) == null;
     }
+    
+    
 
 }
