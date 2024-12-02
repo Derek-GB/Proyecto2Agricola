@@ -10,7 +10,7 @@ package Modelo.Trabajador;
  */
 public class Trabajador {
 
-    private String cedula;
+    private final String cedula;
     private String nombre;
     private String telefono;
     private String correo;
