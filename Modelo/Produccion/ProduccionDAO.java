@@ -4,7 +4,10 @@
  */
 package Modelo.Produccion;
 
+import Modelo.Cultivo.CultivoDAO;
+import Modelo.Cultivo.CultivoDTO;
 import Modelo.DAO.Dao;
+import Modelo.Database.Database;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -27,14 +30,13 @@ public class ProduccionDAO  extends Dao<ProduccionDTO> {
             return false;
         }
 
-        String query = "Call ProduccionCreate(?,?,?,?,?,?)";
+        String query = "Call ProduccionCreate(?,?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, dto.getId());
-            stmt.setInt(2, dto.getCultivoPK());
-            stmt.setDate(3, dto.getFecha());
-            stmt.setDouble(4, dto.getCantidadRecolectada());
-            stmt.setString(5, dto.getCalidad());
-            stmt.setString(6, dto.getDestino());
+            stmt.setInt(1, dto.getCultivoPK());
+            stmt.setDate(2, dto.getFecha());
+            stmt.setDouble(3, dto.getCantidadRecolectada());
+            stmt.setString(4, dto.getCalidad());
+            stmt.setString(5, dto.getDestino());
             
             return stmt.executeUpdate() > 0;
         }
@@ -115,5 +117,6 @@ public class ProduccionDAO  extends Dao<ProduccionDTO> {
         return read(id) == null;
     }
         
-    }
+   
     
+}

@@ -118,7 +118,7 @@ public class Cultivo {
 
     @Override
     public String toString() {
-        return "Cultivo{" + "id=" + id + ", nombre=" + nombre + ", tipo=" + tipo + ", areasembrada=" + areasembrada + ", estado=" + estado + ", fechaSiembra=" + fechaSiembra + ", fechaCosecha=" + fechaCosecha + '}';
+        return id + "-" + nombre;
     }
     
     

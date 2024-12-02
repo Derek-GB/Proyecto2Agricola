@@ -7,13 +7,17 @@ package Vista;
 import Controlador.CultivoControlador;
 import Controlador.ProduccionControlador;
 import Modelo.Cultivo.Cultivo;
+import Modelo.Cultivo.CultivoDTO;
 import Modelo.Produccion.Produccion;
 import Utils.UtilDate;
 import Utils.UtilGui;
 import java.awt.Image;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,15 +29,16 @@ import javax.swing.SwingUtilities;
  * @author Tony
  */
 public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<Produccion> {
-    
+
+    CultivoControlador controlador;
     ProduccionControlador controller;
     Produccion produccion;
-    FrmProduccionn frm;
-    
+    FrmBuscarProduccion frm;
+
     public FrmProduccionn() {
         initComponents();
         controller = new ProduccionControlador(this);
-       
+        controlador = new CultivoControlador(this);
         btnDes4.setVisible(false);
         ajustarTodo();
         Editar(false);
@@ -254,16 +259,19 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                             .addComponent(txtCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtCantidadRecolectada, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtCantidadRecolectada, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(148, 148, 148)
-                                        .addComponent(btnLlamarFrmBuscarCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel17))))
-                        .addGap(18, 18, 18)
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel17)
+                                        .addGap(106, 106, 106)))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnLlamarFrmBuscarCultivo)
+                                .addGap(22, 22, 22)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -357,7 +365,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDes4ActionPerformed
-   show(produccion);
+        show(produccion);
         this.Editar(false);
         estadosBotones();
         limpiar();
@@ -368,40 +376,39 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         btnDes4.setVisible(true);
         Editar(true);
         ajustarImagenes("/Imagenes/deshacer.png", btnDes4);
-        limpiar();       
+        limpiar();
         estadosBotones();
     }//GEN-LAST:event_btnNuevo4ActionPerformed
 
     private void btnGuardar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar4ActionPerformed
-      btnDes4.setVisible(false);
+        btnDes4.setVisible(false);
 
-if (!validateRequired()) {
-    showError("Faltan datos requeridos");
-    return;
-}
+        if (!validateRequired()) {
+            showError("Faltan datos requeridos");
+            return;
+        }
 
-Integer cultivoId = Integer.valueOf(txtFecha.getText());
-Cultivo cultivo = controller.obtenerCultivoPorId(cultivoId);
+        Integer cultivoId = Integer.valueOf(txtCultivo.getText());
+        Cultivo cultivo = controller.obtenerCultivoPorId(cultivoId);
 
-if (cultivo == null) {
-    showError("El cultivo ingresado no existe");
-    return;
-}
+        if (cultivo == null) {
+            showError("El cultivo ingresado no existe");
+            return;
+        }
 
-produccion = new Produccion(
-    cultivo,
-    Double.parseDouble(txtCantidadRecolectada.getText()),
-    txtCalidad.getText(),
-    Double.parseDouble(txtProductividad.getText()),
-    txtDestino.getSelectedItem().toString()
-);
+        produccion = new Produccion(
+                cultivo,
+                Double.parseDouble(txtCantidadRecolectada.getText()),
+                txtCalidad.getText(),
+                txtDestino.getSelectedItem().toString()
+        );
 
-controller.create(produccion);
-estadosBotones();
+        controller.create(produccion);
+        estadosBotones();
     }//GEN-LAST:event_btnGuardar4ActionPerformed
 
     private void btnActualizar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizar4ActionPerformed
-     if (produccion == null) {
+        if (produccion == null) {
             showError("No hay ningúna produccion cargada actualmente");
             return;
         }
@@ -409,82 +416,77 @@ estadosBotones();
             showError("Faltan datos requeridos");
             return;
         }
-        
-    
-String newCantidadRecolectada = txtCantidadRecolectada.getText();
-String newCalidad = txtCalidad.getText();
-String newDestino = txtDestino.getSelectedItem().toString();
 
+        String newCantidadRecolectada = txtCantidadRecolectada.getText();
+        String newCalidad = txtCalidad.getText();
+        String newDestino = txtDestino.getSelectedItem().toString();
 
-boolean cantidadCambiada = !newCantidadRecolectada.equals(produccion.getCantidadRecolectada());
-boolean calidadCambiada = !newCalidad.equals(produccion.getCalidad());
-boolean destinoCambiado = !newDestino.equals(produccion.getDestino());
+        boolean cantidadCambiada = !newCantidadRecolectada.equals(produccion.getCantidadRecolectada());
+        boolean calidadCambiada = !newCalidad.equals(produccion.getCalidad());
+        boolean destinoCambiado = !newDestino.equals(produccion.getDestino());
 
+        if (cantidadCambiada || calidadCambiada || destinoCambiado) {
+            if (cantidadCambiada) {
+                try {
 
-if (cantidadCambiada || calidadCambiada || destinoCambiado) {
-    if (cantidadCambiada) {
-        try {
-         
-            int cantidad = Integer.parseInt(newCantidadRecolectada);
-            if (cantidad < 0) {
-                showError("La cantidad recolectada no puede ser negativa.");
-                return;
+                    int cantidad = Integer.parseInt(newCantidadRecolectada);
+                    if (cantidad < 0) {
+                        showError("La cantidad recolectada no puede ser negativa.");
+                        return;
+                    }
+                    produccion.setCantidadRecolectada(cantidad);
+                } catch (NumberFormatException e) {
+                    showError("La cantidad recolectada debe ser un número válido.");
+                    return;
+                }
             }
-            produccion.setCantidadRecolectada(cantidad);
-        } catch (NumberFormatException e) {
-            showError("La cantidad recolectada debe ser un número válido.");
-            return;
+
+            if (calidadCambiada) {
+
+                if (newCalidad.trim().isEmpty()) {
+                    showError("La calidad del producto no puede estar vacía.");
+                    return;
+                }
+                produccion.setCalidad(newCalidad);
+            }
+
+            if (destinoCambiado) {
+
+                if (!newDestino.equalsIgnoreCase("Venta") && !newDestino.equalsIgnoreCase("Almacenamiento")) {
+                    showError("El destino debe ser 'Venta' o 'Almacenamiento'.");
+                    return;
+                }
+                produccion.setDestino(newDestino);
+            }
+
+            controller.update(produccion);
+
+            if (cantidadCambiada && calidadCambiada && destinoCambiado) {
+                showMessage("Cantidad, calidad y destino actualizados correctamente.");
+            } else if (cantidadCambiada && calidadCambiada) {
+                showMessage("Cantidad y calidad actualizadas correctamente.");
+            } else if (cantidadCambiada && destinoCambiado) {
+                showMessage("Cantidad y destino actualizados correctamente.");
+            } else if (calidadCambiada && destinoCambiado) {
+                showMessage("Calidad y destino actualizados correctamente.");
+            } else if (cantidadCambiada) {
+                showMessage("Cantidad actualizada correctamente.");
+            } else if (calidadCambiada) {
+                showMessage("Calidad actualizada correctamente.");
+            } else if (destinoCambiado) {
+                showMessage("Destino actualizado correctamente.");
+            }
+        } else {
+            showMessage("No se realizaron cambios.");
         }
-    }
 
-    if (calidadCambiada) {
-        
-        if (newCalidad.trim().isEmpty()) {
-            showError("La calidad del producto no puede estar vacía.");
-            return;
-        }
-        produccion.setCalidad(newCalidad);
-    }
 
-    if (destinoCambiado) {
-       
-        if (!newDestino.equalsIgnoreCase("Venta") && !newDestino.equalsIgnoreCase("Almacenamiento")) {
-            showError("El destino debe ser 'Venta' o 'Almacenamiento'.");
-            return;
-        }
-        produccion.setDestino(newDestino);
-    }
-
-   
-    controller.update(produccion);
-
-   
-    if (cantidadCambiada && calidadCambiada && destinoCambiado) {
-        showMessage("Cantidad, calidad y destino actualizados correctamente.");
-    } else if (cantidadCambiada && calidadCambiada) {
-        showMessage("Cantidad y calidad actualizadas correctamente.");
-    } else if (cantidadCambiada && destinoCambiado) {
-        showMessage("Cantidad y destino actualizados correctamente.");
-    } else if (calidadCambiada && destinoCambiado) {
-        showMessage("Calidad y destino actualizados correctamente.");
-    } else if (cantidadCambiada) {
-        showMessage("Cantidad actualizada correctamente.");
-    } else if (calidadCambiada) {
-        showMessage("Calidad actualizada correctamente.");
-    } else if (destinoCambiado) {
-        showMessage("Destino actualizado correctamente.");
-    }
-} else {
-    showMessage("No se realizaron cambios.");
-}                       
-
-       
     }//GEN-LAST:event_btnActualizar4ActionPerformed
 
     private void btnBuscar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar4ActionPerformed
- Editar(true);
-        controller.readAll();        
-       
+        Editar(true);
+        controller.readAll();
+
     }//GEN-LAST:event_btnBuscar4ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
@@ -510,40 +512,48 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
     }//GEN-LAST:event_btnCancelar4ActionPerformed
 
     private void txtFechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFechaFocusLost
-  String date = txtFecha.getText();
-if (date.trim().isEmpty()) {
-    return;
-}
+        String date = txtFecha.getText();
+        if (date.trim().isEmpty()) {
+            return;
+        }
 
-if (!UtilDate.validate(date)) {
-    showError("La fecha ingresada no tiene el formato correcto (dd/MM/yyyy).");
-    txtFecha.setText("");
-    return;
-}
+        if (!UtilDate.validate(date)) {
+            showError("La fecha ingresada no tiene el formato correcto (dd/MM/yyyy).");
+            txtFecha.setText("");
+            return;
+        }
 
-LocalDate fechaIngresada = UtilDate.toLocalDate(date);
+        LocalDate fechaIngresada = UtilDate.toLocalDate(date);
 
-LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaActual = LocalDate.now();
 
+        if (fechaIngresada.isAfter(fechaActual)) {
+            showError("No se permite ingresar fechas futuras.");
+            txtFecha.setText("");
+            return;
+        }
 
-if (fechaIngresada.isAfter(fechaActual)) {
-    showError("No se permite ingresar fechas futuras.");
-    txtFecha.setText("");
-    return;
-}
-
-if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
-    showError("La fecha ingresada es demasiado antigua. Ingresa una fecha posterior al 01/01/1900.");
-    txtFecha.setText("");
-    return;
-}
+        if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
+            showError("La fecha ingresada es demasiado antigua. Ingresa una fecha posterior al 01/01/1900.");
+            txtFecha.setText("");
+            return;
+        }
 
     }//GEN-LAST:event_txtFechaFocusLost
 
     private void btnLlamarFrmBuscarCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarFrmBuscarCultivoActionPerformed
-   JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    FrmBuscarProduccion frmBuscarProduccion = new FrmBuscarProduccion(parentFrame, true);
-    frmBuscarProduccion.setVisible(true);
+
+        try {
+            List<CultivoDTO> listCultivoDTO =  controller.readCultivos();
+            FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false);
+           mini.setObserver(this);
+            mini.setDtos(listCultivoDTO);
+            mini.setVisible(true);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmProduccionn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLlamarFrmBuscarCultivoActionPerformed
 
     private void txtCantidadRecolectadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadRecolectadaActionPerformed
@@ -551,7 +561,7 @@ if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
     }//GEN-LAST:event_txtCantidadRecolectadaActionPerformed
 
     private void txtCantidadEsperadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadEsperadaActionPerformed
-      
+
     }//GEN-LAST:event_txtCantidadEsperadaActionPerformed
 
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
@@ -563,46 +573,44 @@ if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
     }//GEN-LAST:event_txtCultivoActionPerformed
 
     private void txtCantidadEsperadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadEsperadaFocusLost
-if(txtCantidadEsperada.getText().trim().isEmpty() || txtCantidadRecolectada.getText().trim().isEmpty() ){
-    return;
-}
+        if (txtCantidadEsperada.getText().trim().isEmpty() || txtCantidadRecolectada.getText().trim().isEmpty()) {
+            return;
+        }
 
-double cantidadRecolectada = Double.parseDouble(txtCantidadRecolectada.getText());
+        double cantidadRecolectada = Double.parseDouble(txtCantidadRecolectada.getText());
         double cantidadEsperada2 = Double.parseDouble(txtCantidadEsperada.getText());
-       double productividad = Produccion.calcularProductividad(cantidadRecolectada,cantidadEsperada2);
-       txtProductividad.setText(String.valueOf(productividad + "%"));
-       
-       
- String cantidadEsperada = txtCantidadEsperada.getText();
+        double productividad = Produccion.calcularProductividad(cantidadRecolectada, cantidadEsperada2);
+        txtProductividad.setText(String.valueOf(productividad + "%"));
 
-try {
-    double cantidadNumerica = Double.parseDouble(cantidadEsperada);
-    if (cantidadNumerica <= 0) {
-        showError("No se permiten cantidades negativas o iguales a 0.");
-        txtCantidadEsperada.setText("");
-        return;
-    }
+        String cantidadEsperada = txtCantidadEsperada.getText();
 
-    
-} catch (NumberFormatException e) {
-    
-    txtCantidadEsperada.setText("");
-}
+        try {
+            double cantidadNumerica = Double.parseDouble(cantidadEsperada);
+            if (cantidadNumerica <= 0) {
+                showError("No se permiten cantidades negativas o iguales a 0.");
+                txtCantidadEsperada.setText("");
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+
+            txtCantidadEsperada.setText("");
+        }
     }//GEN-LAST:event_txtCantidadEsperadaFocusLost
 
     private void txtCantidadRecolectadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadRecolectadaFocusLost
-      String cantidad = txtCantidadRecolectada.getText();
-try {
-    double cantidadNumerica = Double.parseDouble(cantidad);
-    if (cantidadNumerica <= 0) {
-        showError("No se permiten cantidades negativas o iguales a 0.");
-        txtCantidadRecolectada.setText("");
-        return;
-    }
-} catch (NumberFormatException e) {
-   
-    txtCantidadRecolectada.setText("");
-}
+        String cantidad = txtCantidadRecolectada.getText();
+        try {
+            double cantidadNumerica = Double.parseDouble(cantidad);
+            if (cantidadNumerica <= 0) {
+                showError("No se permiten cantidades negativas o iguales a 0.");
+                txtCantidadRecolectada.setText("");
+                return;
+            }
+        } catch (NumberFormatException e) {
+
+            txtCantidadRecolectada.setText("");
+        }
     }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
 
@@ -635,11 +643,17 @@ try {
 
     @Override
     public void show(Produccion ent) {
-  }
+        
+    }
 
     @Override
     public void showAll(List<Produccion> ents) {
-        
+ if (frm == null) {
+            frm = new FrmBuscarProduccion(null, true);
+            frm.setObserver(this);
+        }
+        frm.setEnts(ents);
+        frm.setVisible(true);
     }
 
     @Override
@@ -649,24 +663,24 @@ try {
 
     @Override
     public void showError(String err) {
-         JOptionPane.showMessageDialog(this, err, "Error", JOptionPane.ERROR_MESSAGE);    }
+        JOptionPane.showMessageDialog(this, err, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     @Override
     public boolean validateRequired() {
-       return UtilGui.validateFields(txtFecha,txtCalidad,txtCantidadEsperada,txtCantidadRecolectada,txtDestino,txtFecha);
-    } 
-     private void limpiar() {
-         txtCultivo.setText("");
-        txtFecha.setText(""); 
-        txtFecha.setText(""); 
-        txtCalidad.setText(""); 
-        txtDestino.setSelectedIndex(-1); 
-        txtCantidadEsperada.setText(""); 
-        txtCantidadRecolectada.setText(""); 
-        txtProductividad.setText(""); 
+        return UtilGui.validateFields(txtFecha, txtCalidad, txtCantidadEsperada, txtCantidadRecolectada, txtDestino, txtFecha);
     }
 
-   
+    private void limpiar() {
+        txtCultivo.setText("");
+        txtFecha.setText("");
+        txtFecha.setText("");
+        txtCalidad.setText("");
+        txtDestino.setSelectedIndex(-1);
+        txtCantidadEsperada.setText("");
+        txtCantidadRecolectada.setText("");
+        txtProductividad.setText("");
+    }
 
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
@@ -694,9 +708,9 @@ try {
         ajustarImagenes("/Imagenes/cancelar.png", btnCancelar4);
 
     }
-    
+
     private void Editar(boolean valor) {
-       txtCultivo.setEditable(valor);
+        txtCultivo.setEditable(valor);
         txtCalidad.setEditable(valor);
         txtCantidadEsperada.setEditable(valor);
         txtCantidadRecolectada.setEditable(valor);
@@ -704,10 +718,10 @@ try {
         txtDestino.setEditable(valor);
         txtFecha.setEditable(valor);
     }
-    
 
-    
+    public void updateIdCultivo(int id){
+        txtCultivo.setText(String.valueOf(id));
+    }
     
     
 }
-

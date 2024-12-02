@@ -168,6 +168,15 @@ public Cultivo obtenerCultivoPorId(Integer id) {
     } catch (SQLException ex) {
         view.showError("Error al buscar el cultivo: " + ex.getMessage()); 
     }
-    return null; 
+    return null;
 }
+
+
+
+ public List<CultivoDTO> readCultivos () throws SQLException{
+    return new CultivoDAO(Database.getConnection()).readAll();
+    }
+
+
+
 }

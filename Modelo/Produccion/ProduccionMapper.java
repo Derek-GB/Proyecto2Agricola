@@ -36,7 +36,6 @@ public class ProduccionMapper implements Mapper<Produccion, ProduccionDTO>{
             , Utils.UtilDate.toLocalDate(dto.getFecha())
             , dto.getCantidadRecolectada()
             , dto.getCalidad()
-            , dto.getCantidadRecolectada()
             , dto.getDestino());
         
             } catch (SQLException e){
