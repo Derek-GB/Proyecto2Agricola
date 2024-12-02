@@ -84,11 +84,11 @@ public class Produccion {
     }
 
     
-   public double calcularProductividad(double cantidadEsperada) {
+   public static double calcularProductividad(double canritidadRecolectada ,double cantidadEsperada) {
     if (cantidadEsperada <= 0) {
         throw new IllegalArgumentException("La cantidad esperada debe ser mayor a 0");
     }
-    return (this.cantidadRecolectada / cantidadEsperada) * 100;
+    return (canritidadRecolectada / cantidadEsperada) * 100;
 } 
     
     

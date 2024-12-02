@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -24,7 +25,7 @@ import javax.swing.SwingUtilities;
  * @author Tony
  */
 public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<Produccion> {
-    CultivoControlador controllerCultivo;
+    
     ProduccionControlador controller;
     Produccion produccion;
     FrmProduccionn frm;
@@ -32,7 +33,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     public FrmProduccionn() {
         initComponents();
         controller = new ProduccionControlador(this);
-        controllerCultivo = new CultivoControlador(this);
+       
         btnDes4.setVisible(false);
         ajustarTodo();
         Editar(false);
@@ -70,7 +71,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtCultivo = new javax.swing.JTextField();
         txtCantidadRecolectada = new javax.swing.JTextField();
         txtCantidadEsperada = new javax.swing.JTextField();
-        txtProductividad = new javax.swing.JTextField();
+        txtProductividad = new javax.swing.JFormattedTextField();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -80,7 +81,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         jLabel19.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel19.setText("Cantidad Recolectada");
+        jLabel19.setText("Cantidad Recolectada(Kg)");
 
         jLabel21.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 0, 51));
@@ -111,7 +112,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         jLabel24.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel24.setText("Cantidad Esperada");
+        jLabel24.setText("Cantidad Esperada(Kg)");
 
         jLabel20.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 0, 51));
@@ -218,6 +219,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         txtProductividad.setEditable(false);
+        txtProductividad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -287,7 +289,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                                     .addComponent(jLabel22)
                                     .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtProductividad, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(17, 17, 17))))
         );
@@ -325,7 +327,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCantidadRecolectada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCantidadEsperada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtProductividad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtProductividad, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(64, 64, 64)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnActualizar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,6 +360,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
    show(produccion);
         this.Editar(false);
         estadosBotones();
+        limpiar();
         btnDes4.setVisible(false);
     }//GEN-LAST:event_btnDes4ActionPerformed
 
@@ -538,9 +541,9 @@ if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
     }//GEN-LAST:event_txtFechaFocusLost
 
     private void btnLlamarFrmBuscarCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarFrmBuscarCultivoActionPerformed
- Editar(true);
-        controllerCultivo.readAll();        
-             
+   JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    FrmBuscarProduccion frmBuscarProduccion = new FrmBuscarProduccion(parentFrame, true);
+    frmBuscarProduccion.setVisible(true);
     }//GEN-LAST:event_btnLlamarFrmBuscarCultivoActionPerformed
 
     private void txtCantidadRecolectadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadRecolectadaActionPerformed
@@ -548,9 +551,7 @@ if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
     }//GEN-LAST:event_txtCantidadRecolectadaActionPerformed
 
     private void txtCantidadEsperadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadEsperadaActionPerformed
-      double cantidadEsperada = Double.parseDouble(txtCantidadEsperada.getText());
-       double productividad = produccion.calcularProductividad(cantidadEsperada);
-       txtProductividad.setText(String.valueOf(productividad + "%"));
+      
     }//GEN-LAST:event_txtCantidadEsperadaActionPerformed
 
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
@@ -562,7 +563,16 @@ if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
     }//GEN-LAST:event_txtCultivoActionPerformed
 
     private void txtCantidadEsperadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadEsperadaFocusLost
+if(txtCantidadEsperada.getText().trim().isEmpty() || txtCantidadRecolectada.getText().trim().isEmpty() ){
+    return;
+}
 
+double cantidadRecolectada = Double.parseDouble(txtCantidadRecolectada.getText());
+        double cantidadEsperada2 = Double.parseDouble(txtCantidadEsperada.getText());
+       double productividad = Produccion.calcularProductividad(cantidadRecolectada,cantidadEsperada2);
+       txtProductividad.setText(String.valueOf(productividad + "%"));
+       
+       
  String cantidadEsperada = txtCantidadEsperada.getText();
 
 try {
@@ -573,7 +583,7 @@ try {
         return;
     }
 
-    txtCantidadEsperada.setText(cantidadNumerica + " Kg");
+    
 } catch (NumberFormatException e) {
     
     txtCantidadEsperada.setText("");
@@ -589,7 +599,6 @@ try {
         txtCantidadRecolectada.setText("");
         return;
     }
-    txtCantidadRecolectada.setText(cantidadNumerica + " Kg");
 } catch (NumberFormatException e) {
    
     txtCantidadRecolectada.setText("");
@@ -621,7 +630,7 @@ try {
     private javax.swing.JTextField txtCultivo;
     private javax.swing.JComboBox<String> txtDestino;
     private javax.swing.JTextField txtFecha;
-    private javax.swing.JTextField txtProductividad;
+    private javax.swing.JFormattedTextField txtProductividad;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -647,10 +656,11 @@ try {
        return UtilGui.validateFields(txtFecha,txtCalidad,txtCantidadEsperada,txtCantidadRecolectada,txtDestino,txtFecha);
     } 
      private void limpiar() {
+         txtCultivo.setText("");
         txtFecha.setText(""); 
         txtFecha.setText(""); 
         txtCalidad.setText(""); 
-        txtDestino.setSelectedIndex(1); 
+        txtDestino.setSelectedIndex(-1); 
         txtCantidadEsperada.setText(""); 
         txtCantidadRecolectada.setText(""); 
         txtProductividad.setText(""); 
