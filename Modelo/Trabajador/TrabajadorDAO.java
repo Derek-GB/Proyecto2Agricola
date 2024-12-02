@@ -121,4 +121,30 @@ public class TrabajadorDAO extends Dao<TrabajadorDTO> {
         return read(id) == null;
     }
 
+    public List<String> getPuestos() throws SQLException {
+        List<String> puestos = new ArrayList<>();
+        String query = "SELECT DISTINCT Puesto FROM tbtrabajador"; 
+
+        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                puestos.add(rs.getString("Puesto"));
+            }
+        }
+        return puestos;
+    }
+    
+    public List<String> getHorarios() throws SQLException {
+        List<String> horarios = new ArrayList<>();
+        String query = "SELECT DISTINCT Horario FROM tbtrabajador"; 
+
+        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                horarios.add(rs.getString("Horario"));
+            }
+        }
+        return horarios;
+    }
+    
 }

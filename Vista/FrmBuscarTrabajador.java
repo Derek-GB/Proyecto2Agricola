@@ -198,7 +198,7 @@ public class FrmBuscarTrabajador extends javax.swing.JDialog {
             return;
         }
         String id = tabla.getValueAt(selectedRow, 0).toString();
-        observer.show(ents.stream().filter(usuario -> usuario.getNombre().equals(id)).findFirst().orElse(null));
+        observer.show(ents.stream().filter(usuario -> usuario.getCedula().equals(id)).findFirst().orElse(null));
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 

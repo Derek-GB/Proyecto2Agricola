@@ -5,11 +5,9 @@ import Modelo.Trabajador.Trabajador;
 import Utils.UtilGui;
 import java.awt.Image;
 import java.util.List;
+import javax.swing.ComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -20,7 +18,7 @@ import javax.swing.SwingUtilities;
  */
 public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
-        @Override
+    @Override
     public void show(Trabajador ent) {
         trabajador = ent;
         if (ent == null) {
@@ -55,7 +53,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         frm.setVisible(true);
     }
 
-        @Override
+    @Override
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -65,12 +63,10 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         JOptionPane.showMessageDialog(this, err, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-        @Override
-        public boolean validateRequired() {
-            return UtilGui.validateFields(txtCedula, txtNombre, txtCorreo);
-        }
-
-    
+    @Override
+    public boolean validateRequired() {
+        return UtilGui.validateFields(txtCedula, txtNombre, txtCorreo, txtHorario, txtPuesto, txtTelefono, txtSalario);
+    }
 
     /**
      * Creates new form FrmTrabajador
@@ -83,6 +79,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         initComponents();
         btnDes.setVisible(false);
         controlador = new TrabajadorControlador(this);
+        cargarPuestos();
         ajustarTodo();
 
     }
@@ -96,6 +93,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Infotxt2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -120,6 +118,13 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtSalario = new javax.swing.JFormattedTextField();
         txtHorario = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+
+        Infotxt2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
+        Infotxt2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Infotxt2MouseClicked(evt);
+            }
+        });
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -251,7 +256,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
         jLabel7.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel7.setText("Salario");
+        jLabel7.setText("Salario:");
 
         txtSalario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtSalario.setEnabled(false);
@@ -275,7 +280,35 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(34, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(Infotxt))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(42, 42, 42)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGap(54, 54, 54)
+                                        .addComponent(jLabel4)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCorreo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnDes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -284,37 +317,17 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(17, 17, 17)))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(42, 42, 42)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(Infotxt)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnDes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(26, 26, 26))
+                            .addComponent(jLabel8)
+                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(14, 14, 14))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,19 +346,16 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4))
-                    .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Infotxt, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                    .addComponent(Infotxt)
+                    .addComponent(jLabel4)
+                    .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(jLabel6)
-                        .addGap(30, 30, 30))
+                        .addComponent(jLabel6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -354,26 +364,25 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)))
+                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(8, 8, 8)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel7))
-                            .addGap(2, 2, 2)
-                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel3))
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtHorario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPuesto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -432,9 +441,12 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 Double.parseDouble(txtSalario.getText())
         );
         controlador.create(trabajador);
-
+        if (controlador.isCompleteOperation()){
+        guardarPuesto();
+        guardarHorario();
+        controlador.setCompleteOperation(false);
+        }
         setCamposEditables(false);
-        activarCampos(false);
         setBotonesEnabled();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -453,13 +465,14 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
             return;
         }
         controlador.delete(trabajador);
+        setCamposEditables(false);
         limpiar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
 
         if (trabajador == null) {
-            showError("No hay ningún usuario cargado actualmente");
+            showError("No hay ningún trabajador cargado actualmente");
             return;
         }
         if (!validateRequired()) {
@@ -471,10 +484,10 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         String newCorreo = txtCorreo.getText().trim();
         String newPuesto = txtPuesto.getSelectedItem().toString().trim();
         String newHorario = txtHorario.getSelectedItem().toString().trim();
-        double newSalario = Double.parseDouble(txtNombre.getText());
-    
-        if (!txtCedula.getText().equals(trabajador.getNombre())) {
-            showError("No es posible cambiar el nombre de usuario.");
+        double newSalario = Double.parseDouble(txtSalario.getText());
+
+        if (!txtCedula.getText().equals(trabajador.getCedula())) {
+            showError("No está permitido cambiar la cedula del trabajador.");
             return;
         }
 
@@ -505,14 +518,15 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 trabajador.setSalario(newSalario);
             }
             controlador.update(trabajador);
-
-//            if (contraseñaCambiada && rolCambiado) {
-//                showMessage("Contraseña y rol actualizados correctamente.");
-//            } else if (contraseñaCambiada) {
-//                showMessage("Contraseña actualizada correctamente.");
-//            } else if (rolCambiado) {
-//                showMessage("Rol actualizado correctamente.");
-//            }
+            if (controlador.isCompleteOperation()){
+                if (puestoCambiado){
+                    guardarPuesto();
+                }
+                if (horarioCambiado){
+                    guardarHorario();
+                }
+                controlador.setCompleteOperation(false);
+            }
         } else {
             showMessage("No se realizaron cambios.");
         }
@@ -538,30 +552,30 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
     private void InfotxtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InfotxtMouseClicked
         String msg = """
-                La contraseña debe cumplir con los siguientes requisitos:
-                1. Al menos una letra mayúscula.
-                2. Al menos un número.
-                3. Al menos 8 caracteres de longitud.
-                4. Al menos un caracteres especiales.
+                -La Cedula debe digitarse en 9 digitos sin espacios.
+                    Ej: 601230457
+                     
+                -El correo debe digitarse con formato: usuario@dominio.com
+                    Ej: DanielJ@gmail.com
+                     
+                -Para añadir horarios nuevos, se debe cumplir el formato: hh:mm - hh:mm
+                    Ej: 14:30 - 21:00
                 """;
-        JOptionPane.showMessageDialog(null, msg, "Información", JOptionPane.INFORMATION_MESSAGE);
+        showMessage(msg);
 
     }//GEN-LAST:event_InfotxtMouseClicked
 
     private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
-        txtCorreo.setInputVerifier(new InputVerifier() {
-            @Override
-            public boolean verify(JComponent input) {
-                String text = ((JFormattedTextField) input).getText();
-                String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$";
-                if (text.matches(emailRegex)) {
-                    return true;
-                } else {
-                    JOptionPane.showMessageDialog(input, "Por favor, ingrese un correo válido con formato usuario@dominio.com", "Error", JOptionPane.ERROR_MESSAGE);
-                    return false;
-                }
-            }
-        });
+        String text = txtCorreo.getText();
+        if (text.trim().isEmpty()) {
+            return;
+        }
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$";
+        if (!text.matches(emailRegex)) {
+            txtCorreo.setText("");
+            showError("Por favor, ingrese un correo válido con formato usuario@dominio.com");
+
+        }
 
     }//GEN-LAST:event_txtCorreoFocusLost
 
@@ -569,9 +583,85 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHorarioActionPerformed
 
+    private void Infotxt2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Infotxt2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Infotxt2MouseClicked
+
+    private boolean guardarPuesto() {
+        boolean existe = false;
+        String nuevoPuesto = txtPuesto.getSelectedItem().toString();
+        ComboBoxModel modelo = txtPuesto.getModel();
+        int size = modelo.getSize();
+        for (int i = 0; i < size; i++) {
+            if (modelo.getElementAt(i).toString().equalsIgnoreCase(nuevoPuesto)) {
+                existe = true;
+                break;
+            }
+        }
+        if (!existe) {
+            txtPuesto.addItem(nuevoPuesto);
+            JOptionPane.showMessageDialog(null, "El puesto ha sido agregado.");
+        } else {
+            JOptionPane.showMessageDialog(null, "El puesto ya existe.");
+        }
+        return existe;
+    }
+
+    private boolean guardarPuesto(String puesto) {
+        boolean existe = false;
+        ComboBoxModel modelo = txtPuesto.getModel();
+        int size = modelo.getSize();
+        for (int i = 0; i < size; i++) {
+            if (modelo.getElementAt(i).toString().equalsIgnoreCase(puesto)) {
+                existe = true;
+                break;
+            }
+        }
+        if (!existe) {
+            txtPuesto.addItem(puesto);
+        }
+        return existe;
+    }
+
+    private boolean guardarHorario() {
+        boolean existe = false;
+        String nuevoPuesto = txtHorario.getSelectedItem().toString();
+        ComboBoxModel modelo = txtPuesto.getModel();
+        int size = modelo.getSize();
+        for (int i = 0; i < size; i++) {
+            if (modelo.getElementAt(i).toString().equalsIgnoreCase(nuevoPuesto)) {
+                existe = true;
+                break;
+            }
+        }
+        if (!existe) {
+            txtHorario.addItem(nuevoPuesto);
+            JOptionPane.showMessageDialog(null, "El horario ha sido agregado.");
+        } else {
+            JOptionPane.showMessageDialog(null, "El horario ya existe.");
+        }
+        return existe;
+    }
+    
+    private boolean guardarHorario(String horario) {
+        boolean existe = false;
+        ComboBoxModel modelo = txtHorario.getModel();
+        int size = modelo.getSize();
+        for (int i = 0; i < size; i++) {
+            if (modelo.getElementAt(i).toString().equalsIgnoreCase(horario)) {
+                existe = true;
+                break;
+            }
+        }
+        if (!existe) {
+            txtHorario.addItem(horario);
+        }
+        return existe;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Infotxt;
+    private javax.swing.JLabel Infotxt2;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
@@ -607,7 +697,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtSalario.setText("");
     }
 
-    private void activarCampos(boolean valor){
+    private void activarCampos(boolean valor) {
         txtCedula.setEnabled(valor);
         txtNombre.setEnabled(valor);
         txtTelefono.setEnabled(valor);
@@ -616,7 +706,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtHorario.setEnabled(valor);
         txtSalario.setEnabled(valor);
     }
-    
+
     private void setCamposEditables(boolean valor) {
         txtCedula.setEditable(valor);
         txtNombre.setEditable(valor);
@@ -659,4 +749,19 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_DEFAULT));
         cosa.setIcon(icon);
     }
+
+    private void cargarPuestos() {
+        List<String> puestos = controlador.getPuestos();
+        for (String puesto : puestos) {
+            guardarPuesto(puesto);
+        }
+    }
+
+    private void cargarHorarios() {
+        List<String> horarios = controlador.getHorarios();
+        for (String horario : horarios) {
+            guardarHorario(horario);
+        }
+    }
+    
 }

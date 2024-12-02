@@ -12,6 +12,7 @@ import Modelo.Trabajador.TrabajadorDAO;
 import Modelo.Trabajador.TrabajadorDTO;
 import Modelo.Trabajador.TrabajadorMapper;
 import Vista.Vista;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,13 +22,14 @@ import java.util.stream.Collectors;
  * @author d2tod
  */
 public class TrabajadorControlador implements Controlador<String, Trabajador> {
-
+    private boolean completeOperation;
     private TrabajadorDAO dao;
     private final Vista vista;
     private final TrabajadorMapper mapper;
     private TrabajadorCache cache;
 
     public TrabajadorControlador(Vista vista) {
+        this.completeOperation = false;
         this.vista = vista;
         this.cache = TrabajadorCache.getInstance();
         mapper = new TrabajadorMapper();
@@ -52,6 +54,7 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
             TrabajadorDTO dto = mapper.toDTO(entidad);
             dao.create(dto);
             cache.add(entidad.getCedula(), dto);
+            setCompleteOperation(true);
             vista.showMessage("Datos guardados correctamente");
         } catch (SQLException ex) {
             vista.showError("Ocurrio un error al guardar los datos: " + ex.getMessage());
@@ -104,6 +107,7 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
             TrabajadorDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
             cache.change(dto.getCedula(), dto);
+            setCompleteOperation(true);
             vista.showMessage("Trabajador actualizado correctamente");
         } catch (SQLException ex) {
             vista.showError("Error al actualizar los datos: " + ex.getMessage());
@@ -144,8 +148,8 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
 
     @Override
     public synchronized boolean validarPk(String id) {
-        if (!cache.contains(id)) {
-            return true;
+        if (cache.get(id) != null) {
+            return false;
         }
         try {
             return dao.validatePK(id);
@@ -154,4 +158,29 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
         }
     }
 
+    public List<String> getPuestos() {
+        try {
+            return dao.getPuestos(); 
+        } catch (SQLException e) {
+            vista.showError("Error al cargar los nombres de los cultivos: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<String> getHorarios() {
+        try {
+            return dao.getHorarios(); 
+        } catch (SQLException e) {
+            vista.showError("Error al cargar los nombres de los cultivos: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    
+    public boolean isCompleteOperation(){
+        return completeOperation;
+    }
+    
+    public void setCompleteOperation(boolean notCompleted){
+        
+    }
 }

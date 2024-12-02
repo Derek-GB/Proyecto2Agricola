@@ -4,6 +4,8 @@
  */
 package Main;
 
+import Vista.FrmInicioSesión;
+
 /**
  *
  * @author d2tod
@@ -14,7 +16,8 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        FrmInicioSesión vista = new FrmInicioSesión();
+        vista.setVisible(true);
     }
     
 }
