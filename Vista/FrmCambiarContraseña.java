@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -236,13 +237,17 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
     }//GEN-LAST:event_txtNuevaContraseñaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        String contrasenaActual = new String(txtContraseñaActual.getPassword());
-        String contrasenaNueva = new String(txtNuevaContraseña.getPassword());
-        String contrasenaConfirmar = new String(txtConfirmarContraseña.getPassword());
+        String contrasenaActual = new String(txtContraseñaActual.getPassword()).trim();
+        String contrasenaNueva = new String(txtNuevaContraseña.getPassword()).trim();
+        String contrasenaConfirmar = new String(txtConfirmarContraseña.getPassword()).trim();
 
         if (!contrasenaNueva.equals(contrasenaConfirmar)) {
             JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (contrasenaActual.isEmpty() || contrasenaNueva.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Las contraseñas no pueden estar vacías.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -254,19 +259,24 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
                 JOptionPane.showMessageDialog(this, "La contraseña actual es incorrecta.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             Usuario usuarioContrasenaNueva = new Usuario();
             usuarioContrasenaNueva.setContraseña(contrasenaNueva);
             if (!frmU.validarContraseña(usuarioContrasenaNueva)) {
+                JOptionPane.showMessageDialog(this, "La nueva contraseña no cumple con los requisitos.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             usuario.setContraseña(contrasenaNueva);
             controlador.update(usuario);
 
-            JOptionPane.showMessageDialog(this, "Contraseña cambiada exitosamente.");
+            JOptionPane.showMessageDialog(this, "Contraseña cambiada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            this.dispose();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al intentar cambiar la contraseña: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -285,14 +295,14 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
     }//GEN-LAST:event_txtInfoMouseClicked
 
     private void btnA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnA1ActionPerformed
-     
+
         if (btnA1.isSelected()) {
             txtNuevaContraseña.setEchoChar((char) 0);
             btnA1.setIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo.png")));
 
         } else {
             txtNuevaContraseña.setEchoChar('*');
-              btnA1.setSelectedIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo2.png")));
+            btnA1.setSelectedIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo2.png")));
     }//GEN-LAST:event_btnA1ActionPerformed
     }
     private void btnA2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnA2ActionPerformed
