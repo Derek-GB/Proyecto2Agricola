@@ -208,6 +208,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtIdAlmacenamiento">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdAlmacenamientoActionPerformed"/>
       </Events>
@@ -263,11 +266,17 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFechaIngreso">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFechaIngresoActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFechaEgreso">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtFechaEgresoActionPerformed"/>
       </Events>
@@ -319,11 +328,17 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtIdProduccion">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdProduccionActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCantidad">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCantidadActionPerformed"/>
       </Events>

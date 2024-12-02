@@ -82,6 +82,11 @@ public class Produccion {
         this.destino = destino;
     }
 
+    @Override
+    public String toString() {
+        return id + "-" + cultivo;
+    }
+
     
    public static double calcularProductividad(double canritidadRecolectada ,double cantidadEsperada) {
     if (cantidadEsperada <= 0) {

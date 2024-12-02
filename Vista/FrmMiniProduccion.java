@@ -31,16 +31,17 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
         if (ents == null || tableModel == null) {
             return;
         }
+
         tableModel.setRowCount(0);
 
-        ents.forEach(produccion -> tableModel.addRow(
+        ents.stream()
+                .filter(produccion -> "almacenamiento".equalsIgnoreCase(produccion.getDestino())) // Filtrar por destino
+                .forEach(produccion -> tableModel.addRow(
                 new Object[]{
                     produccion.getId(),
                     produccion.getCultivoPK(),
-                    produccion.getFecha(),
-                  //  produccion.getCantidadRecolectada(),
-                    produccion.getCalidad(),
-                    produccion.getDestino()}
+                    produccion.getFecha()
+                }
         ));
     }
 
@@ -85,11 +86,11 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Id de Produccion", "Fecha", "Cantidad recolectada"
+                "Id de Produccion", "Cultivo", "Fecha"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false

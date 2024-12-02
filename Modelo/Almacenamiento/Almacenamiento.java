@@ -12,6 +12,7 @@ import java.time.LocalDate;
  * @author DYLAN
  */
 public class Almacenamiento {
+
     private int id;
     private Produccion produccion;
     private int cantidad;
@@ -49,30 +50,31 @@ public class Almacenamiento {
     public void setFechaEgreso(LocalDate fechaEgreso) {
         this.fechaEgreso = fechaEgreso;
     }
-    
+
     public boolean verificarAlarma(int diasMaximosPermitidos) {
-     if (fechaIngreso != null) {
-        LocalDate fechaActual = LocalDate.now();
+        if (fechaIngreso != null) {
+            LocalDate fechaActual = LocalDate.now();
 
-        // Obtener los valores de año, mes y día
-        int anioIngreso = fechaIngreso.getYear();
-        int mesIngreso = fechaIngreso.getMonthValue();
-        int diaIngreso = fechaIngreso.getDayOfMonth();
+            int anioIngreso = fechaIngreso.getYear();
+            int mesIngreso = fechaIngreso.getMonthValue();
+            int diaIngreso = fechaIngreso.getDayOfMonth();
 
-        int anioActual = fechaActual.getYear();
-        int mesActual = fechaActual.getMonthValue();
-        int diaActual = fechaActual.getDayOfMonth();
+            int anioActual = fechaActual.getYear();
+            int mesActual = fechaActual.getMonthValue();
+            int diaActual = fechaActual.getDayOfMonth();
+            int diasTranscurridos = (anioActual - anioIngreso) * 365
+                    + (mesActual - mesIngreso) * 30
+                    + (diaActual - diaIngreso);
 
-        // Calcular la diferencia en días manualmente
-        int diasTranscurridos = (anioActual - anioIngreso) * 365 
-                              + (mesActual - mesIngreso) * 30 // Aproximación a 30 días por mes
-                              + (diaActual - diaIngreso);
-
-        // Verificar si los días transcurridos exceden el límite permitido
-        return diasTranscurridos > diasMaximosPermitidos;
+            return diasTranscurridos > diasMaximosPermitidos;
+        }
+        return false;
     }
-    return false;
-}
+
+    @Override
+    public String toString() {
+        return  id + "-" + produccion;
+    }
 
     public Almacenamiento(int id, Produccion produccion, int cantidad, LocalDate fechaIngreso, LocalDate fechaEgreso) {
         this.id = id;
@@ -83,10 +85,7 @@ public class Almacenamiento {
     }
 
     public Almacenamiento() {
-        
+
     }
 
-    
-    
-    
 }

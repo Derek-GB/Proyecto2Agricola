@@ -106,6 +106,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             }
         });
 
+        txtIdAlmacenamiento.setEditable(false);
         txtIdAlmacenamiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdAlmacenamientoActionPerformed(evt);
@@ -140,12 +141,14 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             }
         });
 
+        txtFechaIngreso.setEditable(false);
         txtFechaIngreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaIngresoActionPerformed(evt);
             }
         });
 
+        txtFechaEgreso.setEditable(false);
         txtFechaEgreso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFechaEgresoActionPerformed(evt);
@@ -172,12 +175,14 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         jLabel3.setForeground(new java.awt.Color(0, 0, 51));
         jLabel3.setText("Cantidad:");
 
+        txtIdProduccion.setEditable(false);
         txtIdProduccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIdProduccionActionPerformed(evt);
             }
         });
 
+        txtCantidad.setEditable(false);
         txtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadActionPerformed(evt);
@@ -539,11 +544,13 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         txtIdProduccion.setText("");
         txtCantidad.setText("");
         txtFechaIngreso.setText("");
-        txtFechaIngreso.setText("");
+        txtFechaEgreso.setText("");
     }
 
     private void Editar(boolean valor) {
         txtCantidad.setEditable(valor);
+        txtIdAlmacenamiento.setEditable(valor);
+        txtIdProduccion.setEditable(valor);
         txtFechaIngreso.setEditable(valor);
         txtFechaEgreso.setEditable(valor);
     }
