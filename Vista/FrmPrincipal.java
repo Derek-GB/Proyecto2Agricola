@@ -162,6 +162,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Producción");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -452,6 +457,22 @@ public class FrmPrincipal extends javax.swing.JFrame {
             ex.printStackTrace();
         }}
     }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+       FrmProduccionn  frmProduccionn = new  FrmProduccionn();
+        if (!frmProduccionn.isVisible()) {
+            DeskPrincipal.add(frmProduccionn);
+            frmProduccionn.setVisible(true);
+            frmProduccionn.setLocation((DeskPrincipal.getWidth() - frmProduccionn.getWidth()) / 2,
+                    (DeskPrincipal.getHeight() - frmProduccionn.getHeight()) / 2);
+        } else {
+            try {
+                frmProduccionn.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }  
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
