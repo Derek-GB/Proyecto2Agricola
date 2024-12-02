@@ -92,7 +92,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
 
     @Override
     public void delete(Usuario entidad) {
-        if (entidad == null || !validarPk(entidad.getNombre())) {
+        if (entidad == null || validarPk(entidad.getNombre())) {
             view.showError("El id de usuario no es válido");
             return;
         }
