@@ -35,6 +35,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         controllerCultivo = new CultivoControlador(this);
         btnDes4.setVisible(false);
         ajustarTodo();
+        Editar(false);
     }
 
     /**
@@ -188,12 +189,28 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venta", "Almacenamiento" }));
         txtDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        txtCultivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCultivoActionPerformed(evt);
+            }
+        });
+
+        txtCantidadRecolectada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCantidadRecolectadaFocusLost(evt);
+            }
+        });
         txtCantidadRecolectada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadRecolectadaActionPerformed(evt);
             }
         });
 
+        txtCantidadEsperada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCantidadEsperadaFocusLost(evt);
+            }
+        });
         txtCantidadEsperada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadEsperadaActionPerformed(evt);
@@ -346,6 +363,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
     private void btnNuevo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevo4ActionPerformed
         btnDes4.setVisible(true);
+        Editar(true);
         ajustarImagenes("/Imagenes/deshacer.png", btnDes4);
         limpiar();       
         estadosBotones();
@@ -489,14 +507,34 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
     }//GEN-LAST:event_btnCancelar4ActionPerformed
 
     private void txtFechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFechaFocusLost
-      String date=txtFecha.getText();
-        if (date.trim().isEmpty())return;
-        if (!UtilDate.validate(date)){
-            showError("La fecha ingresada no tiene el formato correcto");
-            txtFecha.setText("");
-            return;
-        }
-     
+  String date = txtFecha.getText();
+if (date.trim().isEmpty()) {
+    return;
+}
+
+if (!UtilDate.validate(date)) {
+    showError("La fecha ingresada no tiene el formato correcto (dd/MM/yyyy).");
+    txtFecha.setText("");
+    return;
+}
+
+LocalDate fechaIngresada = UtilDate.toLocalDate(date);
+
+LocalDate fechaActual = LocalDate.now();
+
+
+if (fechaIngresada.isAfter(fechaActual)) {
+    showError("No se permite ingresar fechas futuras.");
+    txtFecha.setText("");
+    return;
+}
+
+if (fechaIngresada.isBefore(LocalDate.of(1900, 1, 1))) {
+    showError("La fecha ingresada es demasiado antigua. Ingresa una fecha posterior al 01/01/1900.");
+    txtFecha.setText("");
+    return;
+}
+
     }//GEN-LAST:event_txtFechaFocusLost
 
     private void btnLlamarFrmBuscarCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarFrmBuscarCultivoActionPerformed
@@ -518,6 +556,45 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
     private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaActionPerformed
+
+    private void txtCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCultivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCultivoActionPerformed
+
+    private void txtCantidadEsperadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadEsperadaFocusLost
+
+ String cantidadEsperada = txtCantidadEsperada.getText();
+
+try {
+    double cantidadNumerica = Double.parseDouble(cantidadEsperada);
+    if (cantidadNumerica <= 0) {
+        showError("No se permiten cantidades negativas o iguales a 0.");
+        txtCantidadEsperada.setText("");
+        return;
+    }
+
+    txtCantidadEsperada.setText(cantidadNumerica + " Kg");
+} catch (NumberFormatException e) {
+    
+    txtCantidadEsperada.setText("");
+}
+    }//GEN-LAST:event_txtCantidadEsperadaFocusLost
+
+    private void txtCantidadRecolectadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadRecolectadaFocusLost
+      String cantidad = txtCantidadRecolectada.getText();
+try {
+    double cantidadNumerica = Double.parseDouble(cantidad);
+    if (cantidadNumerica <= 0) {
+        showError("No se permiten cantidades negativas o iguales a 0.");
+        txtCantidadRecolectada.setText("");
+        return;
+    }
+    txtCantidadRecolectada.setText(cantidadNumerica + " Kg");
+} catch (NumberFormatException e) {
+   
+    txtCantidadRecolectada.setText("");
+}
+    }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -609,6 +686,7 @@ if (cantidadCambiada || calidadCambiada || destinoCambiado) {
     }
     
     private void Editar(boolean valor) {
+       txtCultivo.setEditable(valor);
         txtCalidad.setEditable(valor);
         txtCantidadEsperada.setEditable(valor);
         txtCantidadRecolectada.setEditable(valor);
