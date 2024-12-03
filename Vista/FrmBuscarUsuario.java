@@ -39,7 +39,8 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
                 new Object[]{
                     usuario.getNombre(),
                     usuario.getContraseña(),
-                    usuario.getRol()
+                    usuario.getRol(),
+                    usuario.getTrabajador()
                 }
         ));
     }
@@ -92,20 +93,20 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre Usuario", "Contraseña", "Rol"
+                "Nombre Usuario", "Contraseña", "Rol", "IdTrabajador"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

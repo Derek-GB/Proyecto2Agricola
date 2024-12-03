@@ -8,6 +8,7 @@ import Enums.Rol;
 import Modelo.Almacenamiento.AlmacenamientoDAO;
 import Modelo.Almacenamiento.AlmacenamientoDTO;
 import static Modelo.Database.Database.getConnection;
+import Modelo.Trabajador.Trabajador;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.Icon;
@@ -39,12 +40,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private String nombreUsuario;
     private String contrasenaUsuario;
     private Rol rolUsuario;
+    private Trabajador trabajador;
     FrmInicioSesión frm;
 
-    private FrmPrincipal(String nombre, String contrasena, Rol rol) {
+    private FrmPrincipal(String nombre, String contrasena, Rol rol,Trabajador trabajador) {
         this.nombreUsuario = nombre;
         this.contrasenaUsuario = contrasena;
         this.rolUsuario = rol;
+        this.trabajador=trabajador;
         initComponents();
         setExtendedState(FrmPrincipal.MAXIMIZED_BOTH);
         getContentPane().setLayout(new BorderLayout());
@@ -56,9 +59,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         iniciarAlerta();
     }
 
-    public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol) {
+    public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol,Trabajador trabajador) {
         if (instance == null) {
-            instance = new FrmPrincipal(nombre, contrasena, rol);
+            instance = new FrmPrincipal(nombre, contrasena, rol,trabajador);
         }
         return instance;
     }

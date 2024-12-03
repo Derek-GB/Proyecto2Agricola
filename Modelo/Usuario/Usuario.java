@@ -5,6 +5,7 @@
 package Modelo.Usuario;
 
 import Enums.Rol;
+import Modelo.Trabajador.Trabajador;
 
 /**
  *
@@ -15,6 +16,11 @@ public class Usuario {
     private String nombre;
     private String contraseña;
     private Rol rol;
+    private Trabajador trabajador;
+
+    public Trabajador getTrabajador() {
+        return trabajador;
+    }
 
     public String getNombre() {
         return nombre;
@@ -36,14 +42,15 @@ public class Usuario {
         this.rol = rol;
     }
 
-    public Usuario(String nombre, String contraseña, Rol rol) {
+    public Usuario(String nombre, String contraseña, Rol rol,Trabajador trabajador) {
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.rol = rol;
+        this.trabajador= trabajador;
     }
 
     public Usuario() {
-        this( "", "12345678", Rol.TRABAJADOR);
+        this( "", "12345678", Rol.TRABAJADOR,null);
     }
 
     @Override

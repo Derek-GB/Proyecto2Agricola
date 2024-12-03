@@ -27,11 +27,12 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
         if (dto == null) {
             return false;
         }
-        String query = "Call UsuarioCreate(?,?,?)";
+        String query = "Call UsuarioCreate(?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, dto.getNombre());
             stmt.setString(2, dto.getContraseña());
             stmt.setString(3, dto.getRol());
+            stmt.setString(4, dto.getTrabajador());
             return stmt.executeUpdate() > 0;
         }
     }
@@ -49,7 +50,8 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
                     return new UsuarioDTO(
                             rs.getString("nombre"),
                             rs.getString("contraseña"),
-                            rs.getString("rol")
+                            rs.getString("rol"),
+                            rs.getString("idtrabajador")
                     );
                 }
             }
@@ -67,7 +69,8 @@ public class UsuarioDAO extends Dao<UsuarioDTO> {
                     list.add(new UsuarioDTO(
                             rs.getString("nombre"),
                             rs.getString("contraseña"),
-                            rs.getString("rol")
+                            rs.getString("rol"),
+                            rs.getString("idtrabajador")
                     ));
                 }
             }

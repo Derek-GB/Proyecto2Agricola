@@ -5,6 +5,10 @@
 package Controlador;
 
 import Modelo.Database.Database;
+import Modelo.Trabajador.Trabajador;
+import Modelo.Trabajador.TrabajadorDAO;
+import Modelo.Trabajador.TrabajadorDTO;
+import Modelo.Trabajador.TrabajadorMapper;
 import Modelo.Usuario.Usuario;
 import Modelo.Usuario.UsuarioCache;
 import Modelo.Usuario.UsuarioDAO;
@@ -80,7 +84,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
             return;
         }
         try {
-            String nombre = entidad.getNombre().trim(); 
+            String nombre = entidad.getNombre().trim();
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
             cache.change(dto.getNombre(), dto);
@@ -140,6 +144,24 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
         } catch (SQLException ex) {
             view.showError("Error al cargar los datos: " + ex.getMessage());
         }
+    }
+
+    public Trabajador obtenerTrabajadorPorId(String id) {
+        try {
+            TrabajadorDAO trabajadorDAO = new TrabajadorDAO(Database.getConnection());
+            TrabajadorDTO trabajadorDTO = trabajadorDAO.read(id);
+
+            if (trabajadorDTO != null) {
+                TrabajadorMapper trabajadorMapper = new TrabajadorMapper();
+                Trabajador trabajador = trabajadorMapper.toEnt(trabajadorDTO);
+                return trabajador;
+            } else {
+                view.showError("Trabajador no encontrado");
+            }
+        } catch (SQLException ex) {
+            view.showError("Error al buscar el trabajador: " + ex.getMessage());
+        }
+        return null;
     }
 
     @Override

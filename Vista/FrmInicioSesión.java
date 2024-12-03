@@ -262,17 +262,17 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     }//GEN-LAST:event_btnA1ActionPerformed
     }
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-       
+
     }//GEN-LAST:event_formKeyPressed
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
-           if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             iniciarSesion();
         }
     }//GEN-LAST:event_txtNombreKeyPressed
 
     private void txtContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             iniciarSesion();
         }
     }//GEN-LAST:event_txtContraseñaKeyPressed
@@ -380,19 +380,26 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
             return;
         }
         try {
-
             Usuario usuario = controlador.buscarUsuarioPorNombre(nombre);
+
             if (usuario == null) {
                 controlador.mostrarError("Usuario no encontrado.");
                 return;
             }
+
             if (!usuario.getContraseña().equals(contrasena)) {
                 controlador.mostrarError("Contraseña incorrecta.");
                 return;
             }
+
             controlador.mostrarMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
 
-            FrmPrincipal frmPrincipal = FrmPrincipal.getInstance(usuario.getNombre(), usuario.getContraseña(), usuario.getRol());
+            FrmPrincipal frmPrincipal = FrmPrincipal.getInstance(
+                    usuario.getNombre(),
+                    usuario.getContraseña(),
+                    usuario.getRol(),
+                    usuario.getTrabajador()
+            );
             frmPrincipal.setVisible(true);
 
             this.dispose();

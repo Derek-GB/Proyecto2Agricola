@@ -15,10 +15,15 @@ public class UsuarioDTO {
     private final String nombre;
     private final String contraseña;
     private final String rol;
+    private final String trabajador;
 
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String getTrabajador() {
+        return trabajador;
     }
 
     public String getContraseña() {
@@ -29,10 +34,11 @@ public class UsuarioDTO {
         return rol;
     }
 
-    public UsuarioDTO(String nombre, String contraseña, String rol) {
+    public UsuarioDTO(String nombre, String contraseña, String rol,String trabajador) {
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.rol = rol;
+        this.trabajador = trabajador;
     }
 
 
