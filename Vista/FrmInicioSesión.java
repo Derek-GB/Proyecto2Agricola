@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -37,6 +38,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     public FrmInicioSesión() {
         initComponents();
         controlador = new UsuarioControlador(this);
+        oirTecla();
         configurarPanel();
         ajustarImagenes("/Imagenes/Usuario.png", Usertxt);
 
@@ -64,6 +66,11 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
         btnA1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         txtCentro.setBackground(new java.awt.Color(153, 153, 255));
 
@@ -75,9 +82,21 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
         jLabel1.setForeground(new java.awt.Color(0, 0, 51));
         jLabel1.setText("Usuario: ");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNombreKeyPressed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 51));
         jLabel2.setText("Contraseña:");
+
+        txtContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtContraseñaKeyPressed(evt);
+            }
+        });
 
         Infotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
         Infotxt.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -228,34 +247,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        String nombre = txtNombre.getText();
-        String contrasena = new String(txtContraseña.getPassword());
-
-        if (nombre == null || nombre.trim().isEmpty() || contrasena == null || contrasena.trim().isEmpty()) {
-            controlador.mostrarError("Por favor, ingrese el nombre de usuario y la contraseña.");
-            return;
-        }
-        try {
-
-            Usuario usuario = controlador.buscarUsuarioPorNombre(nombre);
-            if (usuario == null) {
-                controlador.mostrarError("Usuario no encontrado.");
-                return;
-            }
-            if (!usuario.getContraseña().equals(contrasena)) {
-                controlador.mostrarError("Contraseña incorrecta.");
-                return;
-            }
-            controlador.mostrarMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
-
-            FrmPrincipal frmPrincipal = new FrmPrincipal(usuario.getNombre(), usuario.getContraseña(), usuario.getRol());
-            frmPrincipal.setVisible(true);
-
-            this.dispose();
-
-        } catch (SQLException ex) {
-            controlador.mostrarError("Error al intentar iniciar sesión: " + ex.getMessage());
-        }
+        iniciarSesion();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnA1ActionPerformed
@@ -269,6 +261,21 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
             btnA1.setSelectedIcon(new ImageIcon(getClass().getResource("/Imagenes/ojo2.png")));
     }//GEN-LAST:event_btnA1ActionPerformed
     }
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+       
+    }//GEN-LAST:event_formKeyPressed
+
+    private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
+           if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtNombreKeyPressed
+
+    private void txtContraseñaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraseñaKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtContraseñaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -362,6 +369,46 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
     @Override
     public boolean validateRequired() {
         return UtilGui.validateFields(txtNombre, txtContraseña);
+    }
+
+    public void iniciarSesion() {
+        String nombre = txtNombre.getText();
+        String contrasena = new String(txtContraseña.getPassword());
+
+        if (nombre == null || nombre.trim().isEmpty() || contrasena == null || contrasena.trim().isEmpty()) {
+            controlador.mostrarError("Por favor, ingrese el nombre de usuario y la contraseña.");
+            return;
+        }
+        try {
+
+            Usuario usuario = controlador.buscarUsuarioPorNombre(nombre);
+            if (usuario == null) {
+                controlador.mostrarError("Usuario no encontrado.");
+                return;
+            }
+            if (!usuario.getContraseña().equals(contrasena)) {
+                controlador.mostrarError("Contraseña incorrecta.");
+                return;
+            }
+            controlador.mostrarMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
+
+            FrmPrincipal frmPrincipal = FrmPrincipal.getInstance(usuario.getNombre(), usuario.getContraseña(), usuario.getRol());
+            frmPrincipal.setVisible(true);
+
+            this.dispose();
+
+        } catch (SQLException ex) {
+            controlador.mostrarError("Error al intentar iniciar sesión: " + ex.getMessage());
+        }
+    }
+
+    public void oirTecla() {
+        setFocusable(true);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
     }
 
 }

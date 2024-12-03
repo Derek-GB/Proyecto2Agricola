@@ -25,6 +25,7 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     private Vista observer;
     TableRowSorter<TableModel> sorter;
+    FrmUsuario frm;
     
 
     public void setEnts(List<Usuario> ents) {
@@ -47,9 +48,10 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
         this.observer = observer;
     }
 
-    public FrmBuscarUsuario(java.awt.Frame parent, boolean modal) {
+    public FrmBuscarUsuario(java.awt.Frame parent, boolean modal, FrmUsuario frm) {
         super(parent, modal);
         initComponents();
+        this.frm=frm;
         ajustarTodo();
         this.setLocationRelativeTo(parent);
         tableModel = (DefaultTableModel) tabla.getModel();
@@ -193,6 +195,7 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+        frm.Editar(false);
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 

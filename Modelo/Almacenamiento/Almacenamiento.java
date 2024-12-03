@@ -73,7 +73,7 @@ public class Almacenamiento {
 
     @Override
     public String toString() {
-        return  id + "-" + produccion;
+        return id + "-" + produccion;
     }
 
     public Almacenamiento(int id, Produccion produccion, int cantidad, LocalDate fechaIngreso, LocalDate fechaEgreso) {
@@ -82,6 +82,14 @@ public class Almacenamiento {
         this.cantidad = cantidad;
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
+    }
+
+    public Almacenamiento(int id, Produccion produccion, int cantidad, LocalDate fechaIngreso) {
+        this.id = id;
+        this.produccion = produccion;
+        this.cantidad = cantidad;
+        this.fechaIngreso = fechaIngreso;
+        this.fechaEgreso = null;
     }
 
     public Almacenamiento() {

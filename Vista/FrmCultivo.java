@@ -10,7 +10,6 @@ import Enums.TipoCultivo;
 import Modelo.Cultivo.Cultivo;
 import Utils.UtilGui;
 import java.awt.Image;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,16 +28,25 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     /**
      * Creates new form FrmCultivo
      */
+    private static FrmCultivo instance;
+
     CultivoControlador controller;
     Cultivo cultivo;
     FrmBuscarCultivo frm;
 
-    public FrmCultivo() {
+    private FrmCultivo() {
         initComponents();
         btnDes.setVisible(false);
         ajustarTodo();
         controller = new CultivoControlador(this);
         cargarNombresCultivos();
+    }
+
+    public static FrmCultivo getInstancia() {
+        if (instance == null) {
+            instance = new FrmCultivo();
+        }
+        return instance;
     }
 
     /**
@@ -368,6 +376,8 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
 
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
             return;
         }
 
@@ -378,12 +388,16 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
             String tipoSeleccionadoString = (String) cbxTipo.getSelectedItem();
             TipoCultivo tipoCultivo = convertirTipoCultivo(tipoSeleccionadoString);
             if (tipoCultivo == null) {
+                btnDes.setVisible(true);
+                ajustarImagenes("/Imagenes/deshacer.png", btnDes);
                 return;
             }
 
             String estadoSeleccionadoString = (String) cbxEstado.getSelectedItem();
             EstadoCrecimiento estado = convertirEstadoCrecimiento(estadoSeleccionadoString);
             if (estado == null) {
+                btnDes.setVisible(true);
+                ajustarImagenes("/Imagenes/deshacer.png", btnDes);
                 return;
             }
 
@@ -395,6 +409,8 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
 
             if (fechaCosecha.isBefore(fechaSiembra)) {
                 showError("La fecha de cosecha no puede ser anterior a la fecha de siembra.");
+                btnDes.setVisible(true);
+                ajustarImagenes("/Imagenes/deshacer.png", btnDes);
                 return;
             }
 
@@ -530,6 +546,7 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 

@@ -29,6 +29,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     private Vista observer;
     TableRowSorter<TableModel> sorter;
+    FrmAlmacenamiento frm;
     
     public void setEnts(List<Almacenamiento> ents) {
         this.ents = ents;
@@ -53,9 +54,10 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
         this.observer = observer;
     }
     
-    public FrmBuscarAlmacenamiento(java.awt.Frame parent, boolean modal) {
+    public FrmBuscarAlmacenamiento(java.awt.Frame parent, boolean modal, FrmAlmacenamiento frm) {
         super(parent, modal);
         initComponents();
+        this.frm=frm;
         ajustarTodo();
         this.setLocationRelativeTo(parent);
         tableModel = (DefaultTableModel) tabla.getModel();
@@ -146,7 +148,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tabla);
 
-        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seleccionar.png"))); // NOI18N
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +191,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+        frm.Editar(false);
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 
@@ -211,6 +214,8 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
     }//GEN-LAST:event_txtfiltroKeyReleased
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        frm.EditarMini(false);
+        frm.fechaEgresoEditable();
         int selectedRow = tabla.getSelectedRow();
         if (selectedRow == -1) {
             return;
@@ -223,7 +228,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
         observer.show(seleccionada);
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
-
+   
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

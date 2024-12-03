@@ -28,7 +28,7 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
     public FrmCambiarContraseña(java.awt.Frame parent, boolean modal, String nombre) {
         super(parent, modal);
         this.nombreUsuario = nombre;
-        this.frmU = new FrmUsuario();
+        this.frmU =FrmUsuario.getInstancia();
         controlador = new UsuarioControlador(this);
         initComponents();
     }

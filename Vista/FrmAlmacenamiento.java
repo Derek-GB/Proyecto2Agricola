@@ -31,15 +31,24 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     /**
      * Creates new form FrmAlmacenamiento
      */
+    private static FrmAlmacenamiento instance;
+
     AlmacenamientoControlador controller;
     Almacenamiento almacenamiento;
     FrmBuscarAlmacenamiento frm;
 
-    public FrmAlmacenamiento() {
+    private FrmAlmacenamiento() {
         initComponents();
         btnDes.setVisible(false);
         controller = new AlmacenamientoControlador(this);
         ajustarTodo();
+    }
+
+    public static FrmAlmacenamiento getInstancia() {
+        if (instance == null) {
+            instance = new FrmAlmacenamiento();
+        }
+        return instance;
     }
 
     /**
@@ -69,7 +78,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         jLabel3 = new javax.swing.JLabel();
         txtIdProduccion = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnMas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -189,10 +198,12 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             }
         });
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnMas.setFont(new java.awt.Font("sansserif", 0, 8)); // NOI18N
+        btnMas.setText("+");
+        btnMas.setEnabled(false);
+        btnMas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnMasActionPerformed(evt);
             }
         });
 
@@ -246,13 +257,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnMas)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -261,7 +269,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
                     .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5)
@@ -271,7 +279,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdAlmacenamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(btnMas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtFechaEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,9 +314,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         btnDes.setVisible(false);
-
+        ajustarImagenes("/Imagenes/deshacer.png", btnDes);
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            btnDes.setVisible(true);
             return;
         }
 
@@ -318,14 +327,12 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         int cantidad = Integer.parseInt(txtCantidad.getText());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fechaIngreso = LocalDate.parse(txtFechaIngreso.getText(), formatter);
-        LocalDate fechaEgreso = LocalDate.parse(txtFechaEgreso.getText(), formatter);
 
         almacenamiento = new Almacenamiento(
                 idAlmacenamiento,
                 produccion,
                 cantidad,
-                fechaIngreso,
-                fechaEgreso
+                fechaIngreso
         );
         controller.create(almacenamiento);
 
@@ -356,7 +363,6 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     }//GEN-LAST:event_txtIdAlmacenamientoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
         if (almacenamiento == null) {
             showError("No hay ningún almacenamiento cargado actualmente");
             return;
@@ -366,17 +372,33 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             return;
         }
         try {
-
             int newCantidad = Integer.parseInt(txtCantidad.getText().trim());
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate newFechaEgreso = LocalDate.parse(txtFechaEgreso.getText().trim(), formatter);
+            LocalDate newFechaEgreso = null;
+            boolean fechaEgresoCambiada = false;
+
+            if (!txtFechaEgreso.getText().trim().isEmpty()) {
+                String fechaEgresoText = txtFechaEgreso.getText().trim();
+                DateTimeFormatter formatter = null;
+
+                if (fechaEgresoText.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                    formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                } else if (fechaEgresoText.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                    formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                }
+
+                if (formatter != null) {
+                    newFechaEgreso = LocalDate.parse(fechaEgresoText, formatter);
+                    fechaEgresoCambiada = !newFechaEgreso.equals(almacenamiento.getFechaEgreso());
+                } else {
+                    showError("La fecha de egreso debe estar en un formato válido ('dd/MM/yyyy' o 'yyyy-MM-dd').");
+                    return;
+                }
+            }
 
             boolean cantidadCambiado = newCantidad != almacenamiento.getCantidad();
-            boolean fechaEgresoCambiada = !newFechaEgreso.equals(almacenamiento.getFechaEgreso());
 
             if (cantidadCambiado || fechaEgresoCambiada) {
-
                 if (cantidadCambiado) {
                     almacenamiento.setCantidad(newCantidad);
                 }
@@ -386,21 +408,22 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
                 controller.update(almacenamiento);
 
-                showMessage("Datos del almacenamiento actualizados correctamente.");
             } else {
                 showMessage("No se realizaron cambios.");
             }
         } catch (DateTimeParseException e) {
-            showError("La fecha de egreso debe estar en el formato 'dd/MM/yyyy'.");
+            showError("La fecha de egreso debe estar en el formato 'dd/MM/yyyy' o 'yyyy-MM-dd'.");
         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         Editar(true);
+        txtFechaEgreso.setEditable(false);
         controller.readAll();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -427,7 +450,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasActionPerformed
 
         try {
             List<ProduccionDTO> listPro;
@@ -441,7 +464,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnMasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -451,8 +474,8 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     private javax.swing.JButton btnDes;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnMas;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -494,7 +517,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     @Override
     public void showAll(List<Almacenamiento> ents) {
         if (frm == null) {
-            frm = new FrmBuscarAlmacenamiento(null, true);
+            frm = new FrmBuscarAlmacenamiento(null, true, this);
             frm.setObserver(this);
         }
         frm.setEnts(ents);
@@ -513,7 +536,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     @Override
     public boolean validateRequired() {
-        return UtilGui.validateFields(txtIdAlmacenamiento, txtIdProduccion, txtCantidad, txtFechaIngreso, txtFechaEgreso);
+        return UtilGui.validateFields(txtIdAlmacenamiento, txtIdProduccion, txtCantidad, txtFechaIngreso);
     }
 
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
@@ -547,12 +570,19 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         txtFechaEgreso.setText("");
     }
 
-    private void Editar(boolean valor) {
+    public void Editar(boolean valor) {
         txtCantidad.setEditable(valor);
         txtIdAlmacenamiento.setEditable(valor);
         txtIdProduccion.setEditable(valor);
         txtFechaIngreso.setEditable(valor);
-        txtFechaEgreso.setEditable(valor);
+        btnMas.setEnabled(valor);
+        
+    }
+    
+     public void EditarMini(boolean valor) {
+        txtIdAlmacenamiento.setEditable(valor);
+        txtIdProduccion.setEditable(valor);
+        btnMas.setEnabled(valor);
     }
 
     public void estadosBotones() {
@@ -561,6 +591,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     public void updateIdProduccion(int id) {
         txtIdProduccion.setText(String.valueOf(id));
+    }
+
+    public void fechaEgresoEditable() {
+        txtFechaEgreso.setEditable(true);
     }
 
 }

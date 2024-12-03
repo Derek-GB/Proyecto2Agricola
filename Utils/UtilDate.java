@@ -54,4 +54,13 @@ public class UtilDate {
             throw new IllegalArgumentException("La fecha no puede ser nula");
         return date.format(DATE_FORMATTER);
     }
+
+    public static java.sql.Date toSqlDateAl(LocalDate localDate) {
+        return localDate != null ? java.sql.Date.valueOf(localDate) : null;
+    }
+    
+    public static LocalDate toLocalDateAl(java.sql.Date date){
+    return (date == null) ? null : date.toLocalDate();
+}
+
 }

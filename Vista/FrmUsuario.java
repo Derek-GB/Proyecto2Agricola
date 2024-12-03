@@ -24,16 +24,25 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     /**
      * Creates new form FrmUsuario
      */
+    private static FrmUsuario instanciaUnica;
+
     UsuarioControlador controller;
     Usuario usuario;
     FrmBuscarUsuario frm;
 
-    public FrmUsuario() {
+    private FrmUsuario() {
         initComponents();
         btnDes.setVisible(false);
         controller = new UsuarioControlador(this);
         ajustarTodo();
 
+    }
+
+    public static FrmUsuario getInstancia() {
+        if (instanciaUnica == null) {
+            instanciaUnica = new FrmUsuario();
+        }
+        return instanciaUnica;
     }
 
     /**
@@ -300,6 +309,8 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
 
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
             return;
         }
 
@@ -309,6 +320,8 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
                 ConversionRol()
         );
         if (!validarContraseña(usuario)) {
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
             return;
         }
         controller.create(usuario);
@@ -389,6 +402,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -448,7 +462,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
         txtContraseña.setText("");
     }
 
-    private void Editar(boolean valor) {
+    public void Editar(boolean valor) {
         txtUsuario.setEditable(valor);
         txtRol.setEditable(valor);
         txtContraseña.setEditable(valor);
@@ -534,7 +548,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     @Override
     public void showAll(List<Usuario> ents) {
         if (frm == null) {
-            frm = new FrmBuscarUsuario(null, true);
+            frm = new FrmBuscarUsuario(null, true, this);
             frm.setObserver(this);
         }
         frm.setEnts(ents);

@@ -45,6 +45,14 @@ public class AlmacenamientoDTO {
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
     }
+    
+     public AlmacenamientoDTO(int id, int produccion, int cantidad, Date fechaIngreso) {
+        this.id = id;
+        this.produccion = produccion;
+        this.cantidad = cantidad;
+        this.fechaIngreso = fechaIngreso;
+        this.fechaEgreso = null;
+    }
 
     
     

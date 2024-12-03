@@ -25,7 +25,7 @@ public class AlmacenamientoMapper implements Mapper<Almacenamiento, Almacenamien
                 ent.getProduccion().getId(),
                 ent.getCantidad(),
                 UtilDate.toSqlDate(ent.getFechaIngreso()),
-                UtilDate.toSqlDate(ent.getFechaEgreso())
+                UtilDate.toSqlDateAl(ent.getFechaEgreso())
         );
     }
 
@@ -37,7 +37,7 @@ public class AlmacenamientoMapper implements Mapper<Almacenamiento, Almacenamien
                 new ProduccionMapper().toEnt(new ProduccionDAO(Database.getConnection()).read(dto.getProduccion())),
                 dto.getCantidad(),
                 UtilDate.toLocalDate(dto.getFechaIngreso()),
-                UtilDate.toLocalDate(dto.getFechaEgreso())
+                UtilDate.toLocalDateAl(dto.getFechaEgreso())
         );
         } catch (SQLException e){
          return null;   

@@ -31,13 +31,12 @@ public class AlmacenamientoDAO extends Dao<AlmacenamientoDTO> {
         if (dto == null || !validatePK(dto.getId())) {
             return false;
         }
-        String query = "Call AlmacenamientoCreate(?,?,?,?,?)";
+        String query = "Call AlmacenamientoCreate(?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, dto.getId());
             stmt.setInt(2, dto.getProduccion());
             stmt.setInt(3, dto.getCantidad());
             stmt.setDate(4, dto.getFechaIngreso());
-            stmt.setDate(5, dto.getFechaEgreso());
             return stmt.executeUpdate() > 0;
         }
     }

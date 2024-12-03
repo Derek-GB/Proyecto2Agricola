@@ -24,12 +24,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FrmPrincipal
      */
+    private static FrmPrincipal instance;
+
     private String nombreUsuario;
     private String contrasenaUsuario;
     private Rol rolUsuario;
     FrmInicioSesión frm;
 
-    public FrmPrincipal(String nombre, String contrasena, Rol rol) {
+    private FrmPrincipal(String nombre, String contrasena, Rol rol) {
         this.nombreUsuario = nombre;
         this.contrasenaUsuario = contrasena;
         this.rolUsuario = rol;
@@ -42,6 +44,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarRol();
         administarPermisos();
 
+    }
+
+    public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol) {
+         if (instance == null) {
+            instance = new FrmPrincipal(nombre, contrasena, rol);
+        }
+        return instance;
     }
 
     /**
@@ -411,7 +420,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseClicked
-        FrmUsuario frmUsuario = new FrmUsuario();
+        FrmUsuario frmUsuario = FrmUsuario.getInstancia();
         if (!frmUsuario.isVisible()) {
             DeskPrincipal.add(frmUsuario);
             frmUsuario.setVisible(true);
@@ -454,7 +463,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_InfotxtMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        FrmCultivo frmCultivo = new FrmCultivo();
+        FrmCultivo frmCultivo = FrmCultivo.getInstancia();
         if (!frmCultivo.isVisible()) {
             DeskPrincipal.add(frmCultivo);
             frmCultivo.setVisible(true);
@@ -494,7 +503,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTrabajadoresMouseClicked
 
     private void txtAlmacenamientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseClicked
-        FrmAlmacenamiento frmAlmacenamiento = new FrmAlmacenamiento();
+        FrmAlmacenamiento frmAlmacenamiento = FrmAlmacenamiento.getInstancia();
         if (!frmAlmacenamiento.isVisible()) {
             DeskPrincipal.add(frmAlmacenamiento);
             frmAlmacenamiento.setVisible(true);
