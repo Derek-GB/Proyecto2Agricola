@@ -93,14 +93,15 @@ public class TrabajadorDAO extends Dao<TrabajadorDTO> {
             return false;
         }
 
-        String query = "Call TrabajadorUpdate(?,?,?,?,?,?)";
+        String query = "Call TrabajadorUpdate(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, dto.getCedula());
-            stmt.setString(2, dto.getTelefono());
-            stmt.setString(3, dto.getCorreo());
-            stmt.setString(4, dto.getPuesto());
-            stmt.setString(5, dto.getHorario());
-            stmt.setDouble(6, dto.getSalario());
+            stmt.setString(2, dto.getNombre());
+            stmt.setString(3, dto.getTelefono());
+            stmt.setString(4, dto.getCorreo());
+            stmt.setString(5, dto.getPuesto());
+            stmt.setString(6, dto.getHorario());
+            stmt.setDouble(7, dto.getSalario());
             return stmt.executeUpdate() > 0;
         }
     }

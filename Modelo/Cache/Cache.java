@@ -22,6 +22,10 @@ public abstract  class Cache<Id, Dto> {
 
     public final boolean change(Id key, Dto dto) {
         return cache.replace(key, dto) != null;
+//          if(remove(key)){
+//              return add(key,dto);
+//          }
+//          return false;
     }
 
     public final boolean remove(Id key) {

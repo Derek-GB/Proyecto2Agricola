@@ -203,6 +203,7 @@ public class FrmBuscarTrabajador extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+        observer.show(null);
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 

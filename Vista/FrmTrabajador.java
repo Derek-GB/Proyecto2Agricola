@@ -10,6 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,20 +18,21 @@ import javax.swing.SwingUtilities;
  * @author d2tod
  */
 public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
-
+    
     @Override
     public void show(Trabajador ent) {
-        trabajador = ent;
         if (ent == null) {
-            limpiar();
+//            limpiar();
+            setCamposEditables(false);
             return;
         }
+        trabajador = ent;
         txtCedula.setText(ent.getCedula());
         txtNombre.setText(ent.getNombre());
         txtCorreo.setText(ent.getCorreo());
         txtTelefono.setText(ent.getTelefono());
         txtSalario.setText(String.valueOf(ent.getSalario()));
-
+        
         if (ent.getPuesto() != null) {
             txtPuesto.setSelectedItem(ent.getPuesto());
         } else {
@@ -42,7 +44,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
             txtHorario.setSelectedIndex(-1);
         }
     }
-
+    
     @Override
     public void showAll(List<Trabajador> ents) {
         if (frm == null) {
@@ -52,17 +54,17 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         frm.setEnts(ents);
         frm.setVisible(true);
     }
-
+    
     @Override
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Informacion", JOptionPane.INFORMATION_MESSAGE);
     }
-
+    
     @Override
     public void showError(String err) {
         JOptionPane.showMessageDialog(this, err, "Error", JOptionPane.ERROR_MESSAGE);
     }
-
+    
     @Override
     public boolean validateRequired() {
         return UtilGui.validateFields(txtCedula, txtNombre, txtCorreo, txtHorario, txtPuesto, txtTelefono, txtSalario);
@@ -74,14 +76,15 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     TrabajadorControlador controlador;
     Trabajador trabajador;
     FrmBuscarTrabajador frm;
-
+    
     public FrmTrabajador() {
         initComponents();
         btnDes.setVisible(false);
         controlador = new TrabajadorControlador(this);
         cargarPuestos();
+        cargarHorarios();
         ajustarTodo();
-
+        
     }
 
     /**
@@ -155,6 +158,16 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrativo", "Supervisor", "Operador", "Técnico", "Obrero" }));
         txtPuesto.setSelectedIndex(-1);
         txtPuesto.setEnabled(false);
+        txtPuesto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPuestoFocusLost(evt);
+            }
+        });
+        txtPuesto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtPuestoMouseExited(evt);
+            }
+        });
         txtPuesto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPuestoActionPerformed(evt);
@@ -264,6 +277,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00 - 12:00", "08:00 - 16:00", "12:00 - 18:00", "13:00 - 21:00", "18:00 - 00:00", "22:00 - 06:00" }));
         txtHorario.setSelectedIndex(-1);
         txtHorario.setEnabled(false);
+        txtHorario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtHorarioFocusLost(evt);
+            }
+        });
         txtHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtHorarioActionPerformed(evt);
@@ -320,9 +338,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(17, 17, 17)))
+                            .addComponent(jLabel3))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -425,12 +441,12 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         btnDes.setVisible(false);
-
+        
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
             return;
         }
-
+        
         trabajador = new Trabajador(
                 txtCedula.getText(),
                 txtNombre.getText(),
@@ -441,10 +457,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 Double.parseDouble(txtSalario.getText())
         );
         controlador.create(trabajador);
-        if (controlador.isCompleteOperation()){
-        guardarPuesto();
-        guardarHorario();
-        controlador.setCompleteOperation(false);
+        if (controlador.isCompleteOperation()) {
+            guardarPuesto();
+            guardarHorario();
+            txtCedula.setEditable(false);
+            controlador.setCompleteOperation(false);
         }
         setCamposEditables(false);
         setBotonesEnabled();
@@ -470,7 +487,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-
+        
         if (trabajador == null) {
             showError("No hay ningún trabajador cargado actualmente");
             return;
@@ -485,19 +502,19 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         String newPuesto = txtPuesto.getSelectedItem().toString().trim();
         String newHorario = txtHorario.getSelectedItem().toString().trim();
         double newSalario = Double.parseDouble(txtSalario.getText());
-
+        
         if (!txtCedula.getText().equals(trabajador.getCedula())) {
             showError("No está permitido cambiar la cedula del trabajador.");
             return;
         }
-
+        
         boolean nombreCambiado = !newNombre.equals(trabajador.getNombre());
         boolean telefonoCambiado = !newTelefono.equals(trabajador.getTelefono());
         boolean correoCambiado = !newCorreo.equals(trabajador.getTelefono());
         boolean puestoCambiado = !newPuesto.equals(trabajador.getTelefono());
         boolean horarioCambiado = !newHorario.equals(trabajador.getTelefono());
         boolean salarioCambiado = newSalario != trabajador.getSalario();
-
+        
         if (nombreCambiado || telefonoCambiado || correoCambiado || puestoCambiado || horarioCambiado || salarioCambiado) {
             if (nombreCambiado) {
                 trabajador.setNombre(newNombre);
@@ -518,11 +535,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 trabajador.setSalario(newSalario);
             }
             controlador.update(trabajador);
-            if (controlador.isCompleteOperation()){
-                if (puestoCambiado){
+            if (controlador.isCompleteOperation()) {
+                if (puestoCambiado) {
                     guardarPuesto();
                 }
-                if (horarioCambiado){
+                if (horarioCambiado) {
                     guardarHorario();
                 }
                 controlador.setCompleteOperation(false);
@@ -534,6 +551,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         setCamposEditables(true);
+        txtCedula.setEditable(false);
         activarCampos(true);
         controlador.readAll();
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -574,7 +592,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         if (!text.matches(emailRegex)) {
             txtCorreo.setText("");
             showError("Por favor, ingrese un correo válido con formato usuario@dominio.com");
-
+            
         }
 
     }//GEN-LAST:event_txtCorreoFocusLost
@@ -587,9 +605,34 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         // TODO add your handling code here:
     }//GEN-LAST:event_Infotxt2MouseClicked
 
+    private void txtHorarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHorarioFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHorarioFocusLost
+
+    private void txtPuestoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPuestoFocusLost
+//        showMessage("pasoó");
+//        JTextField txt = (JTextField) txtPuesto.getEditor().getEditorComponent();
+//        String texto = txt.getText();
+//        if(texto == null){
+//            showMessage("era null");
+//            return;
+//        }
+//        texto = texto.trim();
+//        if (texto.isEmpty()) {
+//            showMessage("estaba vacio");
+//            return;
+//        }
+//        txt.setText(texto.substring(0, 1).toUpperCase() + texto.substring(1).toLowerCase());
+    }//GEN-LAST:event_txtPuestoFocusLost
+
+    private void txtPuestoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPuestoMouseExited
+
+    }//GEN-LAST:event_txtPuestoMouseExited
+    
     private boolean guardarPuesto() {
         boolean existe = false;
         String nuevoPuesto = txtPuesto.getSelectedItem().toString();
+        nuevoPuesto = nuevoPuesto.substring(0, 1).toUpperCase() + nuevoPuesto.substring(1).toLowerCase();
         ComboBoxModel modelo = txtPuesto.getModel();
         int size = modelo.getSize();
         for (int i = 0; i < size; i++) {
@@ -606,7 +649,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         }
         return existe;
     }
-
+    
     private boolean guardarPuesto(String puesto) {
         boolean existe = false;
         ComboBoxModel modelo = txtPuesto.getModel();
@@ -622,7 +665,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         }
         return existe;
     }
-
+    
     private boolean guardarHorario() {
         boolean existe = false;
         String nuevoPuesto = txtHorario.getSelectedItem().toString();
@@ -696,7 +739,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtHorario.setSelectedIndex(-1);
         txtSalario.setText("");
     }
-
+    
     private void activarCampos(boolean valor) {
         txtCedula.setEnabled(valor);
         txtNombre.setEnabled(valor);
@@ -706,7 +749,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtHorario.setEnabled(valor);
         txtSalario.setEnabled(valor);
     }
-
+    
     private void setCamposEditables(boolean valor) {
         txtCedula.setEditable(valor);
         txtNombre.setEditable(valor);
@@ -716,7 +759,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtHorario.setEditable(valor);
         txtSalario.setEditable(valor);
     }
-
+    
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
@@ -729,11 +772,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
             });
         }
     }
-
+    
     public void setBotonesEnabled() {
         UtilGui.changeStateButtons(btnGuardar, btnActualizar, btnBuscar, btnCancelar, btnNuevo, btnEliminar);
     }
-
+    
     private void ajustarTodo() {
         ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
         ajustarImagenes("/Imagenes/guardar.png", btnGuardar);
@@ -741,22 +784,22 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
         ajustarImagenes("/Imagenes/buscar.png", btnBuscar);
         ajustarImagenes("/Imagenes/cancelar.png", btnCancelar);
-
+        
     }
-
+    
     private void ajustarLabel(String ubicacion, javax.swing.JLabel cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_DEFAULT));
         cosa.setIcon(icon);
     }
-
+    
     private void cargarPuestos() {
         List<String> puestos = controlador.getPuestos();
         for (String puesto : puestos) {
             guardarPuesto(puesto);
         }
     }
-
+    
     private void cargarHorarios() {
         List<String> horarios = controlador.getHorarios();
         for (String horario : horarios) {
