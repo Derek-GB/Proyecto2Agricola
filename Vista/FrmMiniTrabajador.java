@@ -25,6 +25,7 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     FrmUsuario observer;
     private TableRowSorter<TableModel> sorter;
+    FrmPrincipal frm;
 
     public void setDtos(List<TrabajadorDTO> ents) {
         this.ents = ents;
@@ -47,11 +48,12 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
         this.observer = observer;
     }
 
-    public FrmMiniTrabajador(java.awt.Frame parent, boolean modal) {
+    public FrmMiniTrabajador(java.awt.Frame parent, boolean modal, FrmPrincipal frm) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
         ajustarTodo();
+        this.frm=frm;
         tableModel = (DefaultTableModel) tabla.getModel();
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
@@ -72,6 +74,7 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
         txtfiltro2 = new javax.swing.JTextField();
         btnSeleccionar = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -132,6 +135,14 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
             }
         });
 
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setBorder(null);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -146,8 +157,10 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
                 .addGap(93, 93, 93)
                 .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(88, 88, 88)
                 .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129))
+                .addGap(98, 98, 98))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,7 +172,8 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44))
         );
 
@@ -204,12 +218,29 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        FrmTrabajador frmtrabajador =FrmTrabajador.getInstancia();
+        if (!frmtrabajador.isVisible()) {
+            frm.getDeskPrincipal().add(frmtrabajador);
+            frmtrabajador.setVisible(true);
+            frmtrabajador.setLocation((frm.getDeskPrincipal().getWidth() - frmtrabajador.getWidth()) / 2,
+                (frm.getDeskPrincipal().getHeight() - frmtrabajador.getHeight()) / 2);
+        } else {
+            try {
+                frmtrabajador.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

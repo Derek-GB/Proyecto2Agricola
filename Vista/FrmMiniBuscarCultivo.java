@@ -241,10 +241,10 @@ public class FrmMiniBuscarCultivo extends javax.swing.JDialog {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         FrmCultivo frmCultivo = FrmCultivo.getInstancia();
         if (!frmCultivo.isVisible()) {
-           frm.getDeskPrincipal().add(frmCultivo);
+            frm.getDeskPrincipal().add(frmCultivo);
             frmCultivo.setVisible(true);
             frmCultivo.setLocation((frm.getDeskPrincipal().getWidth() - frmCultivo.getWidth()) / 2,
-                    (frm.getDeskPrincipal().getHeight() - frmCultivo.getHeight()) / 2);
+                (frm.getDeskPrincipal().getHeight() - frmCultivo.getHeight()) / 2);
         } else {
             try {
                 frmCultivo.setSelected(true);

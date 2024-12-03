@@ -431,9 +431,15 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
 
         } catch (NumberFormatException e) {
             showError("Los campos ID y Área deben contener valores numéricos válidos.");
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
         } catch (DateTimeParseException e) {
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
             showError("Las fechas deben estar en el formato 'dd/MM/yyyy'.");
         } catch (Exception e) {
+            btnDes.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes);
             showError("Ocurrió un error al guardar los datos: " + e.getMessage());
         }
     }//GEN-LAST:event_btnGuardarActionPerformed

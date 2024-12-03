@@ -503,7 +503,7 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         try {
             List<ProduccionDTO> listPro;
             listPro = controller.readProducciones();
-            FrmMiniProduccion frm = new FrmMiniProduccion(null, false);
+            FrmMiniProduccion frm = new FrmMiniProduccion(null, false,frmPrin);
             frm.setObserver(this);
             frm.setDtos(listPro);
             frm.setVisible(true);

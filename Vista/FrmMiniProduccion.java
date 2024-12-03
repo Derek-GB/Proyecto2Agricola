@@ -30,6 +30,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     FrmAlmacenamiento observer;
     private TableRowSorter<TableModel> sorter;
+    FrmPrincipal frm;
 
     public void setDtos(List<ProduccionDTO> ents) {
         this.ents = ents;
@@ -54,13 +55,14 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
         this.observer = observer;
     }
 
-    public FrmMiniProduccion(java.awt.Frame parent, boolean modal) {
+    public FrmMiniProduccion(java.awt.Frame parent, boolean modal, FrmPrincipal frm) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
         tableModel = (DefaultTableModel) tabla.getModel();
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
+        this.frm=frm;
         ajustarTodo();
     }
 
@@ -79,6 +81,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
         txtfiltro2 = new javax.swing.JTextField();
         btnSeleccionar = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -139,6 +142,14 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
             }
         });
 
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setBorder(null);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,7 +163,9 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(81, 81, 81)
                 .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
                 .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(100, 100, 100))
         );
@@ -166,7 +179,8 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
 
@@ -210,6 +224,22 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        FrmProduccionn frmProduccionn = new FrmProduccionn(frm);
+        if (!frmProduccionn.isVisible()) {
+            frm.getDeskPrincipal().add(frmProduccionn);
+            frmProduccionn.setVisible(true);
+            frmProduccionn.setLocation((frm.getDeskPrincipal().getWidth() - frmProduccionn.getWidth()) / 2,
+                (frm.getDeskPrincipal().getHeight() - frmProduccionn.getHeight()) / 2);
+        } else {
+            try {
+                frmProduccionn.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
@@ -226,6 +256,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
     public void ajustarTodo() {
         ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
         ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
+        ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
 
     }
     /**
@@ -234,6 +265,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

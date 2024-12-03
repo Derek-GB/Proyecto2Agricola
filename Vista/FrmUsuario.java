@@ -34,18 +34,20 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     UsuarioControlador controller;
     Usuario usuario;
     FrmBuscarUsuario frm;
+    FrmPrincipal frmP;
 
-    private FrmUsuario() {
+    private FrmUsuario(FrmPrincipal frmP) {
         initComponents();
         btnDes.setVisible(false);
+        this.frmP=frmP;
         controller = new UsuarioControlador(this);
         ajustarTodo();
 
     }
 
-    public static FrmUsuario getInstancia() {
+    public static FrmUsuario getInstancia(FrmPrincipal frmP) {
         if (instanciaUnica == null) {
-            instanciaUnica = new FrmUsuario();
+            instanciaUnica = new FrmUsuario(frmP);
         }
         return instanciaUnica;
     }
@@ -491,7 +493,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
          try {
             List<TrabajadorDTO> listPro;
             listPro = controller.readTrabajadores();
-            FrmMiniTrabajador frm1 = new FrmMiniTrabajador(null, false);
+            FrmMiniTrabajador frm1 = new FrmMiniTrabajador(null, false,frmP);
             frm1.setObserver(this);
             frm1.setDtos(listPro);
             frm1.setVisible(true);

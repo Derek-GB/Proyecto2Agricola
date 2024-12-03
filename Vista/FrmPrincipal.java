@@ -443,7 +443,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseClicked
-        FrmUsuario frmUsuario = FrmUsuario.getInstancia();
+        FrmUsuario frmUsuario = FrmUsuario.getInstancia(this);
         if (!frmUsuario.isVisible()) {
             DeskPrincipal.add(frmUsuario);
             frmUsuario.setVisible(true);
@@ -477,7 +477,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 frm.setVisible(true);
             });
             opcion2.addActionListener(e -> {
-                FrmCambiarContraseña frmCambiarContraseña = new FrmCambiarContraseña(this, true, nombreUsuario);
+                FrmCambiarContraseña frmCambiarContraseña = new FrmCambiarContraseña(this, true, nombreUsuario,this);
                 frmCambiarContraseña.setLocationRelativeTo(DeskPrincipal);
                 frmCambiarContraseña.setVisible(true);
 
