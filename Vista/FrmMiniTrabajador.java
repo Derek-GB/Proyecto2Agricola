@@ -5,8 +5,12 @@
 package Vista;
 
 import Modelo.Trabajador.TrabajadorDTO;
+import java.awt.Image;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -47,6 +51,7 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+        ajustarTodo();
         tableModel = (DefaultTableModel) tabla.getModel();
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
@@ -211,4 +216,21 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
     private javax.swing.JTable tabla;
     private javax.swing.JTextField txtfiltro2;
     // End of variables declaration//GEN-END:variables
+    private void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
+        ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
+        if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
+            Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+            cosa.setIcon(icon);
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+                cosa.setIcon(icon);
+            });
+        }
+    }
+    
+    private void ajustarTodo() {
+        ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
+        ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
+    }
 }

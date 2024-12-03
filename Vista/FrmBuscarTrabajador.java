@@ -4,7 +4,6 @@
  */
 package Vista;
 
-import Controlador.TrabajadorControlador;
 import Modelo.Trabajador.Trabajador;
 import java.awt.Image;
 import java.util.List;
