@@ -627,25 +627,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-
-        String[] opciones = {"PDF", "XML"};
-        int opcionSeleccionada = JOptionPane.showOptionDialog(
-                this,
-                "Seleccione el formato de salida",
-                "Imprimir Reporte",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                opciones,
-                opciones[0]
-        );
-
-        if (opcionSeleccionada == -1) {
-
-            return;
-        }
-
-        Produccion produccion = obtenerDatosProduccion();
+Produccion produccion = obtenerDatosProduccion();
         if (produccion == null) {
             JOptionPane.showMessageDialog(this, "Error: No se pudieron obtener los datos de producción.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -655,15 +637,10 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         String rutaArchivo;
 
         try {
-            if (opcionSeleccionada == 0) {
                 rutaArchivo = "reporteProduccion.pdf";
                 reporte.generarReportePDF(rutaArchivo, produccion);
                 JOptionPane.showMessageDialog(this, "Reporte PDF generado en: " + new File(rutaArchivo).getAbsolutePath());
-            } else if (opcionSeleccionada == 1) {
-                rutaArchivo = "reporteProduccion.xml";
-                reporte.generarReporteXML(rutaArchivo, produccion);
-                JOptionPane.showMessageDialog(this, "Reporte XML generado en: " + new File(rutaArchivo).getAbsolutePath());
-            }
+                         
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
