@@ -609,6 +609,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
         }
         txtUsuario.setText(ent.getNombre());
         txtContraseña.setText(ent.getContraseña());
+        txtTrabajador.setText(ent.getTrabajador().getCedula());
 
         if (ent.getRol() != null) {
             txtRol.setSelectedItem(ent.getRol().toString());
