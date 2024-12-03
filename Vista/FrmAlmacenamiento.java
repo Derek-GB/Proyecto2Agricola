@@ -321,23 +321,42 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
             return;
         }
 
-        int idAlmacenamiento = Integer.parseInt(txtIdAlmacenamiento.getText());
-        Integer produccionId = Integer.parseInt(txtIdProduccion.getText());
-        Produccion produccion = controller.obtenerProduccionPorId(produccionId);
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaIngreso = LocalDate.parse(txtFechaIngreso.getText(), formatter);
+        try {
 
-        almacenamiento = new Almacenamiento(
-                idAlmacenamiento,
-                produccion,
-                cantidad,
-                fechaIngreso
-        );
-        controller.create(almacenamiento);
+            int idAlmacenamiento = Integer.parseInt(txtIdAlmacenamiento.getText());
+            Integer produccionId = Integer.parseInt(txtIdProduccion.getText());
+            Produccion produccion = controller.obtenerProduccionPorId(produccionId);
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate fechaIngreso = LocalDate.parse(txtFechaIngreso.getText(), formatter);
 
-        this.Editar(false);
-        estadosBotones();
+            if (fechaIngreso.isBefore(LocalDate.now())) {
+                showError("La fecha de ingreso no puede ser menor que hoy.");
+                btnDes.setVisible(true);
+                return;
+            }
+
+            almacenamiento = new Almacenamiento(
+                    idAlmacenamiento,
+                    produccion,
+                    cantidad,
+                    fechaIngreso
+            );
+            controller.create(almacenamiento);
+
+            this.Editar(false);
+            estadosBotones();
+        } catch (NumberFormatException e) {
+            showError("Los campos ID y Cantidad deben contener valores numéricos válidos.");
+            btnDes.setVisible(true);
+        } catch (DateTimeParseException e) {
+            showError("La fecha de ingreso debe estar en el formato 'dd/MM/yyyy'.");
+            btnDes.setVisible(true);
+        } catch (Exception e) {
+            showError("Ocurrió un error al guardar los datos: " + e.getMessage());
+            btnDes.setVisible(true);
+        }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -390,6 +409,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
                 if (formatter != null) {
                     newFechaEgreso = LocalDate.parse(fechaEgresoText, formatter);
                     fechaEgresoCambiada = !newFechaEgreso.equals(almacenamiento.getFechaEgreso());
+                    if (newFechaEgreso.isBefore(almacenamiento.getFechaIngreso())) {
+                        showError("La fecha de egreso no puede ser menor que la fecha de ingreso.");
+                        return;
+                    }
                 } else {
                     showError("La fecha de egreso debe estar en un formato válido ('dd/MM/yyyy' o 'yyyy-MM-dd').");
                     return;
@@ -576,10 +599,10 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
         txtIdProduccion.setEditable(valor);
         txtFechaIngreso.setEditable(valor);
         btnMas.setEnabled(valor);
-        
+
     }
-    
-     public void EditarMini(boolean valor) {
+
+    public void EditarMini(boolean valor) {
         txtIdAlmacenamiento.setEditable(valor);
         txtIdProduccion.setEditable(valor);
         btnMas.setEnabled(valor);
