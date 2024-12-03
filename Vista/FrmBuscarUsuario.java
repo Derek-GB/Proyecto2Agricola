@@ -192,7 +192,11 @@ public class FrmBuscarUsuario extends javax.swing.JDialog {
             return;
         }
         String id = tabla.getValueAt(selectedRow, 0).toString();
-        observer.show(ents.stream().filter(usuario -> usuario.getNombre().equals(id)).findFirst().orElse(null));
+        Usuario seleccionada = ents.stream()
+        .filter(almacenamiento -> String.valueOf(almacenamiento.getNombre()).equals(id)) 
+        .findFirst()
+        .orElse(null);
+        observer.show(seleccionada);
         this.dispose();
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 

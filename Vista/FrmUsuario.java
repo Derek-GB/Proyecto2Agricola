@@ -7,9 +7,13 @@ package Vista;
 import Controlador.UsuarioControlador;
 import Enums.Rol;
 import Modelo.Trabajador.Trabajador;
+import Modelo.Trabajador.TrabajadorDTO;
 import Modelo.Usuario.Usuario;
+import java.sql.SQLException;
 import Utils.UtilGui;
+import com.itextpdf.text.log.Logger;
 import java.awt.Image;
+import java.lang.System.Logger.Level;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -199,6 +203,11 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
         btnMas.setFont(new java.awt.Font("sansserif", 0, 8)); // NOI18N
         btnMas.setText("+");
         btnMas.setEnabled(false);
+        btnMas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -239,13 +248,11 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
                                 .addGap(13, 13, 13)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addContainerGap(12, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -479,6 +486,19 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     private void txtTrabajadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTrabajadorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTrabajadorActionPerformed
+
+    private void btnMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasActionPerformed
+         try {
+            List<TrabajadorDTO> listPro;
+            listPro = controller.readTrabajadores();
+            FrmMiniTrabajador frm1 = new FrmMiniTrabajador(null, false);
+            frm1.setObserver(this);
+            frm1.setDtos(listPro);
+            frm1.setVisible(true);
+        } catch (SQLException ex) {
+             System.out.println("error"); 
+        }
+    }//GEN-LAST:event_btnMasActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -507,6 +527,7 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
     private void limpiar() {
         txtUsuario.setText("");
         txtContraseña.setText("");
+        txtTrabajador.setText("");
     }
 
     public void Editar(boolean valor) {
@@ -636,6 +657,10 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
                 return Rol.TRABAJADOR;
         }
 
+    }
+    
+     public void updateIdProduccion(int id) {
+        txtTrabajador.setText(String.valueOf(id));
     }
 
 }

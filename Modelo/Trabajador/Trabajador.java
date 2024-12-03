@@ -70,6 +70,11 @@ public class Trabajador {
         return horario;
     }
 
+    @Override
+    public String toString() {
+        return cedula + "-" + nombre;
+    }
+
     public void setHorario(String horario) {
         if (invalidarCadena(horario)) {
             throw new IllegalArgumentException(ARGUMENTOINVALIDO);

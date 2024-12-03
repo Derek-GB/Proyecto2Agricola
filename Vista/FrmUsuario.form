@@ -97,7 +97,6 @@
                                   <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <EmptySpace min="18" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="1" attributes="0">
                                               <Component id="jLabel3" min="-2" pref="96" max="-2" attributes="0"/>
                                               <Component id="btnDes" min="-2" pref="41" max="-2" attributes="0"/>
@@ -105,7 +104,6 @@
                                           <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="txtRol" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace pref="12" max="32767" attributes="0"/>
                                       </Group>
@@ -407,6 +405,9 @@
             <Property name="text" type="java.lang.String" value="+"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMasActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -188,5 +188,9 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
     public void mostrarMensaje(String mensaje) {
         view.showMessage(mensaje);
     }
+    
+      public List<TrabajadorDTO> readTrabajadores() throws SQLException {
+        return new TrabajadorDAO(Database.getConnection()).readAll();
+    }
 
 }
