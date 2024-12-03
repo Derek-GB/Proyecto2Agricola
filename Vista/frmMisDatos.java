@@ -21,19 +21,20 @@ public class frmMisDatos extends javax.swing.JInternalFrame implements Vista<Tra
      * Creates new form frmMisDatos
      */
     Usuario usuario;
+    Trabajador trabajdor;
     UsuarioControlador controller;
     private static frmMisDatos instance;
 
-    private frmMisDatos() {
+    private frmMisDatos(Trabajador trabajador) {
         initComponents();
         controller = new UsuarioControlador(this);
         controller.readAll();
-        cargarDatos(usuario);
+        showAll(trabajador);
     }
 
-    public static frmMisDatos getInstancia() {
+    public static frmMisDatos getInstancia(Trabajador trabajador) {
         if (instance == null) {
-            instance = new frmMisDatos();
+            instance = new frmMisDatos(trabajador);
             
         }
         return instance;
@@ -90,7 +91,7 @@ public class frmMisDatos extends javax.swing.JInternalFrame implements Vista<Tra
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 51));
-        jLabel4.setText("Trabajador");
+        jLabel4.setText("Mis datos:");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
         btnCancelar.setBorder(null);
@@ -291,17 +292,6 @@ public class frmMisDatos extends javax.swing.JInternalFrame implements Vista<Tra
     @Override
     public void show(Trabajador ent) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    private void cargarDatos(Usuario usuario) {
-
-        String idTrabajador = usuario.getTrabajador().getCedula();
-        Trabajador trabajador = controller.obtenerTrabajadorPorId(idTrabajador);
-        if (trabajador != null) {
-            showAll(List.of(trabajador));
-        } else {
-            JOptionPane.showMessageDialog(this, "No se encontraron datos para el trabajador.");
-        }
     }
 
     public void showAll(Trabajador trabajador) {

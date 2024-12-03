@@ -43,11 +43,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private Trabajador trabajador;
     FrmInicioSesión frm;
 
-    private FrmPrincipal(String nombre, String contrasena, Rol rol,Trabajador trabajador) {
+    private FrmPrincipal(String nombre, String contrasena, Rol rol, Trabajador trabajador) {
         this.nombreUsuario = nombre;
         this.contrasenaUsuario = contrasena;
         this.rolUsuario = rol;
-        this.trabajador=trabajador;
+        this.trabajador = trabajador;
         initComponents();
         setExtendedState(FrmPrincipal.MAXIMIZED_BOTH);
         getContentPane().setLayout(new BorderLayout());
@@ -59,9 +59,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         iniciarAlerta();
     }
 
-    public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol,Trabajador trabajador) {
+    public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol, Trabajador trabajador) {
         if (instance == null) {
-            instance = new FrmPrincipal(nombre, contrasena, rol,trabajador);
+            instance = new FrmPrincipal(nombre, contrasena, rol, trabajador);
         }
         return instance;
     }
@@ -509,11 +509,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void txtTrabajadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseClicked
-        FrmTrabajador frm = new FrmTrabajador();
-        DeskPrincipal.add(frm);
-        frm.setVisible(true);
-        frm.setLocation((DeskPrincipal.getWidth() - frm.getWidth()) / 2, (DeskPrincipal.getHeight() - frm.getHeight()) / 2);
+        if (rolUsuario == Rol.ADMINISTRADOR) {
+            FrmTrabajador frm = FrmTrabajador.getInstancia();
+            DeskPrincipal.add(frm);
+            frm.setVisible(true);
+            frm.setLocation((DeskPrincipal.getWidth() - frm.getWidth()) / 2, (DeskPrincipal.getHeight() - frm.getHeight()) / 2);
+        } else {
+            frmMisDatos frm = frmMisDatos.getInstancia(trabajador);
+            DeskPrincipal.add(frm);
+            frm.setVisible(true);
+            frm.setLocation((DeskPrincipal.getWidth() - frm.getWidth()) / 2, (DeskPrincipal.getHeight() - frm.getHeight()) / 2);
 
+        }
     }//GEN-LAST:event_txtTrabajadoresMouseClicked
 
     private void txtAlmacenamientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseClicked
@@ -549,9 +556,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarImagenes("/Imagenes/adUsuario.png", usertxt);
 
     }
-    
-    public void eliminarInstancia(){
-        instance=null;
+
+    public void eliminarInstancia() {
+        instance = null;
     }
 
     public String getNombreUsuario() {
@@ -566,7 +573,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return rolUsuario;
     }
 
-    public void ajustarRol(String nombre,String rol) {
+    public void ajustarRol(String nombre, String rol) {
         txtPresentacion.setText(nombre);
         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
         txtRol.setText("( " + rol + " )");
@@ -576,6 +583,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public void administarPermisos() {
         if (rolUsuario == Rol.TRABAJADOR) {
             txtUsuarios.setVisible(false);
+            jLabel6.setText("Mis datos");
         }
     }
 
@@ -613,8 +621,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al revisar los almacenamientos.");
         }
     }
-    
-    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

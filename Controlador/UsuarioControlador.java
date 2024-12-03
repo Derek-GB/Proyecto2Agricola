@@ -192,5 +192,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
       public List<TrabajadorDTO> readTrabajadores() throws SQLException {
         return new TrabajadorDAO(Database.getConnection()).readAll();
     }
+      
+      
 
 }

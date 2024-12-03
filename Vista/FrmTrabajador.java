@@ -73,11 +73,13 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     /**
      * Creates new form FrmTrabajador
      */
+    private static FrmTrabajador instance;
+    
     TrabajadorControlador controlador;
     Trabajador trabajador;
     FrmBuscarTrabajador frm;
     
-    public FrmTrabajador() {
+    private FrmTrabajador() {
         initComponents();
         btnDes.setVisible(false);
         controlador = new TrabajadorControlador(this);
@@ -85,6 +87,13 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         cargarHorarios();
         ajustarTodo();
         
+    }
+    
+    public static FrmTrabajador getInstancia() {
+        if (instance == null) {
+            instance = new FrmTrabajador();
+        }
+        return instance;
     }
 
     /**
