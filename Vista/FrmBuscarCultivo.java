@@ -193,6 +193,7 @@ public class FrmBuscarCultivo extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        frm.EditarMini(false);
         int selectedRow = tabla.getSelectedRow();
         if (selectedRow == -1) {
             return;

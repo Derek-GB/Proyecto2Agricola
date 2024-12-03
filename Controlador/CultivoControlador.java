@@ -139,10 +139,10 @@ public class CultivoControlador implements Controlador< Integer, Cultivo> {
     }
 
     @Override
-    public boolean validarPk(Integer id) {
-//        if (!cache.contains(id)) {
-//            return true;
-//        }
+    public synchronized boolean validarPk(Integer id) {
+        if (cache.get(id) !=null) {
+            return false;
+        }
         try {
             return dao.validatePK(id);
         } catch (SQLException ex) {

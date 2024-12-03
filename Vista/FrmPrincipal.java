@@ -5,6 +5,9 @@
 package Vista;
 
 import Enums.Rol;
+import Modelo.Almacenamiento.AlmacenamientoDAO;
+import Modelo.Almacenamiento.AlmacenamientoDTO;
+import static Modelo.Database.Database.getConnection;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import javax.swing.Icon;
@@ -14,6 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
 
 /**
  *
@@ -40,14 +50,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panelLateral, BorderLayout.WEST);
         getContentPane().add(panelCentro, BorderLayout.CENTER);
+        ajustarRol(nombreUsuario, rolUsuario.name());
         ajustarTodo();
-        ajustarRol();
         administarPermisos();
-
+        iniciarAlerta();
     }
 
     public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol) {
-         if (instance == null) {
+        if (instance == null) {
             instance = new FrmPrincipal(nombre, contrasena, rol);
         }
         return instance;
@@ -449,6 +459,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
             opcion1.addActionListener(e -> {
                 this.dispose();
+                eliminarInstancia();
                 frm = new FrmInicioSesión();
                 frm.setVisible(true);
             });
@@ -535,6 +546,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarImagenes("/Imagenes/adUsuario.png", usertxt);
 
     }
+    
+    public void eliminarInstancia(){
+        instance=null;
+    }
 
     public String getNombreUsuario() {
         return nombreUsuario;
@@ -548,10 +563,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         return rolUsuario;
     }
 
-    public void ajustarRol() {
-        txtPresentacion.setText(nombreUsuario);
+    public void ajustarRol(String nombre,String rol) {
+        txtPresentacion.setText(nombre);
         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
-        txtRol.setText("( " + rolUsuario + " )");
+        txtRol.setText("( " + rol + " )");
         txtPresentacion.setHorizontalAlignment(JTextField.CENTER);
     }
 
@@ -560,6 +575,43 @@ public class FrmPrincipal extends javax.swing.JFrame {
             txtUsuarios.setVisible(false);
         }
     }
+
+    public void iniciarAlerta() {
+        Timer timer = new Timer(86400000, e -> {
+            try {
+                revisar();
+            } catch (SQLException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        timer.start();
+    }
+
+    public void revisar() throws SQLException {
+        AlmacenamientoDAO almacenamientoDAO = new AlmacenamientoDAO(getConnection());
+        int contadorMeses = 0;
+
+        try {
+            List<AlmacenamientoDTO> almacenamientos = almacenamientoDAO.readAll();
+            for (AlmacenamientoDTO dto : almacenamientos) {
+                if (dto.getFechaEgreso() == null) {
+                    LocalDate fechaIngreso = dto.getFechaIngreso().toLocalDate();
+                    LocalDate fechaActual = LocalDate.now();
+                    long mesesDeAlmacenamiento = ChronoUnit.MONTHS.between(fechaIngreso, fechaActual);
+
+                    if (mesesDeAlmacenamiento > contadorMeses) {
+                        contadorMeses = (int) mesesDeAlmacenamiento;
+                        JOptionPane.showMessageDialog(this, "El almacenamiento con ID " + dto.getId() + " lleva " + contadorMeses + " meses en almacenamiento.");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al revisar los almacenamientos.");
+        }
+    }
+    
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
