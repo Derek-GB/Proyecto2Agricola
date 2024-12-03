@@ -468,6 +468,10 @@ public class FrmUsuario extends javax.swing.JInternalFrame implements Vista<Usua
         txtContraseña.setEditable(valor);
     }
 
+    public void EditarMini(boolean valor) {
+        txtUsuario.setEditable(valor);
+    }
+
     public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
         ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
         if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {

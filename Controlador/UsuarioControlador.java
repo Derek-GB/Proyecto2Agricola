@@ -84,7 +84,6 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
             cache.change(dto.getNombre(), dto);
-            view.showMessage("Trabajador actualizado correctamente");
         } catch (SQLException ex) {
             view.showError("Error al actualizar los datos: " + ex.getMessage());
         }

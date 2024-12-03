@@ -709,14 +709,15 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     }
 
     private void limpiar() {
-        txtId.setText("0");
-        cbxNombre.setSelectedItem(0);
-        cbxTipo.setSelectedItem(0);
+        txtId.setText("");
+        cbxNombre.setSelectedItem("");
+        cbxTipo.setSelectedItem("");
         txtArea.setText("");
-        cbxEstado.setSelectedItem(0);
+        cbxEstado.setSelectedItem("");
         txtFechaSiembra.setText("");
         txtFechaCosecha.setText("");
     }
+    
 
     public void Editar(boolean valor) {
         txtId.setEditable(valor);
@@ -727,6 +728,15 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         cbxEstado.setEditable(valor);
         txtFechaSiembra.setEditable(valor);
         txtFechaCosecha.setEditable(valor);
+    }
+    
+     public void EditarMini(boolean valor) {
+        txtId.setEditable(valor);
+        cbxNombre.setEditable(valor);
+        cbxTipo.setEditable(valor);
+        txtArea.setEditable(valor);
+        txtArea.setEditable(valor);
+        txtFechaSiembra.setEditable(valor);
     }
 
     public TipoCultivo convertirTipoCultivo(String tipoSeleccionadoString) {
