@@ -107,7 +107,7 @@ private FrmProduccionn observer;
         });
         jScrollPane1.setViewportView(tabla);
 
-        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seleccionar.png"))); // NOI18N
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

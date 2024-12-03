@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Controlador.CultivoControlador;
+
 import Controlador.ProduccionControlador;
 import Modelo.Cultivo.Cultivo;
 import Modelo.Cultivo.CultivoDTO;
@@ -14,15 +14,17 @@ import Utils.UtilGui;
 import java.awt.Image;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import Modelo.Produccion.ReporteProduccion;
+import java.io.File;
 
 /**
  *
@@ -30,7 +32,7 @@ import javax.swing.SwingUtilities;
  */
 public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<Produccion> {
 
-    CultivoControlador controlador;
+    ReporteProduccion reporte;
     ProduccionControlador controller;
     Produccion produccion;
     FrmBuscarProduccion frm;
@@ -38,7 +40,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     public FrmProduccionn() {
         initComponents();
         controller = new ProduccionControlador(this);
-        controlador = new CultivoControlador(this);
+
         btnDes4.setVisible(false);
         ajustarTodo();
         Editar(false);
@@ -77,6 +79,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtCantidadRecolectada = new javax.swing.JTextField();
         txtCantidadEsperada = new javax.swing.JTextField();
         txtProductividad = new javax.swing.JFormattedTextField();
+        btnImprimir = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -183,7 +186,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         btnLlamarFrmBuscarCultivo.setBackground(new java.awt.Color(30, 30, 30));
         btnLlamarFrmBuscarCultivo.setForeground(new java.awt.Color(255, 255, 255));
         btnLlamarFrmBuscarCultivo.setText("+");
-        btnLlamarFrmBuscarCultivo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnLlamarFrmBuscarCultivo.setBorder(null);
         btnLlamarFrmBuscarCultivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLlamarFrmBuscarCultivoActionPerformed(evt);
@@ -193,7 +196,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtDestino.setBackground(new java.awt.Color(30, 30, 30));
         txtDestino.setEditable(true);
         txtDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venta", "Almacenamiento" }));
-        txtDestino.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtDestino.setBorder(null);
 
         txtCultivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +229,14 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtProductividad.setEditable(false);
         txtProductividad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
 
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/imprimir.png"))); // NOI18N
+        btnImprimir.setBorder(null);
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -243,6 +254,8 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                 .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -264,13 +277,13 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtCantidadRecolectada, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGap(0, 2, Short.MAX_VALUE)
                                         .addComponent(jLabel17)
                                         .addGap(106, 106, 106)))
                                 .addGap(18, 18, 18))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnLlamarFrmBuscarCultivo)
+                                .addComponent(btnLlamarFrmBuscarCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(22, 22, 22)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
@@ -312,7 +325,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                         .addComponent(jLabel17)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnLlamarFrmBuscarCultivo)
+                            .addComponent(btnLlamarFrmBuscarCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -337,13 +350,14 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
                     .addComponent(txtCantidadEsperada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProductividad, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(64, 64, 64)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnActualizar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNuevo4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnActualizar4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -544,13 +558,12 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     private void btnLlamarFrmBuscarCultivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarFrmBuscarCultivoActionPerformed
 
         try {
-            List<CultivoDTO> listCultivoDTO =  controller.readCultivos();
+            List<CultivoDTO> listCultivoDTO = controller.readCultivos();
             FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false);
-           mini.setObserver(this);
+            mini.setObserver(this);
             mini.setDtos(listCultivoDTO);
             mini.setVisible(true);
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(FrmProduccionn.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -613,6 +626,49 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         }
     }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+
+        String[] opciones = {"PDF", "XML"};
+        int opcionSeleccionada = JOptionPane.showOptionDialog(
+                this,
+                "Seleccione el formato de salida",
+                "Imprimir Reporte",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+        );
+
+        if (opcionSeleccionada == -1) {
+
+            return;
+        }
+
+        Produccion produccion = obtenerDatosProduccion();
+        if (produccion == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se pudieron obtener los datos de producción.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ReporteProduccion reporte = new ReporteProduccion();
+        String rutaArchivo;
+
+        try {
+            if (opcionSeleccionada == 0) {
+                rutaArchivo = "reporteProduccion.pdf";
+                reporte.generarReportePDF(rutaArchivo, produccion);
+                JOptionPane.showMessageDialog(this, "Reporte PDF generado en: " + new File(rutaArchivo).getAbsolutePath());
+            } else if (opcionSeleccionada == 1) {
+                rutaArchivo = "reporteProduccion.xml";
+                reporte.generarReporteXML(rutaArchivo, produccion);
+                JOptionPane.showMessageDialog(this, "Reporte XML generado en: " + new File(rutaArchivo).getAbsolutePath());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar4;
@@ -621,6 +677,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     private javax.swing.JButton btnDes4;
     private javax.swing.JButton btnEliminar4;
     private javax.swing.JButton btnGuardar4;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLlamarFrmBuscarCultivo;
     private javax.swing.JButton btnNuevo4;
     private javax.swing.JLabel jLabel17;
@@ -643,12 +700,24 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
     @Override
     public void show(Produccion ent) {
+  
+        produccion = ent;
+        if (ent == null) {
+            limpiar();
+            return;
+        }
+        txtCultivo.setText(String.valueOf(ent.getCultivo().getId()));
+        txtFecha.setText(String.valueOf(ent.getFecha()));
+        txtCalidad.setText(ent.getCalidad());
+        txtDestino.setSelectedItem(ent.getDestino());
+        txtCantidadRecolectada.setText(String.valueOf(ent.getCantidadRecolectada()));
+
         
     }
 
     @Override
     public void showAll(List<Produccion> ents) {
- if (frm == null) {
+        if (frm == null) {
             frm = new FrmBuscarProduccion(null, true);
             frm.setObserver(this);
         }
@@ -719,9 +788,27 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtFecha.setEditable(valor);
     }
 
-    public void updateIdCultivo(int id){
+    public void updateIdCultivo(int id) {
         txtCultivo.setText(String.valueOf(id));
     }
-    
-    
+
+    private Produccion obtenerDatosProduccion() {
+        try {
+            Integer cultivoId = Integer.valueOf(txtCultivo.getText());
+            Cultivo cultivo = controller.obtenerCultivoPorId(cultivoId);
+            Produccion produccion = new Produccion(cultivo,
+                    Double.parseDouble(txtCantidadRecolectada.getText()),
+                    txtCalidad.getText(),
+                    txtDestino.getSelectedItem().toString()
+            );
+
+            return produccion;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error: Verifique los datos numéricos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
 }

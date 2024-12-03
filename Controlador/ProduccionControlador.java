@@ -140,9 +140,9 @@ public class ProduccionControlador implements Controlador< Integer, Produccion> 
     }
 
     @Override
-    public boolean validarPk(Integer id) {
-        if (!cache.contains(id)) {
-            return true;
+    public synchronized boolean validarPk(Integer id) {
+        if (cache.get(id) != null) {
+            return false;
         }
         try {
             return dao.validatePK(id);
