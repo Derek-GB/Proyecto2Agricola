@@ -6,6 +6,7 @@ package Vista;
 
 import Controlador.CultivoControlador;
 import Enums.EstadoCrecimiento;
+import Enums.Rol;
 import Enums.TipoCultivo;
 import Modelo.Cultivo.Cultivo;
 import Utils.UtilGui;
@@ -800,6 +801,19 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         cbxNombre.removeAllItems();
         for (String nombre : nombresCultivos) {
             cbxNombre.addItem(nombre);
+        }
+    }
+    
+     public void setVistaC(Rol rol) {
+        switch (rol) {
+            case (Rol.ADMINISTRADOR) -> {
+                ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
+                btnEliminar.setVisible(true);
+
+            }
+            case (Rol.TRABAJADOR) -> {
+                btnEliminar.setVisible(false);
+            }
         }
     }
 

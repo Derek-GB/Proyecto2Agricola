@@ -6,6 +6,7 @@ package Vista;
 
 
 import Controlador.ProduccionControlador;
+import Enums.Rol;
 import Modelo.Cultivo.Cultivo;
 import Modelo.Cultivo.CultivoDTO;
 import Modelo.Produccion.Produccion;
@@ -786,6 +787,18 @@ Produccion produccion = obtenerDatosProduccion();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return null;
+        }
+    }
+     public void setVistaP(Rol rol) {
+        switch (rol) {
+            case (Rol.ADMINISTRADOR) -> {
+                ajustarImagenes("/Imagenes/eliminar.png", btnEliminar4);
+                btnEliminar4.setVisible(true);
+
+            }
+            case (Rol.TRABAJADOR) -> {
+                btnEliminar4.setVisible(false);
+            }
         }
     }
 }

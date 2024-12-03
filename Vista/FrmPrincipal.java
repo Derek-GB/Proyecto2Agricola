@@ -36,7 +36,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
      * Creates new form FrmPrincipal
      */
     private static FrmPrincipal instance;
-
     private String nombreUsuario;
     private String contrasenaUsuario;
     private Rol rolUsuario;
@@ -117,6 +116,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 jPanel1MouseClicked(evt);
             }
         });
+        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPanel1KeyTyped(evt);
+            }
+        });
 
         cultivotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cultivo.png"))); // NOI18N
         cultivotxt.setText("jLabel3");
@@ -182,6 +186,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel3MouseClicked(evt);
+            }
+        });
 
         protxt1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/produccion.png"))); // NOI18N
         protxt1.setText("jLabel3");
@@ -480,6 +489,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         FrmCultivo frmCultivo = FrmCultivo.getInstancia();
         if (!frmCultivo.isVisible()) {
             DeskPrincipal.add(frmCultivo);
+            frmCultivo.setVistaC(rolUsuario);
             frmCultivo.setVisible(true);
             frmCultivo.setLocation((DeskPrincipal.getWidth() - frmCultivo.getWidth()) / 2,
                     (DeskPrincipal.getHeight() - frmCultivo.getHeight()) / 2);
@@ -493,9 +503,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        FrmProduccionn frmProduccionn = new FrmProduccionn();
+     FrmProduccionn frmProduccionn = new FrmProduccionn();
         if (!frmProduccionn.isVisible()) {
             DeskPrincipal.add(frmProduccionn);
+            frmProduccionn.setVistaP(rolUsuario);
             frmProduccionn.setVisible(true);
             frmProduccionn.setLocation((DeskPrincipal.getWidth() - frmProduccionn.getWidth()) / 2,
                     (DeskPrincipal.getHeight() - frmProduccionn.getHeight()) / 2);
@@ -505,7 +516,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException ex) {
                 ex.printStackTrace();
             }
-        }
+        }      
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void txtTrabajadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseClicked
@@ -524,9 +535,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTrabajadoresMouseClicked
 
     private void txtAlmacenamientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseClicked
-        FrmAlmacenamiento frmAlmacenamiento = FrmAlmacenamiento.getInstancia();
+        FrmAlmacenamiento frmAlmacenamiento = FrmAlmacenamiento.getInstancia(this);
         if (!frmAlmacenamiento.isVisible()) {
             DeskPrincipal.add(frmAlmacenamiento);
+            frmAlmacenamiento.setVista(rolUsuario);
             frmAlmacenamiento.setVisible(true);
             frmAlmacenamiento.setLocation((DeskPrincipal.getWidth() - frmAlmacenamiento.getWidth()) / 2,
                     (DeskPrincipal.getHeight() - frmAlmacenamiento.getHeight()) / 2);
@@ -537,6 +549,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }    }//GEN-LAST:event_txtAlmacenamientoMouseClicked
+
+    private void jPanel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1KeyTyped
+
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+       
+    }//GEN-LAST:event_jPanel3MouseClicked
 
     /**
      * @param args the command line arguments

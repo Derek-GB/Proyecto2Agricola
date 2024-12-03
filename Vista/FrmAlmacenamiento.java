@@ -5,6 +5,7 @@
 package Vista;
 
 import Controlador.AlmacenamientoControlador;
+import Enums.Rol;
 import Modelo.Almacenamiento.Almacenamiento;
 import Modelo.Produccion.Produccion;
 import Modelo.Produccion.ProduccionDTO;
@@ -36,19 +37,25 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
     AlmacenamientoControlador controller;
     Almacenamiento almacenamiento;
     FrmBuscarAlmacenamiento frm;
+    FrmPrincipal frmPrin;
 
-    private FrmAlmacenamiento() {
+    private FrmAlmacenamiento(FrmPrincipal Prin) {
         initComponents();
         btnDes.setVisible(false);
+        this.frmPrin = Prin;
         controller = new AlmacenamientoControlador(this);
         ajustarTodo();
     }
 
-    public static FrmAlmacenamiento getInstancia() {
+    public static FrmAlmacenamiento getInstancia(FrmPrincipal Prin) {
         if (instance == null) {
-            instance = new FrmAlmacenamiento();
+            instance = new FrmAlmacenamiento(Prin);
         }
         return instance;
+    }
+
+    public void eliminarInstanciaAlmacenamiento() {
+        instance = null;
     }
 
     /**
@@ -639,6 +646,26 @@ public class FrmAlmacenamiento extends javax.swing.JInternalFrame implements Vis
 
     public void fechaEgresoEditable() {
         txtFechaEgreso.setEditable(true);
+    }
+
+    public void administrarPermisos() {
+        if (frmPrin.getRolUsuario() == Rol.TRABAJADOR) {
+            btnEliminar.setVisible(false);
+
+        }
+    }
+
+    public void setVista(Rol rol) {
+        switch (rol) {
+            case (Rol.ADMINISTRADOR) -> {
+                ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
+                btnEliminar.setVisible(true);
+
+            }
+            case (Rol.TRABAJADOR) -> {
+                btnEliminar.setVisible(false);
+            }
+        }
     }
 
 }
