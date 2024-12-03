@@ -6,8 +6,13 @@ package Vista;
 
 import Modelo.Produccion.Produccion;
 import Modelo.Produccion.ProduccionDTO;
+import Utils.UtilGui;
+import java.awt.Image;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -56,6 +61,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
         tableModel = (DefaultTableModel) tabla.getModel();
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
+        ajustarTodo();
     }
 
     /**
@@ -117,7 +123,7 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
             }
         });
 
-        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seleccionar.png"))); // NOI18N
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,7 +210,24 @@ public class FrmMiniProduccion extends javax.swing.JDialog {
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelar1ActionPerformed
+    public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
+        ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
+        if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
+            Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+            cosa.setIcon(icon);
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+                cosa.setIcon(icon);
+            });
+        }
+    }
 
+    public void ajustarTodo() {
+        ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
+        ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
+
+    }
     /**
      * @param args the command line arguments
      */

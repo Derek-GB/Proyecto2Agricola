@@ -6,8 +6,13 @@ package Vista;
 
 import Modelo.Cultivo.Cultivo;
 import Modelo.Cultivo.CultivoDTO;
+import Utils.UtilGui;
+import java.awt.Image;
 import java.util.List;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -17,32 +22,32 @@ import javax.swing.table.TableRowSorter;
  * @author Tony
  */
 public class FrmMiniBuscarCultivo extends javax.swing.JDialog {
-private FrmProduccionn observer;
- List<CultivoDTO> ents;
-  TableRowSorter<TableModel> sorter;
-  private DefaultTableModel tableModel;
+
+    private FrmProduccionn observer;
+    FrmPrincipal frm;
+    List<CultivoDTO> ents;
+    TableRowSorter<TableModel> sorter;
+    private DefaultTableModel tableModel;
+
     /**
      * Creates new form FrmMiniBuscarCultivo
      */
-    public FrmMiniBuscarCultivo(java.awt.Frame parent, boolean modal) {
+    public FrmMiniBuscarCultivo(java.awt.Frame parent, boolean modal,FrmPrincipal frm) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
         tableModel = (DefaultTableModel) tabla.getModel();
         sorter = new TableRowSorter<>(this.tabla.getModel());
         tabla.setRowSorter(sorter);
+        this.frm=frm;
+        ajustarTodo();
     }
-    
-    
-        public void setObserver(FrmProduccionn observer) {
+
+    public void setObserver(FrmProduccionn observer) {
         this.observer = observer;
     }
-    
 
-    
-    
-    
- public void setDtos(List<CultivoDTO> ents) {
+    public void setDtos(List<CultivoDTO> ents) {
         this.ents = ents;
         if (ents == null || tableModel == null) {
             return;
@@ -61,6 +66,7 @@ private FrmProduccionn observer;
                 }
         ));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +82,7 @@ private FrmProduccionn observer;
         btnSeleccionar = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
         txtfiltro = new javax.swing.JTextField();
+        btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -134,6 +141,14 @@ private FrmProduccionn observer;
             }
         });
 
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setBorder(null);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,7 +156,9 @@ private FrmProduccionn observer;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(104, 104, 104)
                 .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 301, Short.MAX_VALUE)
+                .addGap(127, 127, 127)
+                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(117, 117, 117))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -150,7 +167,7 @@ private FrmProduccionn observer;
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -163,7 +180,8 @@ private FrmProduccionn observer;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,11 +217,11 @@ private FrmProduccionn observer;
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
         this.dispose();
-       
+
     }//GEN-LAST:event_btnCancelar1ActionPerformed
 
     private void txtfiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfiltroActionPerformed
-       String searchText = txtfiltro.getText();
+        String searchText = txtfiltro.getText();
         if (searchText.trim().isEmpty()) {
             sorter.setRowFilter(null);
         } else {
@@ -220,13 +238,48 @@ private FrmProduccionn observer;
         }
     }//GEN-LAST:event_txtfiltroKeyReleased
 
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        FrmCultivo frmCultivo = FrmCultivo.getInstancia();
+        if (!frmCultivo.isVisible()) {
+           frm.getDeskPrincipal().add(frmCultivo);
+            frmCultivo.setVisible(true);
+            frmCultivo.setLocation((frm.getDeskPrincipal().getWidth() - frmCultivo.getWidth()) / 2,
+                    (frm.getDeskPrincipal().getHeight() - frmCultivo.getHeight()) / 2);
+        } else {
+            try {
+                frmCultivo.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
+    public void ajustarImagenes(String ubicacion, javax.swing.JButton cosa) {
+        ImageIcon image = new ImageIcon(getClass().getResource(ubicacion));
+        if (cosa.getWidth() > 0 && cosa.getHeight() > 0) {
+            Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+            cosa.setIcon(icon);
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                Icon icon = new ImageIcon(image.getImage().getScaledInstance(cosa.getWidth(), cosa.getHeight(), Image.SCALE_SMOOTH));
+                cosa.setIcon(icon);
+            });
+        }
+    }
+
+
+    public void ajustarTodo() {
+        ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
+        ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
+        ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
+
+    }
     /**
      * @param args the command line arguments
      */
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

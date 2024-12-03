@@ -24,6 +24,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
 import javax.swing.Timer;
 
 /**
@@ -503,7 +504,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-     FrmProduccionn frmProduccionn = new FrmProduccionn();
+     FrmProduccionn frmProduccionn = new FrmProduccionn(this);
         if (!frmProduccionn.isVisible()) {
             DeskPrincipal.add(frmProduccionn);
             frmProduccionn.setVistaP(rolUsuario);
@@ -616,6 +617,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         timer.start();
+    }
+
+    public JDesktopPane getDeskPrincipal() {
+        return DeskPrincipal;
     }
 
     public void revisar() throws SQLException {

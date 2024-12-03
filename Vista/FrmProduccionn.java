@@ -37,11 +37,12 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     ProduccionControlador controller;
     Produccion produccion;
     FrmBuscarProduccion frm;
+    FrmPrincipal frmP;
 
-    public FrmProduccionn() {
+    public FrmProduccionn(FrmPrincipal frp) {
         initComponents();
         controller = new ProduccionControlador(this);
-
+        this.frmP=frp;
         btnDes4.setVisible(false);
         ajustarTodo();
         Editar(false);
@@ -560,7 +561,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         try {
             List<CultivoDTO> listCultivoDTO = controller.readCultivos();
-            FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false);
+            FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false,frmP);
             mini.setObserver(this);
             mini.setDtos(listCultivoDTO);
             mini.setVisible(true);
