@@ -266,5 +266,6 @@ public class FrmMiniTrabajador extends javax.swing.JDialog {
     private void ajustarTodo() {
         ajustarImagenes("/Imagenes/seleccionar.png", btnSeleccionar);
         ajustarImagenes("/Imagenes/cancelar.png", btnCancelar1);
+        ajustarImagenes("/Imagenes/nuevo.png", btnNuevo);
     }
 }
