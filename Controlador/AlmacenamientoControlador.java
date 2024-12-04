@@ -134,16 +134,13 @@ public class AlmacenamientoControlador implements Controlador< Integer, Almacena
         return entidad.getId() > 0
                 && entidad.getProduccion() != null
                 && entidad.getCantidad() > 0;
-//                && entidad.getFechaIngreso()
-//                && entidad.getFechaEgreso()
-
     }
 
     @Override
     public boolean validarPk(Integer id) {
-//        if (!cache.contains(id)) {
-//            return true;
-//        }
+        if (cache.get(id)!=null) {
+            return false;
+        }
         try {
             return dao.validatePK(id);
         } catch (SQLException ex) {

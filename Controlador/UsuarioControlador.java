@@ -85,7 +85,6 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
             return;
         }
         try {
-            String nombre = entidad.getNombre().trim();
             UsuarioDTO dto = mapper.toDTO(entidad);
             dao.update(dto);
             cache.change(dto.getNombre(), dto);
@@ -167,9 +166,9 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
 
     @Override
     public boolean validarPk(String id) {
-//        if (!cache.contains(id)) {
-//            return true;
-//        }
+        if (cache.get(id)!=null) {
+            return false;
+        }
         try {
             return dao.validatePK(id);
         } catch (SQLException ex) {
