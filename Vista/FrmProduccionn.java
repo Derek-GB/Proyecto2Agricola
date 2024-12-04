@@ -425,10 +425,11 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         );
 
         controller.create(produccion);
-        if(controller.isCompleteOperation()){
+        if (controller.isCompleteOperation()) {
             txtFecha.setEnabled(true);
             jLabel18.setEnabled(true);
             estadosBotones();
+            controller.setCompleteOperation(false);
         }
     }//GEN-LAST:event_btnGuardar4ActionPerformed
 
@@ -530,7 +531,10 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
             return;
         }
         controller.delete(produccion);
-        limpiar();
+        if (controller.isCompleteOperation()) {
+            limpiar();
+            controller.setCompleteOperation(false);
+        }
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
     private void btnCancelar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar4ActionPerformed

@@ -128,6 +128,7 @@ public class ProduccionControlador implements Controlador< Integer, Produccion> 
             }
             dao.delete(entidad.getId());
             cache.remove(entidad.getId());
+            setCompleteOperation(true);
             view.showMessage("Producción eliminada correctamente");
         } catch (SQLException ex) {
             view.showError("Error al eliminar los datos: " + ex.getMessage());
