@@ -69,6 +69,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     public boolean validateRequired() {
         return UtilGui.validateFields(txtCedula, txtNombre, txtCorreo, txtHorario, txtPuesto, txtTelefono, txtSalario);
     }
+    
+    private boolean validarHorario() {
+        String formato = "\\d{2}:\\d{2} - \\d{2}:\\d{2}";
+        return txtHorario.getSelectedItem().toString().matches(formato);
+    }
 
     /**
      * Creates new form FrmTrabajador
@@ -130,6 +135,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         txtSalario = new javax.swing.JFormattedTextField();
         txtHorario = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         Infotxt2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
         Infotxt2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -245,6 +251,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         });
 
         Infotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
+        Infotxt.setToolTipText("Informacion");
         Infotxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InfotxtMouseClicked(evt);
@@ -301,6 +308,12 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         jLabel8.setForeground(new java.awt.Color(0, 0, 51));
         jLabel8.setText("Horario:");
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel9.setText("\"HH:mm - HH:mm\"");
+        jLabel9.setToolTipText("Formato de Horario");
+        jLabel9.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -351,10 +364,11 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
                 .addGap(14, 14, 14))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(67, 67, 67)
                 .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -376,7 +390,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                     .addComponent(Infotxt)
                     .addComponent(jLabel4)
                     .addComponent(btnDes, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
@@ -408,7 +422,9 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtHorario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPuesto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -417,7 +433,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                         .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51))
+                .addGap(47, 47, 47))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -453,6 +469,10 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            return;
+        }
+        if(!validarHorario()){
+            showError("El horario debe tener el formato \"HH:mm - HH:mm\"");
             return;
         }
         
@@ -503,6 +523,10 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         }
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            return;
+        }
+        if (!validarHorario()){
+            showError("El horario debe tener el formato \"HH:mm - HH:mm\"");
             return;
         }
         String newNombre = txtNombre.getText().trim();
@@ -585,7 +609,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
                 -El correo debe digitarse con formato: usuario@dominio.com
                     Ej: DanielJ@gmail.com
                      
-                -Para añadir horarios nuevos, se debe cumplir el formato: hh:mm - hh:mm
+                -Para añadir horarios nuevos, se debe cumplir el formato: HH:mm - HH:mm
                     Ej: 14:30 - 21:00
                 """;
         showMessage(msg);
@@ -653,9 +677,9 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
         if (!existe) {
             txtPuesto.addItem(nuevoPuesto);
             JOptionPane.showMessageDialog(null, "El puesto ha sido agregado.");
-        } else {
+        } /*else {
             JOptionPane.showMessageDialog(null, "El puesto ya existe.");
-        }
+        }*/
         return existe;
     }
     
@@ -729,6 +753,7 @@ public class FrmTrabajador extends JInternalFrame implements Vista<Trabajador> {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JFormattedTextField txtCedula;
     private javax.swing.JTextField txtCorreo;

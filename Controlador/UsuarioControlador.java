@@ -39,6 +39,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
             dao = new UsuarioDAO(Database.getConnection());
         } catch (SQLException ex) {
             view.showError("Error al conectar con la Base de Datos");
+            System.exit(1);
         }
     }
 
