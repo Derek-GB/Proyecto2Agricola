@@ -32,7 +32,7 @@ import java.io.File;
  */
 public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<Produccion> {
 
-    ReporteProduccion reporte;
+//    ReporteProduccion reporte;
     ProduccionControlador controller;
     Produccion produccion;
     FrmBuscarProduccion frm;
@@ -643,18 +643,16 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        Produccion produccion = obtenerDatosProduccion();
-        if (produccion == null) {
-            JOptionPane.showMessageDialog(this, "Error: No se pudieron obtener los datos de producción.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (produccion == null){
+            showError("No se pudieron obtener los datos de producción");
             return;
         }
 
-        ReporteProduccion reporte = new ReporteProduccion();
         String rutaArchivo;
 
         try {
             rutaArchivo = "reporteProduccion.pdf";
-            reporte.generarReportePDF(rutaArchivo, produccion);
+            ReporteProduccion.generarReportePDF(rutaArchivo, produccion);
             JOptionPane.showMessageDialog(this, "Reporte PDF generado en: " + new File(rutaArchivo).getAbsolutePath());
 
         } catch (Exception e) {
