@@ -4,7 +4,6 @@
  */
 package Vista;
 
-
 import Controlador.ProduccionControlador;
 import Enums.Rol;
 import Modelo.Cultivo.Cultivo;
@@ -42,7 +41,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     public FrmProduccionn(FrmPrincipal frp) {
         initComponents();
         controller = new ProduccionControlador(this);
-        this.frmP=frp;
+        this.frmP = frp;
         btnDes4.setVisible(false);
         ajustarTodo();
         Editar(false);
@@ -401,6 +400,8 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
+            btnDes4.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes4);
             return;
         }
 
@@ -409,6 +410,8 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         if (cultivo == null) {
             showError("El cultivo ingresado no existe");
+            btnDes4.setVisible(true);
+            ajustarImagenes("/Imagenes/deshacer.png", btnDes4);
             return;
         }
 
@@ -561,7 +564,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
         try {
             List<CultivoDTO> listCultivoDTO = controller.readCultivos();
-            FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false,frmP);
+            FrmMiniBuscarCultivo mini = new FrmMiniBuscarCultivo(null, false, frmP);
             mini.setObserver(this);
             mini.setDtos(listCultivoDTO);
             mini.setVisible(true);
@@ -629,7 +632,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
     }//GEN-LAST:event_txtCantidadRecolectadaFocusLost
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-Produccion produccion = obtenerDatosProduccion();
+        Produccion produccion = obtenerDatosProduccion();
         if (produccion == null) {
             JOptionPane.showMessageDialog(this, "Error: No se pudieron obtener los datos de producción.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -639,10 +642,10 @@ Produccion produccion = obtenerDatosProduccion();
         String rutaArchivo;
 
         try {
-                rutaArchivo = "reporteProduccion.pdf";
-                reporte.generarReportePDF(rutaArchivo, produccion);
-                JOptionPane.showMessageDialog(this, "Reporte PDF generado en: " + new File(rutaArchivo).getAbsolutePath());
-                         
+            rutaArchivo = "reporteProduccion.pdf";
+            reporte.generarReportePDF(rutaArchivo, produccion);
+            JOptionPane.showMessageDialog(this, "Reporte PDF generado en: " + new File(rutaArchivo).getAbsolutePath());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -679,7 +682,7 @@ Produccion produccion = obtenerDatosProduccion();
 
     @Override
     public void show(Produccion ent) {
-  
+
         produccion = ent;
         if (ent == null) {
             limpiar();
@@ -691,13 +694,12 @@ Produccion produccion = obtenerDatosProduccion();
         txtDestino.setSelectedItem(ent.getDestino());
         txtCantidadRecolectada.setText(String.valueOf(ent.getCantidadRecolectada()));
 
-        
     }
 
     @Override
     public void showAll(List<Produccion> ents) {
         if (frm == null) {
-            frm = new FrmBuscarProduccion(null, true);
+            frm = new FrmBuscarProduccion(null, true, this);
             frm.setObserver(this);
         }
         frm.setEnts(ents);
@@ -716,7 +718,7 @@ Produccion produccion = obtenerDatosProduccion();
 
     @Override
     public boolean validateRequired() {
-        return UtilGui.validateFields(txtFecha, txtCalidad, txtCantidadEsperada, txtCantidadRecolectada, txtDestino, txtFecha);
+        return UtilGui.validateFields(txtFecha, txtCalidad, txtCantidadRecolectada, txtDestino, txtFecha);
     }
 
     private void limpiar() {
@@ -765,6 +767,15 @@ Produccion produccion = obtenerDatosProduccion();
         txtFecha.setEditable(valor);
         txtDestino.setEditable(valor);
         txtFecha.setEditable(valor);
+        btnLlamarFrmBuscarCultivo.setEnabled(valor);
+    }
+
+    public void EditarMini(boolean valor) {
+        txtCultivo.setEditable(valor);
+        txtCantidadEsperada.setEditable(valor);
+        txtFecha.setEditable(valor);
+        txtFecha.setEditable(valor);
+        btnLlamarFrmBuscarCultivo.setEnabled(valor);
     }
 
     public void updateIdCultivo(int id) {
@@ -790,7 +801,8 @@ Produccion produccion = obtenerDatosProduccion();
             return null;
         }
     }
-     public void setVistaP(Rol rol) {
+
+    public void setVistaP(Rol rol) {
         switch (rol) {
             case (Rol.ADMINISTRADOR) -> {
                 ajustarImagenes("/Imagenes/eliminar.png", btnEliminar4);

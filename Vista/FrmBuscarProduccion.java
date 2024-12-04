@@ -25,6 +25,7 @@ public class FrmBuscarProduccion extends javax.swing.JDialog {
     private DefaultTableModel tableModel;
     private Vista observer;
     private TableRowSorter<TableModel> sorter;
+    FrmProduccionn frm;
 
     public FrmBuscarProduccion() {
         initComponents();
@@ -32,9 +33,10 @@ public class FrmBuscarProduccion extends javax.swing.JDialog {
 
     
     
-     public FrmBuscarProduccion(java.awt.Frame parent, boolean modal) {
+     public FrmBuscarProduccion(java.awt.Frame parent, boolean modal, FrmProduccionn frm) {
         super(parent, modal);
         initComponents();
+        this.frm=frm;
         ajustarTodo();
         this.setLocationRelativeTo(parent);
          tableModel = (DefaultTableModel) tabla.getModel();
@@ -185,7 +187,8 @@ public class FrmBuscarProduccion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
-    int selectedRow = tabla.getSelectedRow();
+       frm.EditarMini(false);
+        int selectedRow = tabla.getSelectedRow();
 if (selectedRow == -1) {
     return;
 }
