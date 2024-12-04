@@ -15,12 +15,20 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.sql.SQLException;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
@@ -391,7 +399,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
                 controlador.mostrarError("Contraseña incorrecta.");
                 return;
             }
-
+            reproducirInicio();
             controlador.mostrarMensaje("Inicio de sesión exitoso. ¡Bienvenido, " + usuario.getNombre() + "!");
 
             FrmPrincipal frmPrincipal = FrmPrincipal.getInstance(
@@ -417,5 +425,32 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
             }
         });
     }
+    
+    private void reproducirInicio() {
+    new Thread(() -> {
+        Clip clip = null;
+
+        try {
+            InputStream audioStream = getClass().getResourceAsStream("/Sonido/inicio.wav");
+            if (audioStream == null) {
+                throw new FileNotFoundException("No se pudo encontrar el archivo de sonido.");
+            }
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioStream);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+            Thread.sleep(clip.getMicrosecondLength() / 1000);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InterruptedException e) {
+            System.out.println("Error al reproducir el archivo de sonido: " + e.getMessage());
+        } finally {
+            if (clip != null) {
+                if (clip.isRunning()) {
+                    clip.stop();
+                }
+                clip.close();
+            }
+        }
+    }).start();
+}
 
 }
