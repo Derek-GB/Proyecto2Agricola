@@ -546,20 +546,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-     FrmProduccionn frmProduccionn = new FrmProduccionn(this);
-        if (!frmProduccionn.isVisible()) {
-            DeskPrincipal.add(frmProduccionn);
-            frmProduccionn.setVistaP(rolUsuario);
-            frmProduccionn.setVisible(true);
-            frmProduccionn.setLocation((DeskPrincipal.getWidth() - frmProduccionn.getWidth()) / 2,
-                    (DeskPrincipal.getHeight() - frmProduccionn.getHeight()) / 2);
-        } else {
-            try {
-                frmProduccionn.setSelected(true);
-            } catch (java.beans.PropertyVetoException ex) {
-                ex.printStackTrace();
-            }
-        }      
+        jPanel3MouseClicked(evt);
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void txtTrabajadoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseClicked
@@ -598,7 +585,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1KeyTyped
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-       
+       FrmProduccionn frmProduccionn = new FrmProduccionn(this);
+        if (!frmProduccionn.isVisible()) {
+            DeskPrincipal.add(frmProduccionn);
+            frmProduccionn.setVistaP(rolUsuario);
+            frmProduccionn.setVisible(true);
+            frmProduccionn.setLocation((DeskPrincipal.getWidth() - frmProduccionn.getWidth()) / 2,
+                    (DeskPrincipal.getHeight() - frmProduccionn.getHeight()) / 2);
+        } else {
+            try {
+                frmProduccionn.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        } 
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void txtTrabajadoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseEntered
