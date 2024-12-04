@@ -226,6 +226,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel5MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel5MouseExited(evt);
+            }
         });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -634,6 +640,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void txtUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseExited
         txtUsuarios.setBorder(null);
     }//GEN-LAST:event_txtUsuariosMouseExited
+
+    private void jLabel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseEntered
+        jPanel3.setBorder(borde);
+    }//GEN-LAST:event_jLabel5MouseEntered
+
+    private void jLabel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseExited
+        jPanel3.setBorder(null);
+    }//GEN-LAST:event_jLabel5MouseExited
 
     /**
      * @param args the command line arguments
