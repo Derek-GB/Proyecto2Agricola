@@ -194,7 +194,6 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
             }
         });
 
-        txtDestino.setBackground(new java.awt.Color(30, 30, 30));
         txtDestino.setEditable(true);
         txtDestino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Venta", "Almacenamiento" }));
         txtDestino.setBorder(null);
@@ -727,7 +726,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
     @Override
     public boolean validateRequired() {
-        return UtilGui.validateFields(txtFecha, txtCalidad, txtCantidadRecolectada, txtDestino, txtFecha);
+        return UtilGui.validateFields(txtCalidad, txtCantidadRecolectada, txtDestino,txtCultivo );
     }
 
     private void limpiar() {

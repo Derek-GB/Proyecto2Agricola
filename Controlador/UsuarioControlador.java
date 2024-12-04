@@ -51,7 +51,7 @@ public class UsuarioControlador implements Controlador<String, Usuario> {
         }
         try {
             if (!validarPk(entidad.getNombre())) {
-                view.showError("El id ingresado ya se encuentra registrada");
+                view.showError("El Nombre de Usuario ingresado ya se encuentra registrada");
                 return;
             }
             UsuarioDTO dto = mapper.toDTO(entidad);

@@ -123,7 +123,7 @@ public class TrabajadorControlador implements Controlador<String, Trabajador> {
             }
             dao.delete(entidad.getCedula());
             cache.remove(entidad.getCedula());
-            vista.showMessage("Producción eliminada correctamente");
+            vista.showMessage("Trabajador eliminado correctamente");
         } catch (SQLException ex) {
             vista.showError("Error al eliminar los datos: " + ex.getMessage());
         }

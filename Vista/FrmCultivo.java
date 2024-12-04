@@ -373,8 +373,6 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        btnDes.setVisible(false);
-
         if (!validateRequired()) {
             showError("Faltan datos requeridos");
             btnDes.setVisible(true);
@@ -410,6 +408,20 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
 
             if (fechaCosecha.isBefore(fechaSiembra)) {
                 showError("La fecha de cosecha no puede ser anterior a la fecha de siembra.");
+                btnDes.setVisible(true);
+                ajustarImagenes("/Imagenes/deshacer.png", btnDes);
+                return;
+            }
+
+            if (fechaSiembra.isBefore(LocalDate.now())) {
+                showError("La fecha de siembra no puede ser menor a la fecha actual.");
+                btnDes.setVisible(true);
+                ajustarImagenes("/Imagenes/deshacer.png", btnDes);
+                return;
+            }
+
+            if (fechaCosecha.isBefore(LocalDate.now())) {
+                showError("La fecha de cosecha no puede ser menor a la fecha actual.");
                 btnDes.setVisible(true);
                 ajustarImagenes("/Imagenes/deshacer.png", btnDes);
                 return;
@@ -724,7 +736,6 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         txtFechaSiembra.setText("");
         txtFechaCosecha.setText("");
     }
-    
 
     public void Editar(boolean valor) {
         txtId.setEditable(valor);
@@ -736,8 +747,8 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
         txtFechaSiembra.setEditable(valor);
         txtFechaCosecha.setEditable(valor);
     }
-    
-     public void EditarMini(boolean valor) {
+
+    public void EditarMini(boolean valor) {
         txtId.setEditable(valor);
         cbxNombre.setEditable(valor);
         cbxTipo.setEditable(valor);
@@ -809,8 +820,8 @@ public class FrmCultivo extends javax.swing.JInternalFrame implements Vista<Cult
             cbxNombre.addItem(nombre);
         }
     }
-    
-     public void setVistaC(Rol rol) {
+
+    public void setVistaC(Rol rol) {
         switch (rol) {
             case (Rol.ADMINISTRADOR) -> {
                 ajustarImagenes("/Imagenes/eliminar.png", btnEliminar);
