@@ -10,6 +10,7 @@ import Modelo.Almacenamiento.AlmacenamientoDTO;
 import static Modelo.Database.Database.getConnection;
 import Modelo.Trabajador.Trabajador;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,6 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 /**
  *
@@ -41,6 +44,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private String contrasenaUsuario;
     private Rol rolUsuario;
     private Trabajador trabajador;
+    private Border borde;
     FrmInicioSesión frm;
 
     private FrmPrincipal(String nombre, String contrasena, Rol rol, Trabajador trabajador) {
@@ -57,6 +61,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ajustarTodo();
         administarPermisos();
         iniciarAlerta();
+        borde = new MatteBorder(2, 2, 2, 2, Color.black);
     }
 
     public static FrmPrincipal getInstance(String nombre, String contrasena, Rol rol, Trabajador trabajador) {
@@ -116,6 +121,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel1MouseExited(evt);
+            }
         });
         jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -156,6 +167,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtAlmacenamientoMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtAlmacenamientoMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtAlmacenamientoMouseExited(evt);
+            }
         });
 
         almacentxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/almacen.png"))); // NOI18N
@@ -190,6 +207,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel3MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel3MouseExited(evt);
             }
         });
 
@@ -231,6 +254,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtTrabajadoresMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtTrabajadoresMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtTrabajadoresMouseExited(evt);
+            }
         });
 
         tratxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/trabajador.png"))); // NOI18N
@@ -266,6 +295,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtUsuariosMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                txtUsuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                txtUsuariosMouseExited(evt);
+            }
         });
 
         usertxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/adUsuario.png"))); // NOI18N
@@ -280,9 +315,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtUsuariosLayout.setHorizontalGroup(
             txtUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(txtUsuariosLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -291,8 +326,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
             .addGroup(txtUsuariosLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(txtUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)))
+                    .addComponent(jLabel7)
+                    .addComponent(usertxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout panelLateralLayout = new javax.swing.GroupLayout(panelLateral);
@@ -336,7 +372,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(txtTrabajadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelCentro.setBackground(new java.awt.Color(204, 204, 204));
@@ -558,6 +594,46 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
        
     }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void txtTrabajadoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseEntered
+        txtTrabajadores.setBorder(borde);
+    }//GEN-LAST:event_txtTrabajadoresMouseEntered
+
+    private void txtTrabajadoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTrabajadoresMouseExited
+        txtTrabajadores.setBorder(null);
+    }//GEN-LAST:event_txtTrabajadoresMouseExited
+
+    private void txtAlmacenamientoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseEntered
+        txtAlmacenamiento.setBorder(borde);
+    }//GEN-LAST:event_txtAlmacenamientoMouseEntered
+
+    private void txtAlmacenamientoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAlmacenamientoMouseExited
+        txtAlmacenamiento.setBorder(null);
+    }//GEN-LAST:event_txtAlmacenamientoMouseExited
+
+    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
+        jPanel3.setBorder(borde);
+    }//GEN-LAST:event_jPanel3MouseEntered
+
+    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
+        jPanel3.setBorder(null);
+    }//GEN-LAST:event_jPanel3MouseExited
+
+    private void jPanel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseEntered
+        jPanel1.setBorder(borde);
+    }//GEN-LAST:event_jPanel1MouseEntered
+
+    private void jPanel1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseExited
+        jPanel1.setBorder(null);
+    }//GEN-LAST:event_jPanel1MouseExited
+
+    private void txtUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseEntered
+        txtUsuarios.setBorder(borde);
+    }//GEN-LAST:event_txtUsuariosMouseEntered
+
+    private void txtUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuariosMouseExited
+        txtUsuarios.setBorder(null);
+    }//GEN-LAST:event_txtUsuariosMouseExited
 
     /**
      * @param args the command line arguments
