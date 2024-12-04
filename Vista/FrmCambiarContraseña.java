@@ -112,6 +112,7 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
         });
 
         txtInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
+        txtInfo.setToolTipText("Informacion");
         txtInfo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 txtInfoMouseClicked(evt);
@@ -119,6 +120,7 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
         });
 
         btnA1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
+        btnA1.setToolTipText("Ver");
         btnA1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnA1ActionPerformed(evt);
@@ -126,6 +128,7 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
         });
 
         btnA2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
+        btnA2.setToolTipText("Ver");
         btnA2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnA2ActionPerformed(evt);
@@ -133,6 +136,7 @@ public class FrmCambiarContraseña extends javax.swing.JDialog implements Vista<
         });
 
         btnA3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
+        btnA3.setToolTipText("Ver");
         btnA3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnA3ActionPerformed(evt);

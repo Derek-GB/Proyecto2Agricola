@@ -107,6 +107,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
         });
 
         Infotxt.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/info.png"))); // NOI18N
+        Infotxt.setToolTipText("Informacion");
         Infotxt.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InfotxtMouseClicked(evt);
@@ -134,6 +135,7 @@ public class FrmInicioSesión extends javax.swing.JFrame implements Vista<Usuari
         });
 
         btnA1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ojo.png"))); // NOI18N
+        btnA1.setToolTipText("Ver");
         btnA1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnA1ActionPerformed(evt);

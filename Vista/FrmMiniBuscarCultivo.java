@@ -115,6 +115,7 @@ public class FrmMiniBuscarCultivo extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tabla);
 
         btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seleccionar.png"))); // NOI18N
+        btnSeleccionar.setToolTipText("Seleccionar");
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +124,7 @@ public class FrmMiniBuscarCultivo extends javax.swing.JDialog {
         });
 
         btnCancelar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCancelar1.setToolTipText("Cancelar");
         btnCancelar1.setBorder(null);
         btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,6 +144,7 @@ public class FrmMiniBuscarCultivo extends javax.swing.JDialog {
         });
 
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
+        btnNuevo.setToolTipText("Nuevo");
         btnNuevo.setBorder(null);
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -102,6 +102,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnCancelar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCancelar1.setToolTipText("Cancelar");
         btnCancelar1.setBorder(null);
         btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -149,6 +150,7 @@ public class FrmBuscarAlmacenamiento extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tabla);
 
         btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/seleccionar.png"))); // NOI18N
+        btnSeleccionar.setToolTipText("Seleccionar");
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

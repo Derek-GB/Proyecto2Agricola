@@ -128,6 +128,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         jLabel20.setText("Producción");
 
         btnDes4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/deshacer.png"))); // NOI18N
+        btnDes4.setToolTipText("Regresar");
         btnDes4.setBorder(null);
         btnDes4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +137,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnNuevo4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nuevo.png"))); // NOI18N
+        btnNuevo4.setToolTipText("Nuevo");
         btnNuevo4.setBorder(null);
         btnNuevo4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +146,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnGuardar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardar4.setToolTipText("Guardar");
         btnGuardar4.setBorder(null);
         btnGuardar4.setEnabled(false);
         btnGuardar4.addActionListener(new java.awt.event.ActionListener() {
@@ -153,6 +156,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnActualizar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/actualizar.png"))); // NOI18N
+        btnActualizar4.setToolTipText("Actualizar");
         btnActualizar4.setBorder(null);
         btnActualizar4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +165,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnBuscar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/buscar.png"))); // NOI18N
+        btnBuscar4.setToolTipText("Buscar");
         btnBuscar4.setBorder(null);
         btnBuscar4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +174,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnEliminar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminar4.setToolTipText("Eliminar");
         btnEliminar4.setBorder(null);
         btnEliminar4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,6 +183,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         });
 
         btnCancelar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCancelar4.setToolTipText("Cancelar");
         btnCancelar4.setBorder(null);
         btnCancelar4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,6 +237,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         txtProductividad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
 
         btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/imprimir.png"))); // NOI18N
+        btnImprimir.setToolTipText("Imprimir");
         btnImprimir.setBorder(null);
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

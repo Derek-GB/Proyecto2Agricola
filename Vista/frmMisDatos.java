@@ -94,6 +94,7 @@ public class frmMisDatos extends javax.swing.JInternalFrame implements Vista<Tra
         jLabel4.setText("Mis datos:");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCancelar.setToolTipText("Cancelar");
         btnCancelar.setBorder(null);
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

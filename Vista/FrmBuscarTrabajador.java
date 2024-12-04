@@ -131,6 +131,7 @@ public class FrmBuscarTrabajador extends javax.swing.JDialog {
         }
 
         btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnSeleccionar.setToolTipText("Seleccionar");
         btnSeleccionar.setBorder(null);
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +140,7 @@ public class FrmBuscarTrabajador extends javax.swing.JDialog {
         });
 
         btnCancelar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cancelar.png"))); // NOI18N
+        btnCancelar1.setToolTipText("Cancelar");
         btnCancelar1.setBorder(null);
         btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
