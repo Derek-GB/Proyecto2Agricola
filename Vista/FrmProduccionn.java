@@ -393,6 +393,8 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         ajustarImagenes("/Imagenes/deshacer.png", btnDes4);
         limpiar();
         estadosBotones();
+        txtFecha.setEnabled(false);
+        jLabel18.setEnabled(false);
     }//GEN-LAST:event_btnNuevo4ActionPerformed
 
     private void btnGuardar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardar4ActionPerformed
@@ -423,7 +425,11 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
         );
 
         controller.create(produccion);
-        estadosBotones();
+        if(controller.isCompleteOperation()){
+            txtFecha.setEnabled(true);
+            jLabel18.setEnabled(true);
+            estadosBotones();
+        }
     }//GEN-LAST:event_btnGuardar4ActionPerformed
 
     private void btnActualizar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizar4ActionPerformed
@@ -504,6 +510,7 @@ public class FrmProduccionn extends javax.swing.JInternalFrame implements Vista<
 
     private void btnBuscar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar4ActionPerformed
         Editar(true);
+        txtFecha.setEditable(false);
         controller.readAll();
 
     }//GEN-LAST:event_btnBuscar4ActionPerformed

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author Tony
  */
 public class ProduccionControlador implements Controlador< Integer, Produccion> {
-
+    private boolean completeOperation;
     private ProduccionDAO dao;
     private final Vista view;
     private final ProduccionMapper mapper;
@@ -42,6 +42,14 @@ public class ProduccionControlador implements Controlador< Integer, Produccion> 
         }
     }
 
+    public boolean isCompleteOperation() {
+        return completeOperation;
+    }
+
+    public void setCompleteOperation(boolean completeOperation) {
+        this.completeOperation = completeOperation;
+    }
+    
     @Override
     public void create(Produccion entidad) {
         if (entidad == null || !validarAtributos(entidad)) {
@@ -49,13 +57,10 @@ public class ProduccionControlador implements Controlador< Integer, Produccion> 
             return;
         }
         try {
-            if (!validarPk(entidad.getId())) {
-                view.showError("El ID de producción ya está registrado");
-                return;
-            }
             ProduccionDTO dto = mapper.toDTO(entidad);
             dao.create(dto);
             cache.add(dto.getId(), dto);
+            setCompleteOperation(true);
             view.showMessage("Producción registrada correctamente");
         } catch (SQLException ex) {
             view.showError("Error al guardar los datos: " + ex.getMessage());
